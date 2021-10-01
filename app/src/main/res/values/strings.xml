@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Visual Planner</string>
+    <string name="title_deadlines">Deadlines</string>
+    <string name="events">Events</string>
 </resources>
