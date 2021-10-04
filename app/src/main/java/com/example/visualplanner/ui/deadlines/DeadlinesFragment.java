@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import android.view.LayoutInflater;
@@ -24,10 +25,12 @@ public class DeadlinesFragment extends Fragment {
 
     public DeadlinesFragment() {}
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        DeadlinesViewModel viewModel = new ViewModelProvider(this).get(DeadlinesViewModel.class);
+        viewModel.init();
         return inflater.inflate(R.layout.fragment_deadlines, container, false);
     }
 
