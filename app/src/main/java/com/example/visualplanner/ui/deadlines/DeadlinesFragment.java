@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
@@ -34,7 +35,7 @@ public class DeadlinesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button drawerBtn = view.findViewById(R.id.openDrawerBtn);
+        ImageButton drawerBtn = view.findViewById(R.id.openDrawerBtn);
         drawerBtn.setOnClickListener(v -> ((MainActivity) requireActivity()).openDrawer());
     }
 }
