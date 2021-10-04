@@ -2,4 +2,10 @@
     <string name="app_name">Visual Planner</string>
     <string name="title_deadlines">Deadlines</string>
     <string name="events">Events</string>
+    <string name="hint_name">Name</string>
+    <string name="add_category_btn">Add</string>
+    <string name="name_hint">Name</string>
+    <string name="add_category_header">Add Category</string>
+    <string name="category_color_picker_placeholder">placeholder for a color picker</string>
+    <string name="fab_desc">Button for adding deadline</string>
 </resources>
