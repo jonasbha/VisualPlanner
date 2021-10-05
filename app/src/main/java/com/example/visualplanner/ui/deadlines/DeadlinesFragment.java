@@ -23,6 +23,8 @@ import java.util.Objects;
 
 public class DeadlinesFragment extends Fragment {
 
+
+
     public DeadlinesFragment() {}
 
     @Override
