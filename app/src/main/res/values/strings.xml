@@ -17,4 +17,5 @@
     <string name="saturday">S</string>
     <string name="Sunday">S</string>
     <string name="deadlines_scrollview_desc">for scrolling gridlayout with tables.</string>
+    <string name="weekday">W</string>
 </resources>

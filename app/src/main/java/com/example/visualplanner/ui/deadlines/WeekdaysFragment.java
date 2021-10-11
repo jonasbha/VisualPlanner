@@ -18,6 +18,7 @@ public class WeekdaysFragment extends Fragment {
     WeekdaysBinding binding;
 
     public WeekdaysFragment() {
+
     }
 
     @Nullable
