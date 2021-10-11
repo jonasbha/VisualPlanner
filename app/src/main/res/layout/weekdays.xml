@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+        <import type="java.util.List"/>
         <variable
-            name="weekday"
-            type="String" />
+            name="weekdays"
+            type="List&lt;Character&gt;" />
     </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -14,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/monday"
+            android:text="@{String.valueOf(weekdays[0])}"
            />
 
         <TextView
@@ -22,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tuesday"
+            android:text="@{String.valueOf(weekdays[1])}"
              />
 
         <TextView
@@ -30,15 +31,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{weekday}"
-             />
+            android:text="@{String.valueOf(weekdays[2])}"
+            />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/thursday"
+            android:text="@{String.valueOf(weekdays[3])}"
            />
 
         <TextView
@@ -46,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/friday"
+            android:text="@{String.valueOf(weekdays[4])}"
             />
 
         <TextView
@@ -54,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/saturday"
+            android:text="@{String.valueOf(weekdays[5])}"
           />
 
         <TextView
@@ -62,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Sunday"
+            android:text="@{String.valueOf(weekdays[6])}"
           />
     </LinearLayout>
 </layout>

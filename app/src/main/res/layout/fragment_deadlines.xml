@@ -16,9 +16,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/weekdays"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/weekdaysView"
+        android:name="com.example.visualplanner.ui.deadlines.WeekdaysFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/openDrawerBtn"
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include">
+        app:layout_constraintTop_toBottomOf="@+id/weekdaysView">
 
         <include
             layout="@layout/deadlines_grid"
