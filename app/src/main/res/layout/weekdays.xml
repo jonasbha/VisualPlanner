@@ -3,8 +3,8 @@
     <data>
         <import type="java.util.List"/>
         <variable
-            name="weekdays"
-            type="List&lt;Character&gt;" />
+            name="weekdaysViewModel"
+            type="com.example.visualplanner.ui.deadlines.WeekdaysViewModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{String.valueOf(weekdays[0])}"
+            android:text="@{weekdaysViewModel.weekdays.get(0).toString()}"
            />
 
         <TextView
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{String.valueOf(weekdays[1])}"
+            android:text="@{weekdaysViewModel.weekdays.get(1).toString()}"
              />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{String.valueOf(weekdays[2])}"
+            android:text="@{weekdaysViewModel.weekdays.get(2).toString()}"
             />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{String.valueOf(weekdays[3])}"
+            android:text="@{weekdaysViewModel.weekdays.get(3).toString()}"
            />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{String.valueOf(weekdays[4])}"
+            android:text="@{weekdaysViewModel.weekdays.get(4).toString()}"
             />
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{String.valueOf(weekdays[5])}"
+            android:text="@{weekdaysViewModel.weekdays.get(5).toString()}"
           />
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{String.valueOf(weekdays[6])}"
+            android:text="@{weekdaysViewModel.weekdays.get(6).toString()}"
           />
     </LinearLayout>
 </layout>
