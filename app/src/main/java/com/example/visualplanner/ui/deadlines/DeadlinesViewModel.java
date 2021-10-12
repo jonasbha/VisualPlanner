@@ -2,6 +2,7 @@ package com.example.visualplanner.ui.deadlines;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.visualplanner.model.Category;
 import com.example.visualplanner.model.Deadline;
 
 import java.util.ArrayList;
@@ -9,38 +10,21 @@ import java.util.Calendar;
 
 public class DeadlinesViewModel extends ViewModel {
 
-    ArrayList<Deadline> deadlines = new ArrayList<>();
+    public ArrayList<Category> getCategories() {
+        ArrayList<Deadline> deadlines1 = new ArrayList<>();
+        ArrayList<Deadline> deadlines2 = new ArrayList<>();
+        ArrayList<Deadline> deadlines3 = new ArrayList<>();
+        ArrayList<Category> strings = new ArrayList<>();
 
-    public void init() {
-        char[] weekdays = new char[7];
+        deadlines1.add(new Deadline("somethinggggggg", 1, 2));
+        deadlines2.add(new Deadline("bla bla", 5));
+        deadlines3.add(new Deadline("ehhh", 3));
 
-        Calendar cal = Calendar.getInstance();
-        int day = cal.get(Calendar.DAY_OF_WEEK);
+        strings.add(new Category("ITF 1234", deadlines1));
+        strings.add(new Category("Mobilprog", deadlines2));
+        strings.add(new Category("ITF 5432", deadlines3));
 
-        for (int i = 0; i < 7; i++) {
-            if (day > 7)
-                day = 1;
-            weekdays[i] = getWeekdayLetter(day++);
-        }
+        return strings;
     }
-
-    public char getWeekdayLetter(int day) {
-        switch (day) {
-            case Calendar.MONDAY:
-                return 'M';
-            case Calendar.TUESDAY:
-            case Calendar.THURSDAY:
-                return 'T';
-            case Calendar.WEDNESDAY:
-                return 'W';
-            case Calendar.FRIDAY:
-                return 'F';
-            case Calendar.SATURDAY:
-            case Calendar.SUNDAY:
-                return 'S';
-            default: throw new ArrayIndexOutOfBoundsException();
-        }
-    }
-
 }
 

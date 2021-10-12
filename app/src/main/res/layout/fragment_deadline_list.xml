@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.deadlines.DeadlinesFragment">
+    tools:context=".ui.deadlines.DeadlineListFragment">
 
     <ImageButton
         android:id="@+id/openDrawerBtn"
@@ -25,19 +25,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/openDrawerBtn" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/deadlineRecyclerView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:contentDescription="@string/deadlines_scrollview_desc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weekdaysView">
-
-        <include
-            layout="@layout/deadlines_grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
+        app:layout_constraintStart_toEndOf="@+id/openDrawerBtn"
+        app:layout_constraintTop_toBottomOf="@+id/weekdaysView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,18 +5,29 @@ import java.util.Date;
 
 public class Deadline {
     private String description;
-    private Date startDate;
-    private Date endDate;
+    private int column;
+    private int span;
 
-    public Deadline(String description, Date endDate) {
+    public Deadline(String description, int column) {
         this.description = description;
-        this.startDate = Calendar.getInstance().getTime();
-        this.endDate = endDate;
+        this.column = column;
     }
 
-    public Deadline(String description, Date startDate, Date endDate) {
+    public Deadline(String description, int column, int span) {
         this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.column = column;
+        this.span = span;
+    }
+
+    public int getSpan() {
+        return span;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getColumn() {
+        return column;
     }
 }
