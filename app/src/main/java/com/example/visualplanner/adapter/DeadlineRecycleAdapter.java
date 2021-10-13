@@ -1,6 +1,8 @@
 package com.example.visualplanner.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,17 +68,27 @@ public class DeadlineRecycleAdapter extends RecyclerView.Adapter<DeadlineRecycle
 
         public void bind(Category currentCategory) {
 
-            LayoutInflater inflater = (LayoutInflater) itemView.getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+            // forsøk på å manipulere riktige visninger av deadline_list_item ved å legge til views dynamisk.
+            
+            /*
+                LayoutInflater inflater = (LayoutInflater) itemView.getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
             LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.deadline_list_item, (ViewGroup) itemView);
+            LinearLayout tvCollection = (LinearLayout) inflater.inflate(R.layout.textview_collection, null);
+            LinearLayout weekdays = (LinearLayout) inflater.inflate(R.layout.weekdays, null);
+
+            TextView weekday = weekdays.findViewById(R.id.textView);
+            weekday.post(() -> System.out.println(weekday.getWidth()));
 
             ArrayList<Deadline> deadlines = currentCategory.getDeadlines();
 
-            tv1 = (TextView) inflater.inflate(R.layout.textviews, null);
+            tv1 = tvCollection.findViewById(R.id.tv1);
+            tvCollection.removeView(tvCollection.findViewById(R.id.tv1));
             tv1.setText(deadlines.get(0).getDescription());
-
             linearLayout.addView(tv1, 0 ,new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+             */
+
         }
-  }
+    }
 }

@@ -16,8 +16,8 @@ public class DeadlinesViewModel extends ViewModel {
         ArrayList<Deadline> deadlines3 = new ArrayList<>();
         ArrayList<Category> strings = new ArrayList<>();
 
-        deadlines1.add(new Deadline("somethgg", 1, 2));
-        deadlines1.add(new Deadline("some", 4, 2));
+        deadlines1.add(new Deadline("somethgg", 2, 2));
+        deadlines1.add(new Deadline("some", 5, 2));
         deadlines2.add(new Deadline("bla bla", 5));
         deadlines3.add(new Deadline("ehhh", 3));
 
