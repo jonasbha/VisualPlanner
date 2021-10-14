@@ -9,7 +9,7 @@
         android:id="@+id/navigation_deadlines"
         android:name="com.example.visualplanner.ui.deadline.DeadlineListFragment"
         android:label="fragment_deadlines"
-        tools:layout="@layout/fragment_deadline_list" >
+        tools:layout="@layout/fragment_deadlines" >
         <action
             android:id="@+id/action_deadlinesFragment_to_eventsFragment"
             app:destination="@id/navigation_events" />

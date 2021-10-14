@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.R;
@@ -31,7 +30,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemView = inflater.inflate(R.layout.event_list_item, parent, false);
+        View itemView = inflater.inflate(R.layout.event_item, parent, false);
 
         return new EventViewHolder(itemView);
     }

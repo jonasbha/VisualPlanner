@@ -32,5 +32,9 @@ public class EventRepository {
         dataSet.add(new Event("Fotballtrening."));
         dataSet.add(new Event("Raid."));
         dataSet.add(new Event("Rydde rommet."));
+        dataSet.add(new Event("Tannlegetime igjen"));
+        dataSet.add(new Event("Fotballtrening igjen."));
+        dataSet.add(new Event("Raid igjen."));
+        dataSet.add(new Event("Rydde rommet igjen."));
     }
 }

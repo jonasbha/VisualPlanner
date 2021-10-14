@@ -53,13 +53,13 @@ public class EventsFragment extends Fragment {
         eventRecyclerView.setAdapter(eventRecycleAdapter);
         eventRecyclerView.post(() -> calculateGridLayout(view));
 
-        //fab = view.findViewById(R.id.fab);
-        /*
+
+        fab = view.findViewById(R.id.eventFab);
+
         fab.setOnClickListener(view1 -> {
             // new window
         });
 
-         */
     }
 
     private void calculateGridLayout(@NonNull View view) {

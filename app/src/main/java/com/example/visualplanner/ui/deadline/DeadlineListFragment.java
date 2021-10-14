@@ -29,7 +29,7 @@ public class DeadlineListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         viewModel = new ViewModelProvider(this).get(DeadlinesViewModel.class);
-        return inflater.inflate(R.layout.fragment_deadline_list, container, false);
+        return inflater.inflate(R.layout.fragment_deadlines, container, false);
     }
 
     @Override
