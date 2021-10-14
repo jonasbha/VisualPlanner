@@ -1,4 +1,4 @@
-package com.example.visualplanner.ui.deadlines;
+package com.example.visualplanner.ui.deadline;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

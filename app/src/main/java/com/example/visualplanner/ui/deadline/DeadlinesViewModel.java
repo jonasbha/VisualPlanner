@@ -1,4 +1,4 @@
-package com.example.visualplanner.ui.deadlines;
+package com.example.visualplanner.ui.deadline;
 
 import androidx.lifecycle.ViewModel;
 
@@ -6,7 +6,6 @@ import com.example.visualplanner.model.Category;
 import com.example.visualplanner.model.Deadline;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class DeadlinesViewModel extends ViewModel {
 

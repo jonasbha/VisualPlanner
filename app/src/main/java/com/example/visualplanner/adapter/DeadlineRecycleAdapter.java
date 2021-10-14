@@ -1,12 +1,9 @@
 package com.example.visualplanner.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,11 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.R;
 import com.example.visualplanner.model.Category;
-import com.example.visualplanner.model.Deadline;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class DeadlineRecycleAdapter extends RecyclerView.Adapter<DeadlineRecycleAdapter.CategoryViewHolder> {
@@ -69,7 +62,7 @@ public class DeadlineRecycleAdapter extends RecyclerView.Adapter<DeadlineRecycle
         public void bind(Category currentCategory) {
 
             // forsøk på å manipulere riktige visninger av deadline_list_item ved å legge til views dynamisk.
-            
+
             /*
                 LayoutInflater inflater = (LayoutInflater) itemView.getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
             LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.deadline_list_item, (ViewGroup) itemView);

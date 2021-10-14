@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.deadlines.DeadlineListFragment">
+    tools:context=".ui.deadline.DeadlineListFragment">
 
     <ImageButton
         android:id="@+id/openDrawerBtn"
@@ -18,7 +18,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/weekdaysView"
-        android:name="com.example.visualplanner.ui.deadlines.WeekdaysFragment"
+        android:name="com.example.visualplanner.ui.deadline.WeekdaysFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/openDrawerBtn"

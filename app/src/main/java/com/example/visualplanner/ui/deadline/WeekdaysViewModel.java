@@ -1,4 +1,4 @@
-package com.example.visualplanner.ui.deadlines;
+package com.example.visualplanner.ui.deadline;
 
 import androidx.lifecycle.ViewModel;
 

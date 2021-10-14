@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_deadlines"
-        android:name="com.example.visualplanner.ui.deadlines.DeadlineListFragment"
+        android:name="com.example.visualplanner.ui.deadline.DeadlineListFragment"
         android:label="fragment_deadlines"
         tools:layout="@layout/fragment_deadline_list" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_events"
-        android:name="com.example.visualplanner.ui.events.EventsFragment"
+        android:name="com.example.visualplanner.ui.event.EventsFragment"
         android:label="fragment_events"
         tools:layout="@layout/fragment_events" >
         <action
