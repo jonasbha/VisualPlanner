@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class DeadlinesViewModel extends ViewModel {
 
+    // Ingen vits i å introdusere livedata før data tas i bruk.
     public ArrayList<Category> getCategories() {
         ArrayList<Deadline> deadlines1 = new ArrayList<>();
         ArrayList<Deadline> deadlines2 = new ArrayList<>();

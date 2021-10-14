@@ -23,6 +23,10 @@ public class EventsViewModel extends ViewModel {
         events = repo.getEvents();
     }
 
+    public void addEvent() {
+
+    }
+
     public LiveData<List<Event>> getEvents() {
         return events;
     }

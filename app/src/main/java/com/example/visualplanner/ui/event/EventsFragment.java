@@ -18,14 +18,17 @@ import android.view.ViewGroup;
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.model.Event;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class EventsFragment extends Fragment {
 
-    private RecyclerView eventRecyclerView;
+    private EventsViewModel viewModel;
     private EventRecycleAdapter eventRecycleAdapter;
-    EventsViewModel viewModel;
+
+    private RecyclerView eventRecyclerView;
+    private FloatingActionButton fab;
 
     public EventsFragment() {
         // Required empty public constructor
@@ -37,6 +40,7 @@ public class EventsFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(EventsViewModel.class);
         viewModel.init();
         viewModel.getEvents().observe(getViewLifecycleOwner(), events -> eventRecycleAdapter.notifyDataSetChanged());
+
         return inflater.inflate(R.layout.fragment_events, container, false);
     }
 
@@ -48,6 +52,11 @@ public class EventsFragment extends Fragment {
         eventRecyclerView = view.findViewById(R.id.eventRecyclerView);
         eventRecyclerView.setAdapter(eventRecycleAdapter);
         eventRecyclerView.post(() -> calculateGridLayout(view));
+
+        fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(view1 -> {
+            // new window
+        });
     }
 
     private void calculateGridLayout(@NonNull View view) {
@@ -56,14 +65,14 @@ public class EventsFragment extends Fragment {
         eventRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), spanCount));
     }
 
-    private static final int cardWidth = 250 + 20; // width + margin
-
     private float getCardWidthInDensityUnits() {
 
         DisplayMetrics metrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         float logicalDensity = metrics.density;
 
-        return EventsFragment.cardWidth * logicalDensity;
+        int cardWidth = 250 + 20; // width + margin
+
+        return cardWidth * logicalDensity;
     }
 }
