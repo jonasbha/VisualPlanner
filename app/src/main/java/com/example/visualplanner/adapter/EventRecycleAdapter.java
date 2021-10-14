@@ -4,14 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.R;
-import com.example.visualplanner.model.Category;
 import com.example.visualplanner.model.Event;
 
 import java.util.List;
@@ -49,6 +47,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
+        TextView title;
         TextView description;
         TextView time;
         TextView date;
@@ -56,6 +55,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
+            title = itemView.findViewById(R.id.eventTitle);
             description = itemView.findViewById(R.id.eventDescription);
             time = itemView.findViewById(R.id.timeInput);
             date = itemView.findViewById(R.id.dateInput);
@@ -63,7 +63,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         }
 
         public void bind(Event currentEvent) {
-            description.setText(currentEvent.getDescription());
+            title.setText(currentEvent.getTitle());
         }
     }
 }

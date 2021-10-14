@@ -43,7 +43,7 @@ public class EventsFragment extends Fragment {
         eventRecyclerView.post(() -> calculateGridLayout(view));
     }
 
-    private static final int cardWidth = 250;
+    private static final int cardWidth = 250 + 20;
 
     private void calculateGridLayout(@NonNull View view) {
 
