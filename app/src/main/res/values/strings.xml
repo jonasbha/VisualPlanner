@@ -11,4 +11,13 @@
     <string name="openDrawerBtnDesc">opening drawer</string>
     <string name="deadlines_scrollview_desc">for scrolling gridlayout with tables.</string>
     <string name="weekday">W</string>
+    <string name="placeholder">Enter description here…</string>
+    <string name="alarmIconContentDesc">Visualisation of alarmclock</string>
+    <string name="locationIconContentDesc">Visualisation of location marker</string>
+    <string name="timeLabel">Time:</string>
+    <string name="timePlaceholder">12:31</string>
+    <string name="locationPlaceholder">Halden, etellerannet 71b</string>
+    <string name="dateLabel">Date:</string>
+    <string name="datePlaceholder">12.06.1993</string>
+    <string name="deleteIconContentDesc">Icon for deleting the event / cardview</string>
 </resources>
