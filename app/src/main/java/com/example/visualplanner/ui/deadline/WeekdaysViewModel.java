@@ -11,16 +11,16 @@ public class WeekdaysViewModel extends ViewModel {
 
     public WeekdaysViewModel() {
         Calendar cal = Calendar.getInstance();
-        int day = cal.get(Calendar.DAY_OF_WEEK);
+        int today = cal.get(Calendar.DAY_OF_WEEK);
 
         for (int i = 0; i < 7; i++) {
-            if (day > 7)
-                day = 1;
-            weekdays.add(getWeekdayLetter(day++));
+            if (today > 7)
+                today = 1;
+            weekdays.add(getWeekdayLetter(today++));
         }
     }
 
-    public char getWeekdayLetter(int day) {
+    public static char getWeekdayLetter(int day) {
         switch (day) {
             case Calendar.MONDAY:
                 return 'M';

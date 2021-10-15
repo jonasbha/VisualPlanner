@@ -12,6 +12,17 @@ public class FakeEventRepository implements IEventRepository {
     private static FakeEventRepository instance;
     private ArrayList<Event> dataSet = new ArrayList<>();
 
+    public FakeEventRepository() {
+        dataSet.add(new Event("Tannlegetime"));
+        dataSet.add(new Event("Fotballtrening."));
+        dataSet.add(new Event("Raid."));
+        dataSet.add(new Event("Rydde rommet."));
+        dataSet.add(new Event("Tannlegetime igjen"));
+        dataSet.add(new Event("Fotballtrening igjen."));
+        dataSet.add(new Event("Raid igjen."));
+        dataSet.add(new Event("Rydde rommet igjen."));
+    }
+
     public static FakeEventRepository getInstance() {
         if (instance == null) {
             instance = new FakeEventRepository();
@@ -35,16 +46,5 @@ public class FakeEventRepository implements IEventRepository {
     @Override
     public void deleteEvent(Event e) {
         dataSet.remove(e);
-    }
-
-    private void setEvents() {
-        dataSet.add(new Event("Tannlegetime"));
-        dataSet.add(new Event("Fotballtrening."));
-        dataSet.add(new Event("Raid."));
-        dataSet.add(new Event("Rydde rommet."));
-        dataSet.add(new Event("Tannlegetime igjen"));
-        dataSet.add(new Event("Fotballtrening igjen."));
-        dataSet.add(new Event("Raid igjen."));
-        dataSet.add(new Event("Rydde rommet igjen."));
     }
 }
