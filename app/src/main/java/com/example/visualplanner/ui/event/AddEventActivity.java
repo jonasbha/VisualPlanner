@@ -1,25 +1,44 @@
 package com.example.visualplanner.ui.event;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
+import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.visualplanner.model.Event;
+import com.example.visualplanner.repository.IEventRepository;
+
+import java.util.List;
 
 public class AddEventActivity extends AppCompatActivity {
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("message");
+    private IEventRepository repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-
-        myRef.setValue("Hello World");
+        init();
     }
 
+    private void init() {
+        repo = MainActivity.getRepo();
 
+        EditText titleInput = findViewById(R.id.eventTitleInput);
+        Button submitBtn = findViewById(R.id.addEventSubmitBtn);
+        submitBtn.setOnClickListener(view -> {
+            Event event = new Event(titleInput.getText().toString());
+            addEvent(event);
+            // navigate back to fragment (change this class to fragment and do it in navigation)
+        });
+    }
+
+    public void addEvent(Event e) {
+        repo.addEvent(e);
+    }
 }

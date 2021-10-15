@@ -30,20 +30,22 @@ public class Testing_event_repository {
     @Test
     public void adding_event_succeeds() {
         Event e = new Event("Test");
+        int initSize = Objects.requireNonNull(repo.getEvents().getValue()).size();
         repo.addEvent(e);
         Event last = Objects.requireNonNull(repo.getEvents().getValue())
                 .get(repo.getEvents().getValue().size()-1);
 
         assertEquals("Test", last.getTitle());
-        assertEquals(1, repo.getEvents().getValue().size());
+        assertEquals(initSize + 1, repo.getEvents().getValue().size());
     }
 
     @Test
     public void deleting_event_succeeds() {
         Event e = new Event("Test");
+        int initSize = Objects.requireNonNull(repo.getEvents().getValue()).size();
         repo.addEvent(e);
         repo.deleteEvent(e);
 
-        assertEquals(0, Objects.requireNonNull(repo.getEvents().getValue()).size());
+        assertEquals(initSize, Objects.requireNonNull(repo.getEvents().getValue()).size());
     }
 }

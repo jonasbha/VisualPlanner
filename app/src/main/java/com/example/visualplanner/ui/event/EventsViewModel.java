@@ -1,6 +1,7 @@
 package com.example.visualplanner.ui.event;
 
 import android.app.Application;
+import android.os.strictmode.CredentialProtectedWhileLockedViolation;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -18,20 +19,19 @@ import java.util.List;
 public class EventsViewModel extends ViewModel {
 
     private final MutableLiveData<List<Event>> events;
+    private final IEventRepository repo;
 
     public EventsViewModel() {
 
-        IEventRepository repo = MainActivity.getRepo();
+        repo = MainActivity.getRepo();
         events = repo.getEvents();
-    }
-
-    public void addEvent() {
-
     }
 
     public LiveData<List<Event>> getEvents() {
         return events;
     }
 
-
+    public void deleteEvent(Event e) {
+        repo.deleteEvent(e);
+    }
 }

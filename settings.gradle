@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Visual Planner"
 include ':app'
+include ':database'
