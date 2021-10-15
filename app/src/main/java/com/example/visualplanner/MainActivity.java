@@ -9,9 +9,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.visualplanner.repository.FakeEventRepository;
+import com.example.visualplanner.repository.IEventRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static IEventRepository repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +29,16 @@ public class MainActivity extends AppCompatActivity {
         NavController controller = navHostFragment.getNavController();
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(navView, controller);
+
+        repo = FakeEventRepository.getInstance();
     }
 
     public void openDrawer() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.openDrawer(GravityCompat.START);
+    }
+
+    public static IEventRepository getRepo() {
+        return repo;
     }
 }

@@ -7,24 +7,34 @@ import com.example.visualplanner.model.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventRepository {
+public class FakeEventRepository implements IEventRepository {
 
-    private static EventRepository instance;
+    private static FakeEventRepository instance;
     private ArrayList<Event> dataSet = new ArrayList<>();
 
-    public static EventRepository getInstance() {
+    public static FakeEventRepository getInstance() {
         if (instance == null) {
-            instance = new EventRepository();
+            instance = new FakeEventRepository();
         }
         return instance;
     }
 
     // pretend to get data from webservice or online source.
+    @Override
     public MutableLiveData<List<Event>> getEvents() {
-        setEvents();
         MutableLiveData<List<Event>> data = new MutableLiveData<>();
         data.setValue(dataSet);
         return data;
+    }
+
+    @Override
+    public void addEvent(Event e) {
+        dataSet.add(e);
+    }
+
+    @Override
+    public void deleteEvent(Event e) {
+        dataSet.remove(e);
     }
 
     private void setEvents() {

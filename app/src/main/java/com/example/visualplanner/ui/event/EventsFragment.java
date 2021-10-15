@@ -34,7 +34,6 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         viewModel = new ViewModelProvider(this).get(EventsViewModel.class);
-        viewModel.init();
         viewModel.getEvents().observe(getViewLifecycleOwner(), events -> eventRecycleAdapter.notifyDataSetChanged());
 
         return inflater.inflate(R.layout.fragment_events, container, false);
