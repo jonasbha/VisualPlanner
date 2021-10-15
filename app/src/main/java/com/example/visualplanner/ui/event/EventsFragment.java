@@ -1,27 +1,22 @@
 package com.example.visualplanner.ui.event;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
-import com.example.visualplanner.model.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class EventsFragment extends Fragment {
 
@@ -55,9 +50,7 @@ public class EventsFragment extends Fragment {
         eventRecyclerView.post(() -> calculateGridLayout(view));
 
         fab = view.findViewById(R.id.eventFab);
-        fab.setOnClickListener(view1 -> {
-            // new window
-        });
+        fab.setOnClickListener(view1 -> startActivity(new Intent(this.getContext(), AddEventActivity.class)));
     }
 
     private void calculateGridLayout(@NonNull View view) {
