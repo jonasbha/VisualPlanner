@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -53,29 +54,26 @@ public class EventsFragment extends Fragment {
         eventRecyclerView.setAdapter(eventRecycleAdapter);
         eventRecyclerView.post(() -> calculateGridLayout(view));
 
-
         fab = view.findViewById(R.id.eventFab);
-
         fab.setOnClickListener(view1 -> {
             // new window
         });
-
     }
 
     private void calculateGridLayout(@NonNull View view) {
-
-        int spanCount = (int) Math.floor(eventRecyclerView.getWidth() / getCardWidthInDensityUnits());
-        eventRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), spanCount));
-    }
-
-    private float getCardWidthInDensityUnits() {
 
         DisplayMetrics metrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         float logicalDensity = metrics.density;
 
-        int cardWidth = 250 + 20; // width + margin
+        /*
+        int calculatedCarWidth =  RecyclerView.LayoutManager.getChildMeasureSpec(eventRecyclerView.getWidth(),
+                View.MeasureSpec.UNSPECIFIED,0, ViewGroup.LayoutParams.MATCH_PARENT,false);
+         */
 
-        return cardWidth * logicalDensity;
+        int cardWidth = 230 + 20; // guessed width + margin
+
+        int spanCount = (int) Math.floor(eventRecyclerView.getWidth() / (cardWidth * logicalDensity));
+        eventRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), spanCount));
     }
 }

@@ -2,15 +2,15 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card"
-    android:layout_width="250dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     app:cardCornerRadius="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="230dp"
         android:layout_height="match_parent"
-        android:padding="5dp"
+        android:padding="7.5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -49,44 +49,22 @@
             app:srcCompat="@drawable/ic_alarm" />
 
         <TextView
-            android:id="@+id/timeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/timeLabel"
-            app:layout_constraintBottom_toBottomOf="@+id/alarmIcon"
-            app:layout_constraintStart_toEndOf="@+id/alarmIcon"
-            app:layout_constraintTop_toTopOf="@+id/alarmIcon" />
-
-        <TextView
             android:id="@+id/timeInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/timePlaceholder"
-            app:layout_constraintBottom_toBottomOf="@+id/timeLabel"
-            app:layout_constraintStart_toEndOf="@+id/timeLabel"
-            app:layout_constraintTop_toTopOf="@+id/timeLabel" />
-
-        <TextView
-            android:id="@+id/dateLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/dateLabel"
-            app:layout_constraintBottom_toBottomOf="@+id/timeInput"
-            app:layout_constraintStart_toEndOf="@+id/timeInput"
-            app:layout_constraintTop_toTopOf="@+id/timeInput"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintBottom_toBottomOf="@+id/alarmIcon"
+            app:layout_constraintStart_toEndOf="@+id/alarmIcon"
+            app:layout_constraintTop_toTopOf="@+id/alarmIcon" />
 
         <TextView
             android:id="@+id/dateInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/datePlaceholder"
-            app:layout_constraintBottom_toBottomOf="@+id/dateLabel"
+            app:layout_constraintBottom_toBottomOf="@+id/calendarIcon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dateLabel"
-            app:layout_constraintTop_toTopOf="@+id/dateLabel" />
+            app:layout_constraintTop_toTopOf="@+id/calendarIcon" />
 
         <ImageView
             android:id="@+id/locationIcon"
@@ -94,6 +72,7 @@
             android:layout_height="25dp"
             android:contentDescription="@string/locationIconContentDesc"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/alarmIcon"
             app:layout_constraintStart_toStartOf="@+id/alarmIcon"
             app:srcCompat="@drawable/ic_location" />
 
@@ -103,7 +82,7 @@
             android:layout_height="wrap_content"
             android:text="@string/locationPlaceholder"
             app:layout_constraintBottom_toBottomOf="@+id/locationIcon"
-            app:layout_constraintStart_toStartOf="@+id/timeLabel"
+            app:layout_constraintStart_toEndOf="@+id/locationIcon"
             app:layout_constraintTop_toTopOf="@+id/locationIcon"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -113,9 +92,19 @@
             android:layout_height="25dp"
             android:contentDescription="@string/deleteIconContentDesc"
             app:layout_constraintBottom_toBottomOf="@+id/locationIcon"
-            app:layout_constraintEnd_toEndOf="@+id/dateInput"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/locationIcon"
             app:srcCompat="@drawable/ic_delete_forever" />
+
+        <ImageView
+            android:id="@+id/calendarIcon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/alarmIcon"
+            app:layout_constraintEnd_toStartOf="@+id/dateInput"
+            app:layout_constraintTop_toTopOf="@+id/alarmIcon"
+            app:srcCompat="@drawable/ic_calendar"
+            android:contentDescription="@string/calendarIconContentDesc" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

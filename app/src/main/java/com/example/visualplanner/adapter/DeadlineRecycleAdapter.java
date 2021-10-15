@@ -28,7 +28,7 @@ public class DeadlineRecycleAdapter extends RecyclerView.Adapter<DeadlineRecycle
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemView = inflater.inflate(R.layout.deadline_item, parent, false);
+        View itemView = inflater.inflate(R.layout.deadline, parent, false);
 
         return new CategoryViewHolder(itemView);
     }
