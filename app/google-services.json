@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "299736520604",
+    "project_id": "visual-planner-fbfb4",
+    "storage_bucket": "visual-planner-fbfb4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299736520604:android:cb6e81212cd3df41f35a59",
+        "android_client_info": {
+          "package_name": "com.example.visualplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299736520604-9et23728q0ep2m3sa5f9te0mjubod16u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNkN5Uloo4LWKkKen4YZDP117Dc1dHr5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299736520604-9et23728q0ep2m3sa5f9te0mjubod16u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
