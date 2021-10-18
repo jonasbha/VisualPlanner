@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +19,7 @@ import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class EventsFragment extends Fragment {
+public class EventsFragment extends Fragment implements View.OnClickListener {
 
     private EventsViewModel viewModel;
     private EventRecycleAdapter eventRecycleAdapter;
@@ -49,7 +50,12 @@ public class EventsFragment extends Fragment {
         eventRecyclerView.post(() -> calculateGridLayout(view));
 
         fab = view.findViewById(R.id.eventFab);
-        fab.setOnClickListener(view1 -> startActivity(new Intent(this.getContext(), AddEventActivity.class)));
+        fab.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_navigation_events_to_addEventFragment);
     }
 
     private void calculateGridLayout(@NonNull View view) {

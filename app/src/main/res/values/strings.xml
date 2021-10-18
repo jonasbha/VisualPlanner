@@ -27,7 +27,6 @@
     <string name="eventTitleInput">Title</string>
     <string name="eventDescInput">Description</string>
     <string name="eventLocationInput"><![CDATA[<insert save location feature here>]]></string>
-    <string name="addEventCancelBtn">cancel</string>
     <string name="addEventSubmitBtn">submit</string>
     <string name="eventAlarmInput">adding time of event</string>
     <string name="eventDateInput">adding date for event</string>

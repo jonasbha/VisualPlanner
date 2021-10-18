@@ -22,5 +22,17 @@
         <action
             android:id="@+id/action_eventsFragment_to_deadlinesFragment"
             app:destination="@id/navigation_deadlines" />
+        <action
+            android:id="@+id/action_navigation_events_to_addEventFragment"
+            app:destination="@id/addEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEventFragment"
+        android:name="com.example.visualplanner.ui.event.AddEventFragment"
+        android:label="fragment_add_event"
+        tools:layout="@layout/fragment_add_event" >
+        <action
+            android:id="@+id/action_addEventFragment_to_navigation_events"
+            app:destination="@id/navigation_events" />
     </fragment>
 </navigation>
