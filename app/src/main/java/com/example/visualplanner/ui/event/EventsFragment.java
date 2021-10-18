@@ -23,7 +23,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class EventsFragment extends Fragment {
 
     private EventsViewModel viewModel;
-    private EventRecycleAdapter eventRecycleAdapter;
 
     private RecyclerView eventRecyclerView;
     private FloatingActionButton fab;
@@ -36,8 +35,6 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         viewModel = new ViewModelProvider(this).get(EventsViewModel.class);
-        viewModel.getEvents().observe(getViewLifecycleOwner(), events -> eventRecycleAdapter.notifyDataSetChanged());
-
         return inflater.inflate(R.layout.fragment_events, container, false);
     }
 
@@ -45,13 +42,14 @@ public class EventsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        eventRecycleAdapter = new EventRecycleAdapter(view.getContext(), viewModel.getEvents());
+        EventRecycleAdapter eventRecycleAdapter = new EventRecycleAdapter(view.getContext(), viewModel.getEvents());
         eventRecyclerView = view.findViewById(R.id.eventRecyclerView);
         eventRecyclerView.setAdapter(eventRecycleAdapter);
         eventRecyclerView.post(() -> calculateGridLayout(view));
 
         fab = view.findViewById(R.id.eventFab);
-        fab.setOnClickListener(view1 -> Navigation.findNavController(view).navigate(R.id.action_navigation_events_to_addEventFragment));
+        fab.setOnClickListener(v -> Navigation.findNavController(view).navigate(
+                R.id.action_navigation_events_to_addEventFragment));
     }
 
     private void calculateGridLayout(@NonNull View view) {

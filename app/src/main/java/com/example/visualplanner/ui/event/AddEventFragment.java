@@ -42,12 +42,13 @@ public class AddEventFragment extends Fragment {
         titleInput = view.findViewById(R.id.eventTitleInput);
 
         Button submitBtn = view.findViewById(R.id.addEventSubmitBtn);
-        submitBtn.setOnClickListener(view1 -> {
+        submitBtn.setOnClickListener(v -> {
             repo.addEvent(new Event(titleInput.getText().toString()));
             Navigation.findNavController(view).navigate(R.id.action_addEventFragment_to_navigation_events);
         });
 
         Button cancelBtn = view.findViewById(R.id.addEventCancelBtn);
-        cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view).navigate(R.id.action_addEventFragment_to_navigation_events));
+        cancelBtn.setOnClickListener(v -> Navigation.findNavController(view).navigate(
+                R.id.action_addEventFragment_to_navigation_events));
     }
 }

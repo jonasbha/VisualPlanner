@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +32,6 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = inflater.inflate(R.layout.event, parent, false);
-
         return new EventViewHolder(itemView);
     }
 
@@ -54,6 +54,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         TextView time;
         TextView date;
         TextView location;
+        ImageButton deleteBtn;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +63,13 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             time = itemView.findViewById(R.id.timeInput);
             date = itemView.findViewById(R.id.dateInput);
             location = itemView.findViewById(R.id.locationInput);
+            deleteBtn = itemView.findViewById(R.id.deleteIcon);
+
+            deleteBtn.setOnClickListener(view -> {
+                Objects.requireNonNull(data.getValue()).remove(getAdapterPosition());
+                notifyItemRemoved(getAdapterPosition());
+                notifyItemRangeChanged(getAdapterPosition(), data.getValue().size());
+            });
         }
 
         public void bind(Event currentEvent) {
