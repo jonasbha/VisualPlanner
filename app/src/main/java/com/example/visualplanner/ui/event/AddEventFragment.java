@@ -1,5 +1,6 @@
 package com.example.visualplanner.ui.event;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.example.visualplanner.R;
 import com.example.visualplanner.model.Event;
 import com.example.visualplanner.repository.IEventRepository;
 
-public class AddEventFragment extends Fragment implements View.OnClickListener{
+public class AddEventFragment extends Fragment {
 
     IEventRepository repo;
     EditText titleInput;
@@ -41,12 +42,12 @@ public class AddEventFragment extends Fragment implements View.OnClickListener{
         titleInput = view.findViewById(R.id.eventTitleInput);
 
         Button submitBtn = view.findViewById(R.id.addEventSubmitBtn);
-        submitBtn.setOnClickListener(this);
-    }
+        submitBtn.setOnClickListener(view1 -> {
+            repo.addEvent(new Event(titleInput.getText().toString()));
+            Navigation.findNavController(view).navigate(R.id.action_addEventFragment_to_navigation_events);
+        });
 
-    @Override
-    public void onClick(View view) {
-        repo.addEvent(new Event(titleInput.getText().toString()));
-        Navigation.findNavController(view).navigate(R.id.action_addEventFragment_to_navigation_events);
+        Button cancelBtn = view.findViewById(R.id.addEventCancelBtn);
+        cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view).navigate(R.id.action_addEventFragment_to_navigation_events));
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -8,8 +9,8 @@
     app:cardCornerRadius="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="230dp"
-        android:layout_height="match_parent"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:padding="7.5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -40,10 +41,8 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:contentDescription="@string/alarmIconContentDesc"
             android:cropToPadding="false"
-            app:layout_constraintBottom_toTopOf="@+id/locationIcon"
             app:layout_constraintStart_toStartOf="@+id/eventDescription"
             app:layout_constraintTop_toBottomOf="@+id/eventDescription"
             app:srcCompat="@drawable/ic_alarm" />
@@ -70,10 +69,12 @@
             android:id="@+id/locationIcon"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+
             android:contentDescription="@string/locationIconContentDesc"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/alarmIcon"
             app:layout_constraintStart_toStartOf="@+id/alarmIcon"
+            app:layout_constraintTop_toBottomOf="@+id/alarmIcon"
             app:srcCompat="@drawable/ic_location" />
 
         <TextView
@@ -86,25 +87,25 @@
             app:layout_constraintTop_toTopOf="@+id/locationIcon"
             app:layout_constraintVertical_bias="0.0" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/deleteIcon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:contentDescription="@string/deleteIconContentDesc"
-            app:layout_constraintBottom_toBottomOf="@+id/locationIcon"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/locationIcon"
+            app:layout_constraintTop_toTopOf="@+id/locationInput"
             app:srcCompat="@drawable/ic_delete_forever" />
 
         <ImageView
             android:id="@+id/calendarIcon"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:contentDescription="@string/calendarIconContentDesc"
             app:layout_constraintBottom_toBottomOf="@+id/alarmIcon"
             app:layout_constraintEnd_toStartOf="@+id/dateInput"
             app:layout_constraintTop_toTopOf="@+id/alarmIcon"
-            app:srcCompat="@drawable/ic_calendar"
-            android:contentDescription="@string/calendarIconContentDesc" />
+            app:srcCompat="@drawable/ic_calendar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

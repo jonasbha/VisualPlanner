@@ -17,9 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
+import com.example.visualplanner.model.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class EventsFragment extends Fragment implements View.OnClickListener {
+public class EventsFragment extends Fragment {
 
     private EventsViewModel viewModel;
     private EventRecycleAdapter eventRecycleAdapter;
@@ -50,12 +51,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
         eventRecyclerView.post(() -> calculateGridLayout(view));
 
         fab = view.findViewById(R.id.eventFab);
-        fab.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        Navigation.findNavController(view).navigate(R.id.action_navigation_events_to_addEventFragment);
+        fab.setOnClickListener(view1 -> Navigation.findNavController(view).navigate(R.id.action_navigation_events_to_addEventFragment));
     }
 
     private void calculateGridLayout(@NonNull View view) {
@@ -69,7 +65,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
                 View.MeasureSpec.UNSPECIFIED,0, ViewGroup.LayoutParams.MATCH_PARENT,false);
          */
 
-        int cardWidth = 230 + 20; // guessed width + margin
+        int cardWidth = 250 + 20; // guessed width + margin
 
         int spanCount = (int) Math.floor(eventRecyclerView.getWidth() / (cardWidth * logicalDensity));
         eventRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), spanCount));
