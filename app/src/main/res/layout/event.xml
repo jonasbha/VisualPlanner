@@ -1,112 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="4dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="300dp"
+    <data>
+        <variable
+            name="event"
+            type="com.example.visualplanner.model.Event" />
+        <variable
+            name="view"
+            type="com.example.visualplanner.adapter.EventRecycleAdapter.EventViewHolder" />
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="7.5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_margin="10dp"
+        app:cardCornerRadius="4dp">
 
-        <TextView
-            android:id="@+id/eventTitle"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/titlePlaceholder"
+            android:padding="7.5dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/eventDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/placeholder"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
+            <TextView
+                android:id="@+id/eventTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{event.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/alarmIcon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/alarmIconContentDesc"
-            android:cropToPadding="false"
-            app:layout_constraintStart_toStartOf="@+id/eventDescription"
-            app:layout_constraintTop_toBottomOf="@+id/eventDescription"
-            app:srcCompat="@drawable/ic_alarm" />
+            <TextView
+                android:id="@+id/eventDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
 
-        <TextView
-            android:id="@+id/timeInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/timePlaceholder"
-            app:layout_constraintBottom_toBottomOf="@+id/alarmIcon"
-            app:layout_constraintStart_toEndOf="@+id/alarmIcon"
-            app:layout_constraintTop_toTopOf="@+id/alarmIcon" />
+            <ImageView
+                android:id="@+id/alarmIcon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/alarmIconContentDesc"
+                android:cropToPadding="false"
+                app:layout_constraintStart_toStartOf="@+id/eventDescription"
+                app:layout_constraintTop_toBottomOf="@+id/eventDescription"
+                app:srcCompat="@drawable/ic_alarm" />
 
-        <TextView
-            android:id="@+id/dateInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/datePlaceholder"
-            app:layout_constraintBottom_toBottomOf="@+id/calendarIcon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/calendarIcon" />
+            <TextView
+                android:id="@+id/timeInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/timePlaceholder"
+                app:layout_constraintBottom_toBottomOf="@+id/alarmIcon"
+                app:layout_constraintStart_toEndOf="@+id/alarmIcon"
+                app:layout_constraintTop_toTopOf="@+id/alarmIcon" />
 
-        <ImageView
-            android:id="@+id/locationIcon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="10dp"
+            <TextView
+                android:id="@+id/dateInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/datePlaceholder"
+                app:layout_constraintBottom_toBottomOf="@+id/calendarIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/calendarIcon" />
 
-            android:contentDescription="@string/locationIconContentDesc"
-            app:layout_constraintEnd_toEndOf="@+id/alarmIcon"
-            app:layout_constraintStart_toStartOf="@+id/alarmIcon"
-            app:layout_constraintTop_toBottomOf="@+id/alarmIcon"
-            app:srcCompat="@drawable/ic_location" />
+            <ImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="10dp"
 
-        <TextView
-            android:id="@+id/locationInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/locationPlaceholder"
-            app:layout_constraintBottom_toBottomOf="@+id/locationIcon"
-            app:layout_constraintStart_toEndOf="@+id/locationIcon"
-            app:layout_constraintTop_toTopOf="@+id/locationIcon"
-            app:layout_constraintVertical_bias="0.0" />
+                android:contentDescription="@string/locationIconContentDesc"
+                app:layout_constraintEnd_toEndOf="@+id/alarmIcon"
+                app:layout_constraintStart_toStartOf="@+id/alarmIcon"
+                app:layout_constraintTop_toBottomOf="@+id/alarmIcon"
+                app:srcCompat="@drawable/ic_location" />
 
-        <ImageButton
-            android:id="@+id/deleteIcon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:contentDescription="@string/deleteIconContentDesc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/locationInput"
-            app:srcCompat="@drawable/ic_delete_forever" />
+            <TextView
+                android:id="@+id/locationInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/locationPlaceholder"
+                app:layout_constraintBottom_toBottomOf="@+id/locationIcon"
+                app:layout_constraintStart_toEndOf="@+id/locationIcon"
+                app:layout_constraintTop_toTopOf="@+id/locationIcon"
+                app:layout_constraintVertical_bias="0.0" />
 
-        <ImageView
-            android:id="@+id/calendarIcon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/calendarIconContentDesc"
-            app:layout_constraintBottom_toBottomOf="@+id/alarmIcon"
-            app:layout_constraintEnd_toStartOf="@+id/dateInput"
-            app:layout_constraintTop_toTopOf="@+id/alarmIcon"
-            app:srcCompat="@drawable/ic_calendar" />
+            <ImageButton
+                android:id="@+id/deleteIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/deleteIconContentDesc"
+                android:onClick="@{() -> view.removeAtPosition()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/locationInput"
+                app:srcCompat="@drawable/ic_delete_forever" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/calendarIcon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/calendarIconContentDesc"
+                app:layout_constraintBottom_toBottomOf="@+id/alarmIcon"
+                app:layout_constraintEnd_toStartOf="@+id/dateInput"
+                app:layout_constraintTop_toTopOf="@+id/alarmIcon"
+                app:srcCompat="@drawable/ic_calendar" />
 
-</androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(navView, controller);
 
+        // choose repository
         repo = FakeEventRepository.getInstance();
     }
 
