@@ -1,17 +1,11 @@
 package com.example.visualplanner.ui.event;
 
-import android.app.Application;
-import android.os.strictmode.CredentialProtectedWhileLockedViolation;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.model.Event;
-import com.example.visualplanner.repository.FakeEventRepository;
 import com.example.visualplanner.repository.IEventRepository;
 
 import java.util.List;

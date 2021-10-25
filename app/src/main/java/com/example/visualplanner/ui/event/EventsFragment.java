@@ -1,6 +1,5 @@
 package com.example.visualplanner.ui.event;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
-import com.example.visualplanner.model.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class EventsFragment extends Fragment {
@@ -25,6 +23,7 @@ public class EventsFragment extends Fragment {
     private EventsViewModel viewModel;
 
     private RecyclerView eventRecyclerView;
+    private EventRecycleAdapter eventRecycleAdapter;
     private FloatingActionButton fab;
 
     public EventsFragment() {
@@ -42,14 +41,21 @@ public class EventsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        EventRecycleAdapter eventRecycleAdapter = new EventRecycleAdapter(view.getContext(), viewModel.getEvents());
-        eventRecyclerView = view.findViewById(R.id.eventRecyclerView);
-        eventRecyclerView.setAdapter(eventRecycleAdapter);
-        eventRecyclerView.post(() -> calculateGridLayout(view));
+        initRecyclerView(view);
 
         fab = view.findViewById(R.id.eventFab);
         fab.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_navigation_events_to_addEventFragment));
+    }
+
+    private void initRecyclerView(@NonNull View view) {
+        eventRecyclerView = view.findViewById(R.id.eventRecyclerView);
+
+        if (eventRecycleAdapter == null) {
+            eventRecycleAdapter = new EventRecycleAdapter(view.getContext(), viewModel.getEvents());
+        }
+        eventRecyclerView.setAdapter(eventRecycleAdapter);
+        eventRecyclerView.post(() -> calculateGridLayout(view));
     }
 
     private void calculateGridLayout(@NonNull View view) {

@@ -2,6 +2,7 @@ package com.example.visualplanner;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,11 +12,21 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.visualplanner.repository.FakeEventRepository;
 import com.example.visualplanner.repository.IEventRepository;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     private static IEventRepository repo;
+
+    private FirebaseAuth mAuth;
+
+    private final static String email = "fake@gmail.com";
+    private final static String password = "password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
 
         // choose repository
         repo = FakeEventRepository.getInstance();
+
+        // authentication reference
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInWithEmailAndPassword(email, password);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAuth.signOut();
     }
 
     public void openDrawer() {
