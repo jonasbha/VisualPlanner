@@ -34,26 +34,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/eventDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/placeholder"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
-
             <ImageView
                 android:id="@+id/alarmIcon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:contentDescription="@string/alarmIconContentDesc"
                 android:cropToPadding="false"
-                app:layout_constraintStart_toStartOf="@+id/eventDescription"
-                app:layout_constraintTop_toBottomOf="@+id/eventDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eventTitle"
                 app:srcCompat="@drawable/ic_alarm" />
 
             <TextView
