@@ -1,31 +1,26 @@
 package com.example.visualplanner.ui.event;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.model.Event;
-import com.example.visualplanner.repository.IEventRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventsViewModel extends ViewModel {
 
-    private final MutableLiveData<List<Event>> events;
-    private final IEventRepository repo;
+    private final ArrayList<Event> events = new ArrayList<>();
 
-    public EventsViewModel() {
+    public EventsViewModel() {}
 
-        repo = MainActivity.getRepo();
-        events = repo.getEvents();
+    public MutableLiveData<List<Event>> getEvents() {
+        MutableLiveData<List<Event>> data = new MutableLiveData<>();
+        data.setValue(events);
+        return data;
     }
 
-    public LiveData<List<Event>> getEvents() {
-        return events;
-    }
-
-    public void deleteEvent(Event e) {
-        repo.deleteEvent(e);
+    public void addEvent(Event e) {
+        events.add(e);
     }
 }

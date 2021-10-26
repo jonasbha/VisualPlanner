@@ -2,6 +2,7 @@ package com.example.visualplanner.repository;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.model.Event;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public class FakeEventRepository implements IEventRepository {
 
-    private static FakeEventRepository instance;
+    private static IEventRepository instance;
     private final ArrayList<Event> dataSet = new ArrayList<>();
 
     public FakeEventRepository() {
@@ -22,7 +23,7 @@ public class FakeEventRepository implements IEventRepository {
         dataSet.add(new Event("Rydde rommet."));
     }
 
-    public static FakeEventRepository getInstance() {
+    public static IEventRepository getInstance() {
         if (instance == null) {
             instance = new FakeEventRepository();
         }

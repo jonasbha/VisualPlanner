@@ -10,6 +10,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.repository.FakeEventRepository;
 import com.example.visualplanner.repository.IEventRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(navView, controller);
 
-        // choose repository
-        repo = FakeEventRepository.getInstance();
-
         // authentication reference
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password);
@@ -61,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static IEventRepository getRepo() {
+        if (repo == null) {
+            repo = new FakeEventRepository();
+        }
         return repo;
     }
 }

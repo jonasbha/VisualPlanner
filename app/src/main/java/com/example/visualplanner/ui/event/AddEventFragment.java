@@ -1,5 +1,6 @@
 package com.example.visualplanner.ui.event;
 
+import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.visualplanner.MainActivity;
@@ -22,6 +24,8 @@ public class AddEventFragment extends Fragment {
 
     IEventRepository repo;
     EditText titleInput;
+    private IEventFirestore eventFirestore;
+
 
     public AddEventFragment() {
         // Required empty public constructor
@@ -31,6 +35,7 @@ public class AddEventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_add_event, container, false);
     }
 
@@ -43,12 +48,18 @@ public class AddEventFragment extends Fragment {
 
         Button submitBtn = view.findViewById(R.id.addEventSubmitBtn);
         submitBtn.setOnClickListener(v -> {
-            repo.addEvent(new Event(titleInput.getText().toString()));
+            eventFirestore.createNewEvent(titleInput.getText().toString());
             Navigation.findNavController(view).navigate(R.id.action_addEventFragment_to_navigation_events);
         });
 
         Button cancelBtn = view.findViewById(R.id.addEventCancelBtn);
         cancelBtn.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_addEventFragment_to_navigation_events));
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        eventFirestore = (IEventFirestore)  getActivity();
     }
 }
