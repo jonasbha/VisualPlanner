@@ -1,27 +1,39 @@
 package com.example.visualplanner.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.R;
-import com.example.visualplanner.databinding.EventBinding;
 import com.example.visualplanner.model.Event;
 
 import java.util.List;
-import java.util.Objects;
 
 public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapter.EventViewHolder> {
 
-    private final LiveData<List<Event>> data;
+    private final List<Event> data;
     private final LayoutInflater inflater;
+    private OnItemClickListener clickListener;
 
-    public EventRecycleAdapter(Context context, LiveData<List<Event>> data) {
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+
+        void onDeleteClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    public EventRecycleAdapter(Context context, List<Event> data) {
         this.inflater = LayoutInflater.from(context);
         this.data = data;
     }
@@ -30,40 +42,70 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        EventBinding binding = DataBindingUtil.inflate(inflater, R.layout.event, parent, false);
-        return new EventViewHolder(binding);
+        Log.d("EventRecyclerAdapter", "Creating View");
+
+        View view = inflater.inflate(R.layout.event, parent, false);
+
+        return new EventViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
-        Event eventToDisplay = Objects.requireNonNull(data.getValue()).get(position);
+
+        Log.d("EventRecyclerAdapter", "Binding View $position");
+
+        Event eventToDisplay = data.get(position);
         holder.bind(eventToDisplay);
     }
 
     @Override
     public int getItemCount() {
-        return Objects.requireNonNull(data.getValue()).size();
+        return data.size();
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
+        TextView eventTitle;
+        TextView timeInput;
+        TextView dateInput;
+        TextView locationInput;
+        ImageView alarmIcon;
+        ImageView locationIcon;
+        ImageView calendarIcon;
+        ImageButton deleteIcon;
 
-        EventBinding binding;
 
-        public EventViewHolder(EventBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-            binding.setView(this);
-        }
+        public EventViewHolder(@NonNull View itemView) {
+            super(itemView);
+            eventTitle = itemView.findViewById(R.id.eventTitle);
+            timeInput = itemView.findViewById(R.id.timeInput);
+            dateInput = itemView.findViewById(R.id.dateInput);
+            locationInput = itemView.findViewById(R.id.locationInput);
+            alarmIcon = itemView.findViewById(R.id.alarmIcon);
+            locationIcon = itemView.findViewById(R.id.locationIcon);
+            calendarIcon = itemView.findViewById(R.id.calendarIcon);
+            deleteIcon = itemView.findViewById(R.id.deleteIcon);
 
-        public void removeAtPosition() {
-            Objects.requireNonNull(data.getValue()).remove(getAdapterPosition());
-            notifyItemRemoved(getAdapterPosition());
-            notifyItemRangeChanged(getAdapterPosition(), data.getValue().size());
+            itemView.setOnClickListener(v -> {
+                if (clickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        clickListener.onItemClick(position);
+                    }
+                }
+            });
+
+            deleteIcon.setOnClickListener(v -> {
+                if (clickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        clickListener.onDeleteClick(position);
+                    }
+                }
+            });
         }
 
         public void bind(Event currentEvent) {
-            binding.setEvent(currentEvent);
-            binding.executePendingBindings();
+            eventTitle.setText(currentEvent.getTitle());
         }
     }
 }

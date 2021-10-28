@@ -48,7 +48,7 @@ public class AddEventFragment extends Fragment {
 
         Button submitBtn = view.findViewById(R.id.addEventSubmitBtn);
         submitBtn.setOnClickListener(v -> {
-            createNewEvent(titleInput.getText().toString());
+            createEvent(titleInput.getText().toString());
             Navigation.findNavController(view).navigate(R.id.action_addEventFragment_to_navigation_events);
         });
 
@@ -57,7 +57,7 @@ public class AddEventFragment extends Fragment {
                 R.id.action_addEventFragment_to_navigation_events));
     }
 
-    public void createNewEvent(String title) {
+    public void createEvent(String title) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference newEventReference = db.collection("events").document();

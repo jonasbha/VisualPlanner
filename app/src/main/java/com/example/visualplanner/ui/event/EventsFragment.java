@@ -2,6 +2,7 @@ package com.example.visualplanner.ui.event;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,18 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.model.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -28,11 +34,19 @@ import java.util.Objects;
 
 public class EventsFragment extends Fragment {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private EventsViewModel viewModel;
 
     private RecyclerView eventRecyclerView;
     private EventRecycleAdapter eventRecycleAdapter;
     private FloatingActionButton fab;
+
+    // firestore
+    private FirebaseFirestore firestoreDb;
+    private CollectionReference eventCollectionReference;
+    private ListenerRegistration firestoreListenerRegistration;
+    private DocumentSnapshot lastQueriedDocument;
 
     public EventsFragment() {
         // Required empty public constructor
@@ -42,7 +56,10 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         viewModel = new ViewModelProvider(this).get(EventsViewModel.class);
-        viewModel.getEvents().observe(getViewLifecycleOwner(), events -> eventRecycleAdapter.notifyDataSetChanged());
+        //viewModel.getEvents().observe(getViewLifecycleOwner(), events -> eventRecycleAdapter.notifyDataSetChanged());
+
+        firestoreDb = FirebaseFirestore.getInstance();
+        eventCollectionReference =  firestoreDb.collection("events");
 
         return inflater.inflate(R.layout.fragment_events, container, false);
     }
@@ -51,43 +68,109 @@ public class EventsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getEvents();
         initRecyclerView(view);
-
         fab = view.findViewById(R.id.eventFab);
         fab.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_navigation_events_to_addEventFragment));
     }
 
-    private void getEvents() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference eventsCollectionRef = db.collection("events");
+    @Override
+    public void onResume() {
+        super.onResume();
+        createFirestoreReadListener();
+    }
 
-        Query eventsQuery = eventsCollectionRef
-                .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy("timestamp", Query.Direction.ASCENDING);
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (firestoreListenerRegistration != null) {
+            firestoreListenerRegistration.remove();
+        }
+    }
 
-        eventsQuery.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                    Event event = document.toObject(Event.class);
-                    viewModel.addEvent(event);
+    private void createFirestoreReadListener() {
+        Query eventsQuery = initEventCollectionDisplay();
+        firestoreListenerRegistration = eventsQuery.addSnapshotListener((value, error) -> {
+            if (error != null) {
+                Log.w(TAG, "Listen failed.", error);
+                return;
+            }
+
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+                QueryDocumentSnapshot document = documentChange.getDocument();
+                Event event = document.toObject(Event.class);
+
+                lastQueriedDocument = value.getDocuments().get(value.size() - 1);
+                int pos = viewModel.getEventIds().indexOf(event.getEventId());
+
+                switch (documentChange.getType()) {
+                    case ADDED:
+                        viewModel.getEvents().add(event);
+                        viewModel.getEventIds().add(event.getEventId());
+                        eventRecycleAdapter.notifyItemInserted(viewModel.getEvents().size() - 1);
+                        break;
+                    case REMOVED:
+                        viewModel.getEvents().remove(pos);
+                        viewModel.getEventIds().remove(pos);
+                        eventRecycleAdapter.notifyItemRemoved(pos);
+                        break;
                 }
-                eventRecycleAdapter.notifyDataSetChanged();
-            } else {
-                // legg til brukerhåndtering
             }
         });
     }
 
+    /**
+     * The query will display the collection based on the criteria set.
+     * Only the collection of the logged inn user will be displayed. The collection will be displayed
+     * in a certain direction based on order of the field chosen.
+     * The query also contains logic for preventing duplicate values on screen refresh.
+     * @return Query for display of collection
+     */
+    private Query initEventCollectionDisplay() {
+        Query query;
+        // query requires indexation on fields.
+        if (lastQueriedDocument != null) {
+            query = eventCollectionReference
+                    .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                    .orderBy("timestamp", Query.Direction.ASCENDING)
+                    .startAfter(lastQueriedDocument);
+        } else {
+            query = eventCollectionReference
+                    .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                    .orderBy("timestamp", Query.Direction.ASCENDING);
+        }
+        return query;
+    }
+
     private void initRecyclerView(@NonNull View view) {
         eventRecyclerView = view.findViewById(R.id.eventRecyclerView);
-
-        if (eventRecycleAdapter == null) {
-            eventRecycleAdapter = new EventRecycleAdapter(view.getContext(), viewModel.getEvents());
-        }
+        eventRecycleAdapter = new EventRecycleAdapter(view.getContext(), viewModel.getEvents());
         eventRecyclerView.setAdapter(eventRecycleAdapter);
         eventRecyclerView.post(() -> calculateGridLayout(view));
+
+        eventRecycleAdapter.setOnItemClickListener(new EventRecycleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // change something
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                deleteEvent(viewModel.getEvents().get(position));
+            }
+        });
+    }
+
+    public void deleteEvent(Event event) {
+        DocumentReference eventReference = eventCollectionReference.document(event.getEventId());
+
+        eventReference.delete().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // legg til brukerhåndtering
+            } else {
+                // legg til brukerhåndtering
+            }
+        });
     }
 
     private void calculateGridLayout(@NonNull View view) {
