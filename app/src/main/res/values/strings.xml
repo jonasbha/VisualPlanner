@@ -34,4 +34,5 @@
     <string name="addEventDateInput">Date</string>
     <string name="addEventAlarmIcon">visual add alarm for event</string>
     <string name="addEventCalendarIcon">visual add calendar for alarm</string>
+    <string name="logout">logout</string>
 </resources>

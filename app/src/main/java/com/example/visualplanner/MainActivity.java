@@ -3,6 +3,9 @@ package com.example.visualplanner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -26,11 +29,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private static IEventRepository repo;
 
@@ -54,22 +59,53 @@ public class MainActivity extends AppCompatActivity {
         NavController controller = navHostFragment.getNavController();
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(navView, controller);
-        /*
-        AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(getApplicationContext(), "Successfully logged out.", Toast.LENGTH_LONG).show();
-            }
-        });
-        */
-        // authentication with prebuilt ui
 
-        // OBS: passord for default email er passord
+        initFirestore();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        auth.removeAuthStateListener(authStateListener);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.logout) {
+            AuthUI.getInstance().signOut(this).
+                    addOnCompleteListener(
+                            task -> Toast.makeText(getApplicationContext(),
+                                    "Successfully logged out.", Toast.LENGTH_LONG).show()
+                    );
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Initialize an authentication process with a prebuilt UI.
+     */
+    private void initFirestore() {
         auth = FirebaseAuth.getInstance();
         authStateListener = firebaseAuth -> {
             FirebaseUser currentUser = auth.getCurrentUser();
             if (currentUser == null) {
+                Toast.makeText(getApplicationContext(),
+                        "OBS: password is \"password\"", Toast.LENGTH_LONG).show();
                 launchSignInUi();
             }
         };
@@ -91,36 +127,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (result.getResultCode() == RESULT_OK) {
             FirebaseUser currentUser = auth.getCurrentUser();
-            Toast.makeText(getApplicationContext(), "Signed in as " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
-
+            assert currentUser != null;
+            Toast.makeText(getApplicationContext(), "Signed in with " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
         } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
-            Log.d("smth", String.valueOf(response.getError().getErrorCode()));
-
+            assert response != null;
+            Log.d(TAG, String.valueOf(Objects.requireNonNull(response.getError()).getErrorCode()));
         }
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        auth.addAuthStateListener(authStateListener);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        auth.removeAuthStateListener(authStateListener);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-
 
     public void openDrawer() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
