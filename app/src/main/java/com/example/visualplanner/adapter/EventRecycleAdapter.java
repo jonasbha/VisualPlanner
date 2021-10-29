@@ -24,7 +24,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     private OnItemClickListener clickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onUpdateClick(int position);
 
         void onDeleteClick(int position);
     }
@@ -41,9 +41,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         Log.d("EventRecyclerAdapter", "Creating View");
-
         View view = inflater.inflate(R.layout.event, parent, false);
 
         return new EventViewHolder(view);
@@ -51,9 +49,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
-
         Log.d("EventRecyclerAdapter", "Binding View $position");
-
         Event eventToDisplay = data.get(position);
         holder.bind(eventToDisplay);
     }
@@ -73,7 +69,6 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         ImageView calendarIcon;
         ImageButton deleteIcon;
 
-
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
             eventTitle = itemView.findViewById(R.id.eventTitle);
@@ -84,15 +79,6 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             locationIcon = itemView.findViewById(R.id.locationIcon);
             calendarIcon = itemView.findViewById(R.id.calendarIcon);
             deleteIcon = itemView.findViewById(R.id.deleteIcon);
-
-            itemView.setOnClickListener(v -> {
-                if (clickListener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        clickListener.onItemClick(position);
-                    }
-                }
-            });
 
             deleteIcon.setOnClickListener(v -> {
                 if (clickListener != null) {

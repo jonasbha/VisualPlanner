@@ -96,6 +96,7 @@ public class EventsFragment extends Fragment {
                 return;
             }
 
+            assert value != null;
             for (DocumentChange documentChange : value.getDocumentChanges()) {
                 QueryDocumentSnapshot document = documentChange.getDocument();
                 Event event = document.toObject(Event.class);
@@ -150,7 +151,7 @@ public class EventsFragment extends Fragment {
 
         eventRecycleAdapter.setOnItemClickListener(new EventRecycleAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onUpdateClick(int position) {
                 // change something
             }
 
