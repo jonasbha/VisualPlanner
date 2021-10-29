@@ -47,6 +47,7 @@ public class AddEventFragment extends Fragment {
         titleInput = view.findViewById(R.id.eventTitleInput);
 
         Button submitBtn = view.findViewById(R.id.addEventSubmitBtn);
+
         submitBtn.setOnClickListener(v -> {
             createEvent(titleInput.getText().toString());
             Navigation.findNavController(view).navigate(R.id.action_addEventFragment_to_navigation_events);
