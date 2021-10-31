@@ -116,6 +116,10 @@ public class EventsFragment extends Fragment {
                         eventRecycleAdapter.notifyItemRemoved(pos);
                         break;
                 }
+
+                String source = document.getMetadata().isFromCache() ?
+                        "local cache" : "server";
+                Log.d(TAG, "Data fetched from " + source);
             }
         });
     }
@@ -152,7 +156,7 @@ public class EventsFragment extends Fragment {
         eventRecycleAdapter.setOnItemClickListener(new EventRecycleAdapter.OnItemClickListener() {
             @Override
             public void onUpdateClick(int position) {
-                // change something
+                // may be implemented
             }
 
             @Override

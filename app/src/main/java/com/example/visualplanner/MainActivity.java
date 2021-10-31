@@ -2,6 +2,7 @@ package com.example.visualplanner;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,8 +24,6 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(), this::onSignInResult
     );
-
-    private final static String email = "fake@gmail.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,14 +101,36 @@ public class MainActivity extends AppCompatActivity {
         authStateListener = firebaseAuth -> {
             FirebaseUser currentUser = auth.getCurrentUser();
             if (currentUser == null) {
+                launchLoginUI();
+/*
+                launchLoginUIWithDefaultEmail();
                 Toast.makeText(getApplicationContext(),
-                        "OBS: password is \"password\"", Toast.LENGTH_LONG).show();
-                launchSignInUi();
+                "OBS: password is \"testuser\"", Toast.LENGTH_LONG).show();
+
+ */
             }
         };
     }
 
-    private void launchSignInUi() {
+    private void launchLoginUI() {
+        List<AuthUI.IdpConfig> providers = Collections.singletonList(
+                new AuthUI.IdpConfig.EmailBuilder().build());
+
+        Intent signInIntent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .build();
+        signInLauncher.launch(signInIntent);
+    }
+
+    /**
+     * Function used for UI testing.
+     * Password for default email is "testuser"
+     */
+    private void launchLoginUIWithDefaultEmail() {
+        String email = "test@gmail.com";
+        // password is "testuser"
+
         List<AuthUI.IdpConfig> providers = Collections.singletonList(
                 new AuthUI.IdpConfig.EmailBuilder().setDefaultEmail(email).build());
 
