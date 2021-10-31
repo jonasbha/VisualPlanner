@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
@@ -46,7 +45,6 @@ public class EventsFragment extends Fragment {
     private FirebaseFirestore firestoreDb;
     private CollectionReference eventCollectionReference;
     private ListenerRegistration firestoreListenerRegistration;
-    private DocumentSnapshot lastQueriedDocument;
 
     public EventsFragment() {
         // Required empty public constructor
@@ -88,6 +86,8 @@ public class EventsFragment extends Fragment {
         }
     }
 
+
+
     private void createFirestoreReadListener() {
         Query eventsQuery = initEventCollectionDisplay();
         firestoreListenerRegistration = eventsQuery.addSnapshotListener((value, error) -> {
@@ -101,19 +101,24 @@ public class EventsFragment extends Fragment {
                 QueryDocumentSnapshot document = documentChange.getDocument();
                 Event event = document.toObject(Event.class);
 
-                lastQueriedDocument = value.getDocuments().get(value.size() - 1);
                 int pos = viewModel.getEventIds().indexOf(event.getEventId());
 
                 switch (documentChange.getType()) {
                     case ADDED:
-                        viewModel.getEvents().add(event);
-                        viewModel.getEventIds().add(event.getEventId());
-                        eventRecycleAdapter.notifyItemInserted(viewModel.getEvents().size() - 1);
+                        if (!isDuplicate(event)) {
+                            viewModel.getEvents().add(event);
+                            viewModel.getEventIds().add(event.getEventId());
+                            eventRecycleAdapter.notifyItemInserted(viewModel.getEvents().size() - 1);
+                        }
                         break;
                     case REMOVED:
                         viewModel.getEvents().remove(pos);
                         viewModel.getEventIds().remove(pos);
                         eventRecycleAdapter.notifyItemRemoved(pos);
+                        break;
+                    case MODIFIED:
+                        viewModel.getEvents().set(pos, event);
+                        eventRecycleAdapter.notifyItemChanged(pos);
                         break;
                 }
 
@@ -125,31 +130,33 @@ public class EventsFragment extends Fragment {
     }
 
     /**
+     * Function to prevent duplicate values on screen refresh and orientation change.
+     */
+    private boolean isDuplicate(Event event) {
+        for (Event e : viewModel.getEvents()) {
+            if (event.getEventId().equals(e.getEventId()))
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * The query will display the collection based on the criteria set.
      * Only the collection of the logged inn user will be displayed. The collection will be displayed
      * in a certain direction based on order of the field chosen.
-     * The query also contains logic for preventing duplicate values on screen refresh.
      * @return Query for display of collection
      */
     private Query initEventCollectionDisplay() {
         Query query;
         // query requires indexation on fields.
-        if (lastQueriedDocument != null) {
-            query = eventCollectionReference
-                    .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                    .orderBy("timestamp", Query.Direction.ASCENDING)
-                    .startAfter(lastQueriedDocument);
-        } else {
-            query = eventCollectionReference
-                    .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                    .orderBy("timestamp", Query.Direction.ASCENDING);
-        }
+        query = eventCollectionReference
+                .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .orderBy("timestamp", Query.Direction.ASCENDING);
         return query;
     }
 
     private void initRecyclerView(@NonNull View view) {
         eventRecyclerView = view.findViewById(R.id.eventRecyclerView);
-        viewModel.refresh();
         eventRecycleAdapter = new EventRecycleAdapter(view.getContext(), viewModel.getEvents());
         eventRecyclerView.setAdapter(eventRecycleAdapter);
         eventRecyclerView.post(() -> calculateGridLayout(view));
