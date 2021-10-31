@@ -149,6 +149,7 @@ public class EventsFragment extends Fragment {
 
     private void initRecyclerView(@NonNull View view) {
         eventRecyclerView = view.findViewById(R.id.eventRecyclerView);
+        viewModel.refresh();
         eventRecycleAdapter = new EventRecycleAdapter(view.getContext(), viewModel.getEvents());
         eventRecyclerView.setAdapter(eventRecycleAdapter);
         eventRecyclerView.post(() -> calculateGridLayout(view));

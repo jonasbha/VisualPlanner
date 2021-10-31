@@ -8,10 +8,13 @@ import java.util.ArrayList;
 
 public class EventsViewModel extends ViewModel {
 
-    private final ArrayList<Event> events = new ArrayList<>();
-    private final ArrayList<String> eventIds = new ArrayList<>();
+    private ArrayList<Event> events;
+    private final ArrayList<String> eventIds;
 
-    public EventsViewModel() {}
+    public EventsViewModel() {
+        events = new ArrayList<>();
+        eventIds = new ArrayList<>();
+    }
 
     public ArrayList<Event> getEvents() {
         return events;
@@ -19,5 +22,9 @@ public class EventsViewModel extends ViewModel {
 
     public ArrayList<String> getEventIds() {
         return eventIds;
+    }
+
+    public void refresh() {
+        events = new ArrayList<>();
     }
 }
