@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +25,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     private OnItemClickListener clickListener;
 
     public interface OnItemClickListener {
-        void onUpdateClick(int position);
+        void onShowDatesClick(int position);
 
         void onDeleteClick(int position);
     }
@@ -74,6 +76,15 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     clickListener.onDeleteClick(position);
+                }
+            }
+        }
+
+        public void onShowDates() {
+            if (clickListener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    clickListener.onShowDatesClick(position);
                 }
             }
         }

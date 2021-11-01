@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -164,8 +165,8 @@ public class EventsFragment extends Fragment {
         eventRecyclerView.post(() -> calculateGridLayout(view));
         eventRecycleAdapter.setOnItemClickListener(new EventRecycleAdapter.OnItemClickListener() {
             @Override
-            public void onUpdateClick(int position) {
-                // may be implemented
+            public void onShowDatesClick(int position) {
+
             }
 
             @Override
