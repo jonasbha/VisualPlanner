@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="view"
-            type="com.example.visualplanner.adapter.EventRecycleAdapter.EventViewHolder" />
-        <variable
-            name="event"
-            type="com.example.visualplanner.model.Event" />
-    </data>
 
-    <androidx.cardview.widget.CardView
+
+    <androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +29,6 @@
                 android:background="@color/white"
                 android:contentDescription="@string/deleteIconContentDesc"
                 android:cropToPadding="false"
-                android:onClick="@{() -> view.onDelete()}"
                 android:theme="@style/Theme.VisualPlanner"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +38,7 @@
                 tools:srcCompat="@drawable/ic_event_delete" />
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/eventTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorSecondaryVariant"
@@ -71,14 +62,14 @@
                 android:minWidth="48dp"
                 android:minHeight="48dp"
                 android:theme="@style/Theme.VisualPlanner"
-                android:onClick="@{() -> view.onShowDates()}"
+                android:contentDescription="@string/calendarIconContentDesc"
                 app:layout_constraintBottom_toBottomOf="@+id/setDateSwitch"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/setDateSwitch"
                 app:srcCompat="@drawable/ic_event_date"
                 app:tint="@color/black" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/setDateSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,7 +78,7 @@
                 android:minHeight="48dp"
                 android:theme="@style/Theme.VisualPlanner"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView1" />
+                app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -124,11 +115,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:hint="Select Date"
+                android:hint="@string/select_date"
                 android:textSize="30sp"
                 android:textAlignment="center"
                 android:minHeight="48dp"
-                android:text="Name"
+                android:minWidth="200dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -137,4 +128,3 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
-</layout>
