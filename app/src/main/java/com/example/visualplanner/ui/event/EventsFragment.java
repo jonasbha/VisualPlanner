@@ -86,8 +86,9 @@ public class EventsFragment extends Fragment {
         }
     }
 
-
-
+    /**
+     * Updates the UI based on data in Firestore database.
+     */
     private void createFirestoreReadListener() {
         Query eventsQuery = initEventCollectionDisplay();
         firestoreListenerRegistration = eventsQuery.addSnapshotListener((value, error) -> {
@@ -130,7 +131,8 @@ public class EventsFragment extends Fragment {
     }
 
     /**
-     * Function to prevent duplicate values on screen refresh and orientation change.
+     * Simple function to prevent duplicate values on screen refresh and orientation change.
+     * The function has an efficiency of O(n^2) as it is ran on for each item in list.
      */
     private boolean isDuplicate(Event event) {
         for (Event e : viewModel.getEvents()) {
@@ -160,7 +162,6 @@ public class EventsFragment extends Fragment {
         eventRecycleAdapter = new EventRecycleAdapter(view.getContext(), viewModel.getEvents());
         eventRecyclerView.setAdapter(eventRecycleAdapter);
         eventRecyclerView.post(() -> calculateGridLayout(view));
-
         eventRecycleAdapter.setOnItemClickListener(new EventRecycleAdapter.OnItemClickListener() {
             @Override
             public void onUpdateClick(int position) {

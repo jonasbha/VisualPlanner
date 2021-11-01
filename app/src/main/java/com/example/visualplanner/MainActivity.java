@@ -101,13 +101,12 @@ public class MainActivity extends AppCompatActivity {
         authStateListener = firebaseAuth -> {
             FirebaseUser currentUser = auth.getCurrentUser();
             if (currentUser == null) {
-                launchLoginUI();
-/*
+                //launchLoginUI();
+
                 launchLoginUIWithDefaultEmail();
                 Toast.makeText(getApplicationContext(),
                 "OBS: password is \"testuser\"", Toast.LENGTH_LONG).show();
 
- */
             }
         };
     }
@@ -119,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
+                .setTheme(R.style.Theme_VisualPlanner)
                 .build();
         signInLauncher.launch(signInIntent);
     }
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
+                .setTheme(R.style.Theme_VisualPlanner)
                 .build();
         signInLauncher.launch(signInIntent);
     }

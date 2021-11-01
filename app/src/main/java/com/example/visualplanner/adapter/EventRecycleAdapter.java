@@ -1,6 +1,7 @@
 package com.example.visualplanner.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,7 +9,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.visualplanner.R;
 import com.example.visualplanner.databinding.EventBinding;
+import com.example.visualplanner.databinding.EventRetailBinding;
 import com.example.visualplanner.model.Event;
 
 import java.util.List;
@@ -38,7 +41,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("EventRecyclerAdapter", "Creating View");
-        EventBinding eventBinding = EventBinding.inflate(inflater, parent, false);
+        EventRetailBinding eventBinding = EventRetailBinding.inflate(inflater, parent, false);
 
         return new EventViewHolder(eventBinding);
     }
@@ -46,6 +49,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Log.d("EventRecyclerAdapter", "Binding View $position");
+
         Event eventToDisplay = data.get(position);
         holder.bind(eventToDisplay);
     }
@@ -57,10 +61,10 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
-        private final EventBinding binding;
+        private final EventRetailBinding binding;
 
 
-        public EventViewHolder(EventBinding binding) {
+        public EventViewHolder(EventRetailBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
