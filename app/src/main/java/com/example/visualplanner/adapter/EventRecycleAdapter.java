@@ -16,6 +16,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.R;
+import com.example.visualplanner.databinding.EventRetailBinding;
 import com.example.visualplanner.model.Event;
 
 import java.util.List;
@@ -45,10 +46,10 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("EventRecyclerAdapter", "Creating View");
-        //EventRetailBinding eventBinding = EventRetailBinding.inflate(inflater, parent, false);
-        View view = inflater.inflate(R.layout.event_retail, parent, false);
+        EventRetailBinding eventBinding = EventRetailBinding.inflate(inflater, parent, false);
+        //View view = inflater.inflate(R.layout.event_retail, parent, false);
 
-        return new EventViewHolder(view);
+        return new EventViewHolder(eventBinding);
     }
 
     @Override
@@ -66,27 +67,11 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
-        //private final EventRetailBinding binding;
-        EditText datePicker;
-        ImageView dateIcon;
-        ImageView deleteIcon;
-        TextView eventTitle;
-        TextView dateLabel;
-        TextView dateText;
-        SwitchCompat setDateSwitch;
+        private final EventRetailBinding binding;
 
-
-        public EventViewHolder(@NonNull View itemView) {
-            super(itemView);
-            //this.binding = binding;
-            datePicker = itemView.findViewById(R.id.datePicker);
-            dateIcon = itemView.findViewById(R.id.dateIcon);
-            deleteIcon = itemView.findViewById(R.id.deleteIcon);
-            eventTitle = itemView.findViewById(R.id.eventTitle);
-            dateLabel = itemView.findViewById(R.id.dateLabel);
-            dateText = itemView.findViewById(R.id.dateText);
-            setDateSwitch = itemView.findViewById(R.id.setDateSwitch);
-
+        public EventViewHolder(EventRetailBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         public void onDelete() {
@@ -107,17 +92,17 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             }
         }
 
+        public void onCheckedChanged(boolean checked) {
+            EditText datePicker = itemView.findViewById(R.id.datePicker);
+            if(checked)
+                datePicker.setVisibility(View.VISIBLE);
+            else
+                datePicker.setVisibility(View.GONE);
+        }
+
         public void bind(Event currentEvent) {
-            //binding.setView(this);
-            //binding.setEvent(currentEvent);
-            eventTitle.setText(currentEvent.getTitle());
-            deleteIcon.setOnClickListener(view -> onDelete());
-            setDateSwitch.setOnCheckedChangeListener((cb, on) -> {
-                if(on)
-                    datePicker.setVisibility(View.VISIBLE);
-                else
-                    datePicker.setVisibility(View.GONE);
-            });
+            binding.setView(this);
+            binding.setEvent(currentEvent);
         }
     }
 }
