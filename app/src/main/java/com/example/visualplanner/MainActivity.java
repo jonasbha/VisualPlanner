@@ -101,11 +101,13 @@ public class MainActivity extends AppCompatActivity {
         authStateListener = firebaseAuth -> {
             FirebaseUser currentUser = auth.getCurrentUser();
             if (currentUser == null) {
-                //launchLoginUI();
+                launchLoginUI();
 
-                launchLoginUIWithDefaultEmail();
+                /*launchLoginUIWithDefaultEmail();
                 Toast.makeText(getApplicationContext(),
                 "OBS: password is \"testuser\"", Toast.LENGTH_LONG).show();
+
+                 */
 
             }
         };

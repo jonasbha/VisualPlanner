@@ -20,6 +20,8 @@ import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.model.Event;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -55,8 +57,6 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         viewModel = new ViewModelProvider(this).get(EventsViewModel.class);
-        //viewModel.getEvents().observe(getViewLifecycleOwner(), events -> eventRecycleAdapter.notifyDataSetChanged());
-
         firestoreDb = FirebaseFirestore.getInstance();
         eventCollectionReference =  firestoreDb.collection("events");
 
@@ -165,13 +165,29 @@ public class EventsFragment extends Fragment {
         eventRecyclerView.post(() -> calculateGridLayout(view));
         eventRecycleAdapter.setOnItemClickListener(new EventRecycleAdapter.OnItemClickListener() {
             @Override
-            public void onShowDatesClick(int position) {
-
+            public void onModifyClick(int position) {
+                modifyEvent(viewModel.getEvents().get(position));
             }
 
             @Override
             public void onDeleteClick(int position) {
                 deleteEvent(viewModel.getEvents().get(position));
+            }
+        });
+    }
+
+    public void modifyEvent(Event event) {
+        DocumentReference eventReference = eventCollectionReference.document(event.getEventId());
+
+        eventReference.update(
+                "alarmDate", event.getAlarmDate(),
+                "alarmSet", event.isAlarmSet()
+        ).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+            }
+            else {
+
             }
         });
     }

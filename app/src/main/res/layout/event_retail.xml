@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="view"
@@ -10,8 +12,6 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:contentDescription="@string/deleteIconContentDesc"
                 android:cropToPadding="false"
                 android:theme="@style/Theme.VisualPlanner"
-                android:onClick="@{() -> view.onDelete()}"
+                android:onClick="@{() -> view.notifyDelete()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/datePicker"
@@ -72,6 +72,7 @@
                 android:minHeight="48dp"
                 android:theme="@style/Theme.VisualPlanner"
                 android:contentDescription="@string/calendarIconContentDesc"
+                android:onClick="@{() -> view.showDatePicker()}"
                 app:layout_constraintBottom_toBottomOf="@+id/setDateSwitch"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/setDateSwitch"
@@ -87,6 +88,7 @@
                 android:minHeight="48dp"
                 android:theme="@style/Theme.VisualPlanner"
                 android:onCheckedChanged="@{(switch, checked) -> view.onCheckedChanged(checked)}"
+                android:checked="@{event.alarmSet}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
 
@@ -106,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text="@string/dateLabel"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:theme="@style/Theme.VisualPlanner" />
 
@@ -115,7 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text="@{event.alarmDate.toString()}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/Theme.VisualPlanner" />
             </LinearLayout>
@@ -124,7 +126,7 @@
                 android:id="@+id/datePicker"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:inputType="date"
                 android:hint="@string/select_date"
                 android:textSize="30sp"
                 android:textAlignment="center"

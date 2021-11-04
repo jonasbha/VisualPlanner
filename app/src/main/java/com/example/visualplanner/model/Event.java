@@ -11,14 +11,19 @@ public class Event {
     private String title;
     private String EventId;
     private String UserId;
+    private String date;
     private @ServerTimestamp Date timestamp; // midlertidig sorteringskriterium
+    private Date alarmDate;
+    private boolean alarmSet;
     public Event() {}
 
-    public Event(String title, String eventId, String userId, Date timestamp) {
+    public Event(String title, String eventId, String userId, Date timestamp, Date alarmDate, boolean alarmSet) {
         this.title = title;
         EventId = eventId;
         UserId = userId;
         this.timestamp = timestamp;
+        this.alarmDate = alarmDate;
+        this.alarmSet = alarmSet;
     }
 
     public Event(String title) {
@@ -51,5 +56,21 @@ public class Event {
 
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    public Date getAlarmDate() {
+        return alarmDate;
+    }
+
+    public void setAlarmDate(Date alarmDate) {
+        this.alarmDate = alarmDate;
+    }
+
+    public boolean isAlarmSet() {
+        return alarmSet;
+    }
+
+    public void setAlarmSet(boolean alarmSet) {
+        this.alarmSet = alarmSet;
     }
 }

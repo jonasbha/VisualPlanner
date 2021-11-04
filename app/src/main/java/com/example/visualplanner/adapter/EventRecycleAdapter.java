@@ -1,14 +1,11 @@
 package com.example.visualplanner.adapter;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +16,7 @@ import com.example.visualplanner.R;
 import com.example.visualplanner.databinding.EventRetailBinding;
 import com.example.visualplanner.model.Event;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapter.EventViewHolder> {
@@ -28,7 +26,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     private OnItemClickListener clickListener;
 
     public interface OnItemClickListener {
-        void onShowDatesClick(int position);
+        void onModifyClick(int position);
 
         void onDeleteClick(int position);
     }
@@ -69,12 +67,38 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
         private final EventRetailBinding binding;
 
+        Calendar calendar;
+        int year, month, day;
+        TextView dateText;
+        DatePickerDialog datePickerDialog;
+        SwitchCompat switchC;
+        Event event;
+
         public EventViewHolder(EventRetailBinding binding) {
             super(binding.getRoot());
+            Log.d("hey", "created");
             this.binding = binding;
+
+            calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            dateText = itemView.findViewById(R.id.dateText);
+            switchC = itemView.findViewById(R.id.setDateSwitch);
+
+            datePickerDialog = new DatePickerDialog(
+                    itemView.getContext(),
+                    (DatePickerDialog.OnDateSetListener) (datePicker, year, month, day) -> {
+                        calendar.set(year, month, day);
+                        event.setAlarmDate(calendar.getTime());
+                        switchC.setChecked(true);
+                        notifyChange();
+                    }, year, month, day
+            );
         }
 
-        public void onDelete() {
+        public void notifyDelete() {
             if (clickListener != null) {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
@@ -83,26 +107,47 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             }
         }
 
-        public void onShowDates() {
+        public void notifyChange() {
             if (clickListener != null) {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    clickListener.onShowDatesClick(position);
+                    clickListener.onModifyClick(position);
                 }
             }
         }
 
+        public void showDatePicker() {
+            datePickerDialog.show();
+        }
+
         public void onCheckedChanged(boolean checked) {
-            EditText datePicker = itemView.findViewById(R.id.datePicker);
-            if(checked)
-                datePicker.setVisibility(View.VISIBLE);
-            else
-                datePicker.setVisibility(View.GONE);
+            if (checked) {
+                dateText.setVisibility(View.VISIBLE);
+                if (event.getAlarmDate() == null) {
+                    switchC.setChecked(false);
+                    showDatePicker();
+                }
+                if (event.getAlarmDate() != null)
+                    event.setAlarmSet(true);
+
+                if (!datePickerDialog.isShowing())
+                    notifyChange();
+            } else {
+                dateText.setVisibility(View.GONE);
+                event.setAlarmSet(false);
+                notifyChange();
+            }
         }
 
         public void bind(Event currentEvent) {
             binding.setView(this);
             binding.setEvent(currentEvent);
+            event = currentEvent;
+
+            if (event.getAlarmDate() != null && event.isAlarmSet())
+                dateText.setVisibility(View.VISIBLE);
+            else
+                dateText.setVisibility(View.GONE);
         }
     }
 }
