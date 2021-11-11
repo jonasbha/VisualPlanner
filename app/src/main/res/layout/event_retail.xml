@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="com.example.visualplanner.utility.Format" />
+        <import type="android.view.View"/>
         <variable
             name="view"
             type="com.example.visualplanner.adapter.EventRecycleAdapter.EventViewHolder" />
@@ -119,6 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="@{(event.getAlarmDate() != null &amp;&amp; event.isAlarmSet()) ? View.GONE : View.VISIBLE}"
                     android:text="@{Format.date(event.alarmDate.toString)}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/Theme.VisualPlanner" />
@@ -133,6 +135,7 @@
                 android:contentDescription="@string/timeIconContentDesc"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
+                android:onClick="@{() -> view.alarm.showTimePicker()}"
                 android:theme="@style/Theme.VisualPlanner"
                 app:layout_constraintBottom_toBottomOf="@+id/setTimeSwitch"
                 app:layout_constraintStart_toStartOf="parent"

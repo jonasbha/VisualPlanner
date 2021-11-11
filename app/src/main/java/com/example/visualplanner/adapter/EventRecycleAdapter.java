@@ -70,14 +70,12 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
         Alarm alarm;
         TextView dateView;
-        SwitchCompat switchC;
         Event event;
 
         public EventViewHolder(EventRetailBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             dateView = itemView.findViewById(R.id.dateText);
-            switchC = itemView.findViewById(R.id.setDateSwitch);
         }
 
         public void notifyDelete() {
@@ -101,25 +99,13 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         public void bind(Event currentEvent) {
             binding.setView(this);
             binding.setEvent(currentEvent);
-            event = currentEvent;
-            alarm = new Alarm(this, itemView.getContext());
 
-            if (event.getAlarmDate() != null && event.isAlarmSet())
-                dateView.setVisibility(View.VISIBLE);
-            else
-                dateView.setVisibility(View.GONE);
+            event = currentEvent;
+            alarm = new Alarm(this, event);
         }
 
         public Alarm getAlarm() {
             return alarm;
-        }
-
-        public TextView getDateView() {
-            return dateView;
-        }
-
-        public SwitchCompat getSwitchC() {
-            return switchC;
         }
 
         public Event getEvent() {
