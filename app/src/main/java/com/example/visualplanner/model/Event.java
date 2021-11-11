@@ -75,4 +75,16 @@ public class Event {
     public void setTimeSet(boolean timeSet) {
         this.timeSet = timeSet;
     }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 }
