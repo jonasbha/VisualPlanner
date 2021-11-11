@@ -18,8 +18,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.visualplanner.repository.FakeEventRepository;
-import com.example.visualplanner.repository.IEventRepository;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
@@ -35,8 +33,6 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    private static IEventRepository repo;
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -101,13 +97,11 @@ public class MainActivity extends AppCompatActivity {
         authStateListener = firebaseAuth -> {
             FirebaseUser currentUser = auth.getCurrentUser();
             if (currentUser == null) {
-                launchLoginUI();
+                //launchLoginUI();
 
-                /*launchLoginUIWithDefaultEmail();
+                launchLoginUIWithDefaultEmail();
                 Toast.makeText(getApplicationContext(),
                 "OBS: password is \"testuser\"", Toast.LENGTH_LONG).show();
-
-                 */
 
             }
         };
@@ -160,12 +154,5 @@ public class MainActivity extends AppCompatActivity {
     public void openDrawer() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.openDrawer(GravityCompat.START);
-    }
-
-    public static IEventRepository getRepo() {
-        if (repo == null) {
-            repo = new FakeEventRepository();
-        }
-        return repo;
     }
 }

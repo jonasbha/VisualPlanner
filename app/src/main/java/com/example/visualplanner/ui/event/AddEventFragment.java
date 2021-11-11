@@ -15,7 +15,6 @@ import androidx.navigation.Navigation;
 import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
 import com.example.visualplanner.model.Event;
-import com.example.visualplanner.repository.IEventRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,7 +24,6 @@ import java.util.Objects;
 
 public class AddEventFragment extends Fragment {
 
-    IEventRepository repo;
     EditText titleInput;
 
     public AddEventFragment() {
@@ -44,7 +42,6 @@ public class AddEventFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        repo = MainActivity.getRepo();
         titleInput = view.findViewById(R.id.eventTitleInput);
 
         Button submitBtn = view.findViewById(R.id.addEventSubmitBtn);

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="com.example.visualplanner.utility.Format" />
         <variable
             name="view"
             type="com.example.visualplanner.adapter.EventRecycleAdapter.EventViewHolder" />
@@ -29,23 +30,6 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="11dp">
 
-            <ImageButton
-                android:id="@+id/deleteIcon"
-                style="@android:style/Widget.DeviceDefault.ImageButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@color/white"
-                android:contentDescription="@string/deleteIconContentDesc"
-                android:cropToPadding="false"
-                android:theme="@style/Theme.VisualPlanner"
-                android:onClick="@{() -> view.notifyDelete()}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/datePicker"
-                app:srcCompat="@drawable/ic_event_delete"
-                app:tint="@color/black"
-                tools:srcCompat="@drawable/ic_event_delete" />
-
             <TextView
                 android:id="@+id/eventTitle"
                 android:layout_width="0dp"
@@ -62,17 +46,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageButton
+                android:id="@+id/deleteIcon"
+                style="@android:style/Widget.DeviceDefault.ImageButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@color/white"
+                android:contentDescription="@string/deleteIconContentDesc"
+                android:cropToPadding="false"
+                android:onClick="@{() -> view.notifyDelete()}"
+                android:theme="@style/Theme.VisualPlanner"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/setTimeSwitch"
+                app:srcCompat="@drawable/ic_event_delete"
+                app:tint="@color/black"
+                tools:srcCompat="@drawable/ic_event_delete" />
+
             <ImageView
                 android:id="@+id/dateIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="7.5dp"
+                android:layout_margin="12.5dp"
                 android:background="@color/white"
+                android:contentDescription="@string/calendarIconContentDesc"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
-                android:theme="@style/Theme.VisualPlanner"
-                android:contentDescription="@string/calendarIconContentDesc"
                 android:onClick="@{() -> view.showDatePicker()}"
+                android:theme="@style/Theme.VisualPlanner"
                 app:layout_constraintBottom_toBottomOf="@+id/setDateSwitch"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/setDateSwitch"
@@ -83,20 +84,21 @@
                 android:id="@+id/setDateSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="7.5dp"
+                android:layout_margin="12.5dp"
+                android:checked="@{event.alarmSet}"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
+                android:onCheckedChanged="@{(switch, checked) -> view.onDateCheckedChanged(checked)}"
                 android:theme="@style/Theme.VisualPlanner"
-                android:onCheckedChanged="@{(switch, checked) -> view.onCheckedChanged(checked)}"
-                android:checked="@{event.alarmSet}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/eventTitle"
+                tools:ignore="DuplicateSpeakableTextCheck" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="7.5dp"
+                android:layout_margin="10dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@+id/setDateSwitch"
                 app:layout_constraintEnd_toStartOf="@+id/setDateSwitch"
@@ -117,25 +119,72 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@{event.alarmDate.toString()}"
+                    android:text="@{Format.date(event.alarmDate.toString)}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/Theme.VisualPlanner" />
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/datePicker"
+            <ImageView
+                android:id="@+id/timeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12.5dp"
+                android:background="@color/white"
+                android:contentDescription="@string/timeIconContentDesc"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:theme="@style/Theme.VisualPlanner"
+                app:layout_constraintBottom_toBottomOf="@+id/setTimeSwitch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/setTimeSwitch"
+                app:srcCompat="@drawable/ic_event_time"
+                app:tint="@color/black" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/setTimeSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12.5dp"
+                android:checked="@{event.timeSet}"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:onCheckedChanged="@{(switch, checked) -> view.onTimeCheckedChanged(checked)}"
+                android:theme="@style/Theme.VisualPlanner"
+                app:layout_constraintEnd_toEndOf="@+id/setDateSwitch"
+                app:layout_constraintStart_toStartOf="@+id/setDateSwitch"
+                app:layout_constraintTop_toBottomOf="@+id/setDateSwitch" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="date"
-                android:hint="@string/select_date"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:minHeight="48dp"
-                android:minWidth="200dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dateIcon" />
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/timeIcon"
+                app:layout_constraintEnd_toStartOf="@+id/setTimeSwitch"
+                app:layout_constraintStart_toEndOf="@+id/timeIcon"
+                app:layout_constraintTop_toTopOf="@+id/timeIcon">
+
+                <TextView
+                    android:id="@+id/timeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/timeLabel"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:theme="@style/Theme.VisualPlanner" />
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{event.alarmTime.toString()}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:theme="@style/Theme.VisualPlanner"
+                    />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

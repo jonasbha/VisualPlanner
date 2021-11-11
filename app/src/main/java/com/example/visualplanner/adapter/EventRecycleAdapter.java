@@ -16,6 +16,8 @@ import com.example.visualplanner.R;
 import com.example.visualplanner.databinding.EventRetailBinding;
 import com.example.visualplanner.model.Event;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 
@@ -76,7 +78,6 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
         public EventViewHolder(EventRetailBinding binding) {
             super(binding.getRoot());
-            Log.d("hey", "created");
             this.binding = binding;
 
             calendar = Calendar.getInstance();
@@ -87,11 +88,17 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             dateText = itemView.findViewById(R.id.dateText);
             switchC = itemView.findViewById(R.id.setDateSwitch);
 
+            initDatePickerDialog();
+        }
+
+        private void initDatePickerDialog() {
             datePickerDialog = new DatePickerDialog(
                     itemView.getContext(),
                     (DatePickerDialog.OnDateSetListener) (datePicker, year, month, day) -> {
+
                         calendar.set(year, month, day);
                         event.setAlarmDate(calendar.getTime());
+                        Log.d("date: ", calendar.getTime().toString());
                         switchC.setChecked(true);
                         notifyChange();
                     }, year, month, day
@@ -120,7 +127,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             datePickerDialog.show();
         }
 
-        public void onCheckedChanged(boolean checked) {
+        public void onDateCheckedChanged(boolean checked) {
             if (checked) {
                 dateText.setVisibility(View.VISIBLE);
                 if (event.getAlarmDate() == null) {
@@ -137,6 +144,10 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
                 event.setAlarmSet(false);
                 notifyChange();
             }
+        }
+
+        public void onTimeCheckedChanged(boolean checked) {
+
         }
 
         public void bind(Event currentEvent) {
