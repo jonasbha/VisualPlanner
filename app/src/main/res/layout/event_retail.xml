@@ -11,6 +11,9 @@
         <variable
             name="event"
             type="com.example.visualplanner.model.Event" />
+        <variable
+            name="showDate"
+            type="java.lang.Boolean" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -120,7 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:visibility="@{(event.getAlarmDate() != null &amp;&amp; event.isAlarmSet()) ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{showDate ? View.VISIBLE : View.GONE}"
                     android:text="@{Format.date(event.alarmDate.toString)}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/Theme.VisualPlanner" />
@@ -182,7 +185,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@{event.alarmDate.toString()}"
+                    android:text="@{Format.time(event.alarmDate.toString())}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/Theme.VisualPlanner"
                     />

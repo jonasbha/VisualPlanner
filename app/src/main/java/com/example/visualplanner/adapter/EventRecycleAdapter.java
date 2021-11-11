@@ -99,8 +99,8 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         public void bind(Event currentEvent) {
             binding.setView(this);
             binding.setEvent(currentEvent);
-
             event = currentEvent;
+            binding.setShowDate(event.getAlarmDate() != null && event.isAlarmSet());
             alarm = new Alarm(this, event);
         }
 
