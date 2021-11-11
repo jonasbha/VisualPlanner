@@ -15,18 +15,16 @@ public class Event {
     private @ServerTimestamp Date timestamp; // midlertidig sorteringskriterium
     private Date alarmDate;
     private boolean alarmSet;
-    private Time alarmTime;
     private boolean timeSet;
     public Event() {}
 
-    public Event(String title, String eventId, String userId, Date timestamp, Date alarmDate, boolean alarmSet, Time alarmTime, boolean timeSet) {
+    public Event(String title, String eventId, String userId, Date timestamp, Date alarmDate, boolean alarmSet, boolean timeSet) {
         this.title = title;
         EventId = eventId;
         UserId = userId;
         this.timestamp = timestamp;
         this.alarmDate = alarmDate;
         this.alarmSet = alarmSet;
-        this.alarmTime = alarmTime;
         this.timeSet = timeSet;
     }
 
@@ -68,14 +66,6 @@ public class Event {
 
     public void setAlarmSet(boolean alarmSet) {
         this.alarmSet = alarmSet;
-    }
-
-    public Time getAlarmTime() {
-        return alarmTime;
-    }
-
-    public void setAlarmTime(Time alarmTime) {
-        this.alarmTime = alarmTime;
     }
 
     public boolean isTimeSet() {
