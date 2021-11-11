@@ -15,9 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.visualplanner.R;
 import com.example.visualplanner.databinding.EventRetailBinding;
 import com.example.visualplanner.model.Event;
+import com.example.visualplanner.ui.Alarm;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 
@@ -69,40 +68,16 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
         private final EventRetailBinding binding;
 
-        Calendar calendar;
-        int year, month, day;
-        TextView dateText;
-        DatePickerDialog datePickerDialog;
+        Alarm alarm;
+        TextView dateView;
         SwitchCompat switchC;
         Event event;
 
         public EventViewHolder(EventRetailBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
-            calendar = Calendar.getInstance();
-            year = calendar.get(Calendar.YEAR);
-            month = calendar.get(Calendar.MONTH);
-            day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            dateText = itemView.findViewById(R.id.dateText);
+            dateView = itemView.findViewById(R.id.dateText);
             switchC = itemView.findViewById(R.id.setDateSwitch);
-
-            initDatePickerDialog();
-        }
-
-        private void initDatePickerDialog() {
-            datePickerDialog = new DatePickerDialog(
-                    itemView.getContext(),
-                    (DatePickerDialog.OnDateSetListener) (datePicker, year, month, day) -> {
-
-                        calendar.set(year, month, day);
-                        event.setAlarmDate(calendar.getTime());
-                        Log.d("date: ", calendar.getTime().toString());
-                        switchC.setChecked(true);
-                        notifyChange();
-                    }, year, month, day
-            );
         }
 
         public void notifyDelete() {
@@ -123,42 +98,32 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             }
         }
 
-        public void showDatePicker() {
-            datePickerDialog.show();
-        }
-
-        public void onDateCheckedChanged(boolean checked) {
-            if (checked) {
-                dateText.setVisibility(View.VISIBLE);
-                if (event.getAlarmDate() == null) {
-                    switchC.setChecked(false);
-                    showDatePicker();
-                }
-                if (event.getAlarmDate() != null)
-                    event.setAlarmSet(true);
-
-                if (!datePickerDialog.isShowing())
-                    notifyChange();
-            } else {
-                dateText.setVisibility(View.GONE);
-                event.setAlarmSet(false);
-                notifyChange();
-            }
-        }
-
-        public void onTimeCheckedChanged(boolean checked) {
-
-        }
-
         public void bind(Event currentEvent) {
             binding.setView(this);
             binding.setEvent(currentEvent);
             event = currentEvent;
+            alarm = new Alarm(this, itemView.getContext());
 
             if (event.getAlarmDate() != null && event.isAlarmSet())
-                dateText.setVisibility(View.VISIBLE);
+                dateView.setVisibility(View.VISIBLE);
             else
-                dateText.setVisibility(View.GONE);
+                dateView.setVisibility(View.GONE);
+        }
+
+        public Alarm getAlarm() {
+            return alarm;
+        }
+
+        public TextView getDateView() {
+            return dateView;
+        }
+
+        public SwitchCompat getSwitchC() {
+            return switchC;
+        }
+
+        public Event getEvent() {
+            return event;
         }
     }
 }
