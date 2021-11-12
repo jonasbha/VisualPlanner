@@ -61,9 +61,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
         private final EventRetailBinding binding;
-
-        AlarmUI alarmUI;
-        Event event;
+        private AlarmUI alarmUI;
 
         public EventViewHolder(EventRetailBinding binding) {
             super(binding.getRoot());
@@ -73,36 +71,27 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         public void notifyDelete() {
             if (clickListener != null) {
                 int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
+                if (position != RecyclerView.NO_POSITION)
                     clickListener.onDeleteClick(position);
-                }
             }
         }
 
         public void notifyChange() {
             if (clickListener != null) {
                 int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
+                if (position != RecyclerView.NO_POSITION)
                     clickListener.onModifyClick(position);
-                }
             }
         }
 
         public void bind(Event currentEvent) {
             binding.setView(this);
             binding.setEvent(currentEvent);
-            event = currentEvent;
-            binding.setShowDate(event.getAlarm() != null && event.isDateOn());
-            binding.setShowTime(event.getAlarm() != null && event.isTimeOn());
-            alarmUI = new AlarmUI(this, event);
+            alarmUI = new AlarmUI(this, currentEvent);
         }
 
         public AlarmUI getAlarm() {
             return alarmUI;
-        }
-
-        public Event getEvent() {
-            return event;
         }
     }
 }

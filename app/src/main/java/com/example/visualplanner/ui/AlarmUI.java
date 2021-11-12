@@ -23,7 +23,6 @@ public class AlarmUI {
     private final EventRecycleAdapter.EventViewHolder viewHolder;
     private final Event event;
 
-    private final TextView dateView, timeView;
     private final SwitchCompat dateSwitch, timeSwitch;
     private final Calendar calendar;
     private int year, month, day, hour, minute;
@@ -35,8 +34,6 @@ public class AlarmUI {
         this.event = event;
 
         View view = viewHolder.itemView;
-        this.dateView = view.findViewById(R.id.dateText);
-        this.timeView = view.findViewById(R.id.timeText);
         this.dateSwitch = view.findViewById(R.id.setDateSwitch);
         this.timeSwitch = view.findViewById(R.id.setTimeSwitch);
         this.context = view.getContext();
@@ -63,9 +60,11 @@ public class AlarmUI {
             this.year = year;
             this.month = month;
             this.day = day;
+
             calendar.set(year, month, day, hour, minute);
             event.setAlarm(calendar.getTime());
             event.setDateSet(true);
+
             dateSwitch.setChecked(true);
             viewHolder.notifyChange();
         };
@@ -76,9 +75,11 @@ public class AlarmUI {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, hour, minute) -> {
             this.hour = hour;
             this.minute = minute;
+
             calendar.set(year, month, day, hour, minute);
             event.setAlarm(calendar.getTime());
             event.setTimeSet(true);
+
             timeSwitch.setChecked(true);
             viewHolder.notifyChange();
         };
@@ -92,14 +93,10 @@ public class AlarmUI {
 
     public void onDateCheckChanged(boolean checked) {
         if (checked) {
-
             if (!event.isDateSet()) {
                 dateSwitch.setChecked(false);
                 showDatePicker();
-            } else {
-                event.setDateOn(true);
-                dateView.setVisibility(View.VISIBLE);
-            }
+            } else event.setDateOn(true);
 
             if (!datePickerDialog.isShowing())
                 viewHolder.notifyChange();
@@ -114,10 +111,7 @@ public class AlarmUI {
             if (!event.isTimeSet()) {
                 timeSwitch.setChecked(false);
                 showTimePicker();
-            } else {
-                timeView.setVisibility(View.VISIBLE);
-                event.setTimeOn(true);
-            }
+            } else event.setTimeOn(true);
 
             if (!timePickerDialog.isShowing())
                 viewHolder.notifyChange();
