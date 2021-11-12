@@ -14,6 +14,9 @@
         <variable
             name="showDate"
             type="java.lang.Boolean" />
+        <variable
+            name="showTime"
+            type="java.lang.Boolean" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -92,7 +95,7 @@
                 android:checked="@{event.alarmSet}"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
-                android:onCheckedChanged="@{(switch, checked) -> view.alarm.onDateCheckedChanged(checked)}"
+                android:onCheckedChanged="@{(switch, checked) -> view.alarm.onDateCheckChanged(checked)}"
                 android:theme="@style/Theme.VisualPlanner"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/eventTitle"
@@ -154,7 +157,7 @@
                 android:checked="@{event.timeSet}"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
-                android:onCheckedChanged="@{(switch, checked) -> view.alarm.onTimeCheckedChanged(checked)}"
+                android:onCheckedChanged="@{(switch, checked) -> view.alarm.onTimeCheckChanged(checked)}"
                 android:theme="@style/Theme.VisualPlanner"
                 app:layout_constraintEnd_toEndOf="@+id/setDateSwitch"
                 app:layout_constraintStart_toStartOf="@+id/setDateSwitch"
@@ -185,6 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="@{showTime ? View.VISIBLE : View.GONE}"
                     android:text="@{Format.time(event.alarmDate.toString())}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/Theme.VisualPlanner"

@@ -74,17 +74,16 @@ public class Alarm {
             dateSwitch.setChecked(true);
             viewHolder.notifyChange();
         };
-
         datePickerDialog = new DatePickerDialog(context, onDateSetListener, year, month, day);
     }
 
     private void initTimePickerDialog() {
-
         TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, hour, minute) -> {
             this.hour = hour;
             this.minute = minute;
             calendar.set(year, month, day, hour, minute);
             event.setAlarmDate(calendar.getTime());
+            timeSwitch.setChecked(true);
             viewHolder.notifyChange();
         };
         timePickerDialog = new TimePickerDialog(
@@ -95,7 +94,7 @@ public class Alarm {
         timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    public void onDateCheckedChanged(boolean checked) {
+    public void onDateCheckChanged(boolean checked) {
         if (checked) {
             dateView.setVisibility(View.VISIBLE);
             if (event.getAlarmDate() == null) {
@@ -105,18 +104,33 @@ public class Alarm {
             if (event.getAlarmDate() != null)
                 event.setAlarmSet(true);
 
-            if (datePickerDialog != null) {
-                if (!datePickerDialog.isShowing())
-                    viewHolder.notifyChange();
-            }
+
+            if (!datePickerDialog.isShowing())
+                viewHolder.notifyChange();
+
         } else {
             event.setAlarmSet(false);
             viewHolder.notifyChange();
         }
     }
 
-    public void onTimeCheckedChanged(boolean checked) {
+    public void onTimeCheckChanged(boolean checked) {
+        if (checked) {
+            timeView.setVisibility(View.VISIBLE);
+            if (event.getAlarmDate() == null) {
+                timeSwitch.setChecked(false);
+                showTimePicker();
+            }
+            if (event.getAlarmDate() != null)
+                event.setTimeSet(true);
 
+            if (!timePickerDialog.isShowing())
+                viewHolder.notifyChange();
+
+        } else {
+            event.setTimeSet(false);
+            viewHolder.notifyChange();
+        }
     }
 
     public void showDatePicker() {

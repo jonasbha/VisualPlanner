@@ -69,13 +69,11 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         private final EventRetailBinding binding;
 
         Alarm alarm;
-        TextView dateView;
         Event event;
 
         public EventViewHolder(EventRetailBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            dateView = itemView.findViewById(R.id.dateText);
         }
 
         public void notifyDelete() {
@@ -101,6 +99,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             binding.setEvent(currentEvent);
             event = currentEvent;
             binding.setShowDate(event.getAlarmDate() != null && event.isAlarmSet());
+            binding.setShowTime(event.getAlarmDate() != null && event.isTimeSet());
             alarm = new Alarm(this, event);
         }
 

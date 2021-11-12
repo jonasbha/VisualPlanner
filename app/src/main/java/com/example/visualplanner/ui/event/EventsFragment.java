@@ -181,7 +181,8 @@ public class EventsFragment extends Fragment {
 
         eventReference.update(
                 "alarmDate", event.getAlarmDate(),
-                "alarmSet", event.isAlarmSet()
+                "alarmSet", event.isAlarmSet(),
+                "timeSet", event.isTimeSet()
         ).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 
