@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12.5dp"
-                android:checked="@{event.alarmSet}"
+                android:checked="@{event.dateSet}"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
                 android:onCheckedChanged="@{(switch, checked) -> view.alarm.onDateCheckChanged(checked)}"
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:visibility="@{showDate ? View.VISIBLE : View.GONE}"
-                    android:text="@{Format.date(event.alarmDate.toString)}"
+                    android:text="@{Format.date(event.alarm.toString)}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/Theme.VisualPlanner" />
             </LinearLayout>
@@ -189,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:visibility="@{showTime ? View.VISIBLE : View.GONE}"
-                    android:text="@{Format.time(event.alarmDate.toString())}"
+                    android:text="@{Format.time(event.alarm.toString())}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/Theme.VisualPlanner"
                     />

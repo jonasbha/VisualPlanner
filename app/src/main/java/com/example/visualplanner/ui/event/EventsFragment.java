@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +19,6 @@ import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.model.Event;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -153,8 +150,8 @@ public class EventsFragment extends Fragment {
         Query query;
         // query requires indexation on fields.
         query = eventCollectionReference
-                .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy("timestamp", Query.Direction.ASCENDING);
+                .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+                //.orderBy("timestamp", Query.Direction.ASCENDING);
         return query;
     }
 
@@ -180,8 +177,8 @@ public class EventsFragment extends Fragment {
         DocumentReference eventReference = eventCollectionReference.document(event.getEventId());
 
         eventReference.update(
-                "alarmDate", event.getAlarmDate(),
-                "alarmSet", event.isAlarmSet(),
+                "alarm", event.getAlarm(),
+                "dateSet", event.isDateSet(),
                 "timeSet", event.isTimeSet()
         ).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

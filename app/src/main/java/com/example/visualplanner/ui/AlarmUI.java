@@ -5,11 +5,8 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -17,13 +14,10 @@ import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.model.Event;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
-public class Alarm {
+public class AlarmUI {
 
     private final Context context;
     private final EventRecycleAdapter.EventViewHolder viewHolder;
@@ -36,7 +30,7 @@ public class Alarm {
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
 
-    public Alarm(EventRecycleAdapter.EventViewHolder viewHolder, Event event) {
+    public AlarmUI(EventRecycleAdapter.EventViewHolder viewHolder, Event event) {
         this.viewHolder = viewHolder;
         this.event = event;
 
@@ -51,8 +45,8 @@ public class Alarm {
 
         // personlig preferanse om init date er fra i dag eller sist valgte dato
         // (kunne veart med i en evt. konfig)
-        if (event.getAlarmDate() != null)
-            calendar.setTime(event.getAlarmDate());
+        if (event.getAlarm() != null)
+            calendar.setTime(event.getAlarm());
 
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -70,7 +64,7 @@ public class Alarm {
             this.month = month;
             this.day = day;
             calendar.set(year, month, day, hour, minute);
-            event.setAlarmDate(calendar.getTime());
+            event.setAlarm(calendar.getTime());
             dateSwitch.setChecked(true);
             viewHolder.notifyChange();
         };
@@ -82,7 +76,7 @@ public class Alarm {
             this.hour = hour;
             this.minute = minute;
             calendar.set(year, month, day, hour, minute);
-            event.setAlarmDate(calendar.getTime());
+            event.setAlarm(calendar.getTime());
             timeSwitch.setChecked(true);
             viewHolder.notifyChange();
         };
@@ -97,19 +91,15 @@ public class Alarm {
     public void onDateCheckChanged(boolean checked) {
         if (checked) {
             dateView.setVisibility(View.VISIBLE);
-            if (event.getAlarmDate() == null) {
+            if (event.getAlarm() == null) {
                 dateSwitch.setChecked(false);
                 showDatePicker();
-            }
-            if (event.getAlarmDate() != null)
-                event.setAlarmSet(true);
-
+            } else event.setDateSet(true);
 
             if (!datePickerDialog.isShowing())
                 viewHolder.notifyChange();
-
         } else {
-            event.setAlarmSet(false);
+            event.setDateSet(false);
             viewHolder.notifyChange();
         }
     }
@@ -117,16 +107,13 @@ public class Alarm {
     public void onTimeCheckChanged(boolean checked) {
         if (checked) {
             timeView.setVisibility(View.VISIBLE);
-            if (event.getAlarmDate() == null) {
+            if (event.getAlarm() == null) {
                 timeSwitch.setChecked(false);
                 showTimePicker();
-            }
-            if (event.getAlarmDate() != null)
-                event.setTimeSet(true);
+            } else event.setTimeSet(true);
 
             if (!timePickerDialog.isShowing())
                 viewHolder.notifyChange();
-
         } else {
             event.setTimeSet(false);
             viewHolder.notifyChange();

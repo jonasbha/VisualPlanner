@@ -3,7 +3,6 @@ package com.example.visualplanner.model;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.sql.Time;
 import java.util.Date;
 
 @IgnoreExtraProperties
@@ -13,18 +12,18 @@ public class Event {
     private String EventId;
     private String UserId;
     private @ServerTimestamp Date timestamp; // midlertidig sorteringskriterium
-    private Date alarmDate;
-    private boolean alarmSet;
+    private Date alarm;
+    private boolean dateSet;
     private boolean timeSet;
     public Event() {}
 
-    public Event(String title, String eventId, String userId, Date timestamp, Date alarmDate, boolean alarmSet, boolean timeSet) {
+    public Event(String title, String eventId, String userId, Date timestamp, Date alarm, boolean dateSet, boolean timeSet) {
         this.title = title;
         EventId = eventId;
         UserId = userId;
         this.timestamp = timestamp;
-        this.alarmDate = alarmDate;
-        this.alarmSet = alarmSet;
+        this.alarm = alarm;
+        this.dateSet = dateSet;
         this.timeSet = timeSet;
     }
 
@@ -52,20 +51,20 @@ public class Event {
         return EventId;
     }
 
-    public Date getAlarmDate() {
-        return alarmDate;
+    public Date getAlarm() {
+        return alarm;
     }
 
-    public void setAlarmDate(Date alarmDate) {
-        this.alarmDate = alarmDate;
+    public void setAlarm(Date alarm) {
+        this.alarm = alarm;
     }
 
-    public boolean isAlarmSet() {
-        return alarmSet;
+    public boolean isDateSet() {
+        return dateSet;
     }
 
-    public void setAlarmSet(boolean alarmSet) {
-        this.alarmSet = alarmSet;
+    public void setDateSet(boolean dateSet) {
+        this.dateSet = dateSet;
     }
 
     public boolean isTimeSet() {

@@ -1,23 +1,17 @@
 package com.example.visualplanner.adapter;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.visualplanner.R;
 import com.example.visualplanner.databinding.EventRetailBinding;
 import com.example.visualplanner.model.Event;
-import com.example.visualplanner.ui.Alarm;
+import com.example.visualplanner.ui.AlarmUI;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapter.EventViewHolder> {
@@ -68,7 +62,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
         private final EventRetailBinding binding;
 
-        Alarm alarm;
+        AlarmUI alarmUI;
         Event event;
 
         public EventViewHolder(EventRetailBinding binding) {
@@ -98,13 +92,13 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             binding.setView(this);
             binding.setEvent(currentEvent);
             event = currentEvent;
-            binding.setShowDate(event.getAlarmDate() != null && event.isAlarmSet());
-            binding.setShowTime(event.getAlarmDate() != null && event.isTimeSet());
-            alarm = new Alarm(this, event);
+            binding.setShowDate(event.getAlarm() != null && event.isDateSet());
+            binding.setShowTime(event.getAlarm() != null && event.isTimeSet());
+            alarmUI = new AlarmUI(this, event);
         }
 
-        public Alarm getAlarm() {
-            return alarm;
+        public AlarmUI getAlarm() {
+            return alarmUI;
         }
 
         public Event getEvent() {
