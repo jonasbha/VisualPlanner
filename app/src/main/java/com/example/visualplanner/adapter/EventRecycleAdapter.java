@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.databinding.EventRetailBinding;
 import com.example.visualplanner.model.Event;
-import com.example.visualplanner.ui.AlarmUI;
+import com.example.visualplanner.ui.AlarmManager;
 
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
         private final EventRetailBinding binding;
-        private AlarmUI alarmUI;
+        private AlarmManager alarmManager;
 
         public EventViewHolder(EventRetailBinding binding) {
             super(binding.getRoot());
@@ -87,11 +87,11 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         public void bind(Event currentEvent) {
             binding.setView(this);
             binding.setEvent(currentEvent);
-            alarmUI = new AlarmUI(this, currentEvent);
+            alarmManager = new AlarmManager(this, currentEvent);
         }
 
-        public AlarmUI getAlarm() {
-            return alarmUI;
+        public AlarmManager getAlarm() {
+            return alarmManager;
         }
     }
 }
