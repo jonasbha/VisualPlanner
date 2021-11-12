@@ -42,7 +42,8 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         EventRetailBinding eventBinding = EventRetailBinding.inflate(inflater, parent, false);
         //View view = inflater.inflate(R.layout.event_retail, parent, false);
 
-        return new EventViewHolder(eventBinding);
+        AlarmManager alarmManager = new AlarmManager();
+        return new EventViewHolder(eventBinding, alarmManager);
     }
 
     @Override
@@ -61,11 +62,12 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
         private final EventRetailBinding binding;
-        private AlarmManager alarmManager;
+        private final AlarmManager alarmManager;
 
-        public EventViewHolder(EventRetailBinding binding) {
+        public EventViewHolder(EventRetailBinding binding, AlarmManager alarmManager) {
             super(binding.getRoot());
             this.binding = binding;
+            this.alarmManager = alarmManager;
         }
 
         public void notifyDelete() {
@@ -87,7 +89,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         public void bind(Event currentEvent) {
             binding.setView(this);
             binding.setEvent(currentEvent);
-            alarmManager = new AlarmManager(this, currentEvent);
+            alarmManager.init(this, currentEvent);
         }
 
         public AlarmManager getAlarm() {

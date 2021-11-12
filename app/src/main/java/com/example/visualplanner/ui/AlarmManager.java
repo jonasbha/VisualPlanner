@@ -25,20 +25,20 @@ import java.util.concurrent.TimeUnit;
 
 public class AlarmManager {
 
-    private final Context context;
-    private final EventRecycleAdapter.EventViewHolder viewHolder;
-    private final Event event;
+    private Context context;
+    private EventRecycleAdapter.EventViewHolder viewHolder;
+    private Event event;
 
-    private final SwitchCompat dateSwitch, timeSwitch;
-    private final TextView timerView;
+    private SwitchCompat dateSwitch, timeSwitch;
+    private TextView timerView;
 
-    private final Calendar alarmDate, now;
+    private Calendar alarmDate;
     private int year, month, day, hour, minute;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private Timer timer;
 
-    public AlarmManager(EventRecycleAdapter.EventViewHolder viewHolder, Event event) {
+    public void init(EventRecycleAdapter.EventViewHolder viewHolder, Event event) {
         this.viewHolder = viewHolder;
         this.event = event;
 
@@ -49,7 +49,6 @@ public class AlarmManager {
         this.context = view.getContext();
 
         alarmDate = Calendar.getInstance(new Locale("nb"));
-        now = Calendar.getInstance(new Locale("nb"));
 
         // personlig preferanse om init date er fra i dag eller sist valgte dato
         // (kunne veart med i en evt. konfig)
@@ -62,30 +61,10 @@ public class AlarmManager {
         hour = alarmDate.get(Calendar.HOUR_OF_DAY);
         minute = alarmDate.get(Calendar.MINUTE);
 
-
-        if (timer == null) {
-            long diff = event.getAlarm().getTime() - now.getTime().getTime();
-            timer = new Timer(diff, 1000);
-        }
-        startTimer();
-
         initDatePickerDialog();
         initTimePickerDialog();
     }
 
-    public void stopTimer() {
-        if (timer != null) {
-            timer.cancel();
-            Log.d("AlarmManager", "new Instance canceled: " + this.toString());
-        }
-    }
-
-    public void startTimer() {
-        if (timer != null) {
-            timer.start();
-            Log.d("AlarmManager", "new Instance started: " + this.toString());
-        }
-    }
 
     private void initDatePickerDialog() {
         DatePickerDialog.OnDateSetListener onDateSetListener = (datePicker, year, month, day) -> {
@@ -96,7 +75,6 @@ public class AlarmManager {
             alarmDate.set(year, month, day, hour, minute);
             event.setAlarm(alarmDate.getTime());
             event.setDateSet(true);
-            stopTimer();
             dateSwitch.setChecked(true);
             viewHolder.notifyChange();
         };
@@ -113,7 +91,6 @@ public class AlarmManager {
             event.setTimeSet(true);
 
             timeSwitch.setChecked(true);
-            stopTimer();
             viewHolder.notifyChange();
         };
         timePickerDialog = new TimePickerDialog(context,
@@ -161,34 +138,12 @@ public class AlarmManager {
         timePickerDialog.show();
     }
 
-    private class Timer extends CountDownTimer {
 
-        public Timer(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);
-        }
+    public void setViewHolder(EventRecycleAdapter.EventViewHolder viewHolder) {
+        this.viewHolder = viewHolder;
+    }
 
-        @Override
-        public void onTick(long l) {
-            TimeUnit tUM = TimeUnit.MILLISECONDS;
-            String hms;
-            if (tUM.toDays(l) > 1) {
-                hms = (tUM.toDays(l)) + " days";
-            } else if (tUM.toHours(l) > 1) {
-                hms = tUM.toHours(l) + ":" +
-                        (tUM.toMinutes(l) - tUM.toMinutes(tUM.toHours(l))) + ":" +
-                        (tUM.toSeconds(l) - tUM.toSeconds(tUM.toMinutes(l)));
-            } else if (tUM.toMinutes(l) > 1) {
-                hms = tUM.toMinutes(l) + ":" +
-                        (tUM.toSeconds(l) - tUM.toSeconds(tUM.toMinutes(l)));
-            } else hms = String.valueOf(tUM.toSeconds(l));
-
-            timerView.setText(hms);
-            viewHolder.notifyChange();
-        }
-
-        @Override
-        public void onFinish() {
-            timerView.setText("hendelse ferdig.");
-        }
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }
