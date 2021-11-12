@@ -178,6 +178,8 @@ public class EventsFragment extends Fragment {
 
         eventReference.update(
                 "alarm", event.getAlarm(),
+                "dateOn", event.isDateOn(),
+                "timeOn", event.isTimeOn(),
                 "dateSet", event.isDateSet(),
                 "timeSet", event.isTimeSet()
         ).addOnCompleteListener(task -> {

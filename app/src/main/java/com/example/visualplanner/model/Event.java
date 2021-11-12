@@ -11,18 +11,20 @@ public class Event {
     private String title;
     private String EventId;
     private String UserId;
-    private @ServerTimestamp Date timestamp; // midlertidig sorteringskriterium
     private Date alarm;
+    private boolean dateOn;
+    private boolean timeOn;
     private boolean dateSet;
     private boolean timeSet;
     public Event() {}
 
-    public Event(String title, String eventId, String userId, Date timestamp, Date alarm, boolean dateSet, boolean timeSet) {
+    public Event(String title, String eventId, String userId, Date alarm, boolean dateOn, boolean timeOn, boolean dateSet, boolean timeSet) {
         this.title = title;
         EventId = eventId;
         UserId = userId;
-        this.timestamp = timestamp;
         this.alarm = alarm;
+        this.dateOn = dateOn;
+        this.timeOn = timeOn;
         this.dateSet = dateSet;
         this.timeSet = timeSet;
     }
@@ -59,6 +61,26 @@ public class Event {
         this.alarm = alarm;
     }
 
+    public boolean isDateOn() {
+        return dateOn;
+    }
+
+    public void setDateOn(boolean dateOn) {
+        this.dateOn = dateOn;
+    }
+
+    public boolean isTimeOn() {
+        return timeOn;
+    }
+
+    public void setTimeOn(boolean timeOn) {
+        this.timeOn = timeOn;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
     public boolean isDateSet() {
         return dateSet;
     }
@@ -73,17 +95,5 @@ public class Event {
 
     public void setTimeSet(boolean timeSet) {
         this.timeSet = timeSet;
-    }
-
-    public String getUserId() {
-        return UserId;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
     }
 }

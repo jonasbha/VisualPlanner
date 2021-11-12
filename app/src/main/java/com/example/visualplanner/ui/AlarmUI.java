@@ -65,6 +65,7 @@ public class AlarmUI {
             this.day = day;
             calendar.set(year, month, day, hour, minute);
             event.setAlarm(calendar.getTime());
+            event.setDateSet(true);
             dateSwitch.setChecked(true);
             viewHolder.notifyChange();
         };
@@ -77,6 +78,7 @@ public class AlarmUI {
             this.minute = minute;
             calendar.set(year, month, day, hour, minute);
             event.setAlarm(calendar.getTime());
+            event.setTimeSet(true);
             timeSwitch.setChecked(true);
             viewHolder.notifyChange();
         };
@@ -90,32 +92,37 @@ public class AlarmUI {
 
     public void onDateCheckChanged(boolean checked) {
         if (checked) {
-            dateView.setVisibility(View.VISIBLE);
-            if (event.getAlarm() == null) {
+
+            if (!event.isDateSet()) {
                 dateSwitch.setChecked(false);
                 showDatePicker();
-            } else event.setDateSet(true);
+            } else {
+                event.setDateOn(true);
+                dateView.setVisibility(View.VISIBLE);
+            }
 
             if (!datePickerDialog.isShowing())
                 viewHolder.notifyChange();
         } else {
-            event.setDateSet(false);
+            event.setDateOn(false);
             viewHolder.notifyChange();
         }
     }
 
     public void onTimeCheckChanged(boolean checked) {
         if (checked) {
-            timeView.setVisibility(View.VISIBLE);
-            if (event.getAlarm() == null) {
+            if (!event.isTimeSet()) {
                 timeSwitch.setChecked(false);
                 showTimePicker();
-            } else event.setTimeSet(true);
+            } else {
+                timeView.setVisibility(View.VISIBLE);
+                event.setTimeOn(true);
+            }
 
             if (!timePickerDialog.isShowing())
                 viewHolder.notifyChange();
         } else {
-            event.setTimeSet(false);
+            event.setTimeOn(false);
             viewHolder.notifyChange();
         }
     }

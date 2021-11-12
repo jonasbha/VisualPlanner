@@ -92,8 +92,8 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
             binding.setView(this);
             binding.setEvent(currentEvent);
             event = currentEvent;
-            binding.setShowDate(event.getAlarm() != null && event.isDateSet());
-            binding.setShowTime(event.getAlarm() != null && event.isTimeSet());
+            binding.setShowDate(event.getAlarm() != null && event.isDateOn());
+            binding.setShowTime(event.getAlarm() != null && event.isTimeOn());
             alarmUI = new AlarmUI(this, event);
         }
 
