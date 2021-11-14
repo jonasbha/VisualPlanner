@@ -33,7 +33,10 @@ public class Format {
             return "Straks!";
 
         if (hoursLeft < 24 && hoursLeft > 1)
-            return "Innen " + hoursLeft + " timer.";
+            return "Om " + hoursLeft + " timer.";
+
+        if (hoursLeft < 1)
+            return "Innen 1 time.";
 
         if (daysLeft == 1)
             return daysLeft + " dag igjen.";
