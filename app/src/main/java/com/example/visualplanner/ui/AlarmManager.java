@@ -30,13 +30,11 @@ public class AlarmManager {
     private Event event;
 
     private SwitchCompat dateSwitch, timeSwitch;
-    private TextView timerView;
 
     private Calendar alarmDate;
     private int year, month, day, hour, minute;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
-    private Timer timer;
 
     public void init(EventRecycleAdapter.EventViewHolder viewHolder, Event event) {
         this.viewHolder = viewHolder;
@@ -45,7 +43,6 @@ public class AlarmManager {
         View view = viewHolder.itemView;
         this.dateSwitch = view.findViewById(R.id.setDateSwitch);
         this.timeSwitch = view.findViewById(R.id.setTimeSwitch);
-        this.timerView = view.findViewById(R.id.test);
         this.context = view.getContext();
 
         alarmDate = Calendar.getInstance(new Locale("nb"));
