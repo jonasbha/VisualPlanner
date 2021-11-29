@@ -150,8 +150,8 @@ public class EventsFragment extends Fragment {
         Query query;
         // query requires indexation on fields.
         query = eventCollectionReference
-                .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
-                //.orderBy("timestamp", Query.Direction.ASCENDING);
+                .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .orderBy("alarm", Query.Direction.ASCENDING);
         return query;
     }
 
@@ -178,6 +178,7 @@ public class EventsFragment extends Fragment {
 
         eventReference.update(
                 "alarm", event.getAlarm(),
+                "dateHolder", event.getDateHolder(),
                 "dateOn", event.isDateOn(),
                 "timeOn", event.isTimeOn(),
                 "dateSet", event.isDateSet(),

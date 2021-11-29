@@ -20,7 +20,8 @@ public class Format {
         return null;
     }
 
-    public static String daysLeft(long timeLeft) {
+    // ubrukt
+    public static String timeLeft(long timeLeft) {
         timeLeft = timeLeft - Calendar.getInstance().getTimeInMillis();
         long daysLeft = TimeUnit.MILLISECONDS.toDays(timeLeft);
         long hoursLeft = TimeUnit.MILLISECONDS.toHours(timeLeft);

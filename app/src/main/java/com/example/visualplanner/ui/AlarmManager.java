@@ -71,6 +71,7 @@ public class AlarmManager {
 
             alarmDate.set(year, month, day, hour, minute);
             event.setAlarm(alarmDate.getTime());
+            event.setDateHolder(alarmDate.getTime());
             event.setDateSet(true);
             dateSwitch.setChecked(true);
             viewHolder.notifyChange();
@@ -85,6 +86,7 @@ public class AlarmManager {
 
             alarmDate.set(year, month, day, hour, minute);
             event.setAlarm(alarmDate.getTime());
+            event.setDateHolder(alarmDate.getTime());
             event.setTimeSet(true);
 
             timeSwitch.setChecked(true);
@@ -99,6 +101,8 @@ public class AlarmManager {
 
     public void onDateCheckChanged(boolean checked) {
         if (checked) {
+            event.setAlarm(event.getDateHolder());
+
             if (!event.isDateSet()) {
                 dateSwitch.setChecked(false);
                 showDatePicker();
@@ -108,12 +112,15 @@ public class AlarmManager {
                 viewHolder.notifyChange();
         } else {
             event.setDateOn(false);
+            if (!event.isTimeOn()) event.setAlarm(null);
             viewHolder.notifyChange();
         }
     }
 
     public void onTimeCheckChanged(boolean checked) {
         if (checked) {
+            event.setAlarm(event.getDateHolder());
+
             if (!event.isTimeSet()) {
                 timeSwitch.setChecked(false);
                 showTimePicker();
@@ -123,6 +130,7 @@ public class AlarmManager {
                 viewHolder.notifyChange();
         } else {
             event.setTimeOn(false);
+            if (!event.isDateOn()) event.setAlarm(null);
             viewHolder.notifyChange();
         }
     }

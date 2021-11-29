@@ -11,6 +11,7 @@ public class Event {
     private String title;
     private String EventId;
     private String UserId;
+    private Date dateHolder;
     private Date alarm;
     private boolean dateOn;
     private boolean timeOn;
@@ -18,10 +19,11 @@ public class Event {
     private boolean timeSet;
     public Event() {}
 
-    public Event(String title, String eventId, String userId, Date alarm, boolean dateOn, boolean timeOn, boolean dateSet, boolean timeSet) {
+    public Event(String title, String eventId, String userId, Date dateHolder, Date alarm, boolean dateOn, boolean timeOn, boolean dateSet, boolean timeSet) {
         this.title = title;
         EventId = eventId;
         UserId = userId;
+        this.dateHolder = dateHolder;
         this.alarm = alarm;
         this.dateOn = dateOn;
         this.timeOn = timeOn;
@@ -95,5 +97,13 @@ public class Event {
 
     public void setTimeSet(boolean timeSet) {
         this.timeSet = timeSet;
+    }
+
+    public Date getDateHolder() {
+        return dateHolder;
+    }
+
+    public void setDateHolder(Date dateHolder) {
+        this.dateHolder = dateHolder;
     }
 }
