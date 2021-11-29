@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
+import com.example.visualplanner.model.Alarm;
 import com.example.visualplanner.model.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -124,8 +125,14 @@ public class EventsFragment extends Fragment {
                 String source = document.getMetadata().isFromCache() ?
                         "local cache" : "server";
                 Log.d(TAG, "Data fetched from " + source);
+
+
             }
+
+
         });
+
+
     }
 
     /**
@@ -151,7 +158,7 @@ public class EventsFragment extends Fragment {
         // query requires indexation on fields.
         query = eventCollectionReference
                 .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy("alarm", Query.Direction.ASCENDING);
+                .orderBy("alarm.dateTime", Query.Direction.ASCENDING);
         return query;
     }
 
@@ -177,14 +184,14 @@ public class EventsFragment extends Fragment {
         DocumentReference eventReference = eventCollectionReference.document(event.getEventId());
 
         eventReference.update(
-                "alarm", event.getAlarm(),
-                "alarmHolder", event.getAlarmHolder(),
-                "dateHolder", event.getDateHolder(),
-                "timeHolder", event.getTimeHolder(),
-                "dateOn", event.isDateOn(),
-                "timeOn", event.isTimeOn(),
-                "dateSet", event.isDateSet(),
-                "timeSet", event.isTimeSet()
+                "alarm.dateTime", event.getAlarm().getDateTime(),
+                "alarm.alarmHolder", event.getAlarm().getAlarmHolder(),
+                "alarm.dateHolder", event.getAlarm().getDateHolder(),
+                "alarm.timeHolder", event.getAlarm().getTimeHolder(),
+                "alarm.dateOn", event.getAlarm().isDateOn(),
+                "alarm.timeOn", event.getAlarm().isTimeOn(),
+                "alarm.dateSet", event.getAlarm().isDateSet(),
+                "alarm.timeSet", event.getAlarm().isTimeSet()
         ).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 

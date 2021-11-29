@@ -10,34 +10,21 @@ public class Event {
     private String title;
     private String EventId;
     private String UserId;
+    private Alarm alarm;
 
-    private Date alarmHolder;
-    private Date timeHolder;
-    private Date dateHolder;
-    private Date alarm;
-    private boolean dateOn;
-    private boolean timeOn;
-    private boolean dateSet;
-    private boolean timeSet;
     public Event() {}
-
-    public Event(String title, String eventId, String userId, Date alarmHolder, Date timeHolder, Date dateHolder, Date alarm, boolean dateOn, boolean timeOn, boolean dateSet, boolean timeSet) {
+    public Event(String title, String eventId, String userId, Alarm alarm) {
         this.title = title;
         EventId = eventId;
         UserId = userId;
-        this.alarmHolder = alarmHolder;
-        this.timeHolder = timeHolder;
-        this.dateHolder = dateHolder;
         this.alarm = alarm;
-        this.dateOn = dateOn;
-        this.timeOn = timeOn;
-        this.dateSet = dateSet;
-        this.timeSet = timeSet;
     }
 
     public Event(String title) {
         this.title = title;
+        this.alarm = new Alarm();
     }
+
 
     public String getTitle() {
         return title;
@@ -47,83 +34,37 @@ public class Event {
         this.title = title;
     }
 
-    public void setEventId(String eventId) {
-        EventId = eventId;
-    }
-
-    public void setUserId(String userId) {
-        UserId = userId;
-    }
-
     public String getEventId() {
         return EventId;
     }
 
-    public Date getAlarm() {
-        return alarm;
-    }
-
-    public void setAlarm(Date alarm) {
-        this.alarm = alarm;
-    }
-
-    public boolean isDateOn() {
-        return dateOn;
-    }
-
-    public void setDateOn(boolean dateOn) {
-        this.dateOn = dateOn;
-    }
-
-    public boolean isTimeOn() {
-        return timeOn;
-    }
-
-    public void setTimeOn(boolean timeOn) {
-        this.timeOn = timeOn;
+    public void setEventId(String eventId) {
+        EventId = eventId;
     }
 
     public String getUserId() {
         return UserId;
     }
 
-    public boolean isDateSet() {
-        return dateSet;
+    public void setUserId(String userId) {
+        UserId = userId;
     }
 
-    public void setDateSet(boolean dateSet) {
-        this.dateSet = dateSet;
+    public Alarm getAlarm() {
+        return alarm;
     }
 
-    public boolean isTimeSet() {
-        return timeSet;
+    public void setAlarm(Alarm alarm) {
+        this.alarm = alarm;
     }
 
-    public void setTimeSet(boolean timeSet) {
-        this.timeSet = timeSet;
-    }
-
-    public Date getAlarmHolder() {
-        return alarmHolder;
-    }
-
-    public void setAlarmHolder(Date alarmHolder) {
-        this.alarmHolder = alarmHolder;
-    }
-
-    public Date getTimeHolder() {
-        return timeHolder;
-    }
-
-    public void setTimeHolder(Date timeHolder) {
-        this.timeHolder = timeHolder;
-    }
-
-    public Date getDateHolder() {
-        return dateHolder;
-    }
-
-    public void setDateHolder(Date dateHolder) {
-        this.dateHolder = dateHolder;
+    @Override
+    public String toString() {
+        return "Event{" +
+                "title='" + title + '\'' +
+                ", EventId='" + EventId + '\'' +
+                ", UserId='" + UserId + '\'' +
+                ", alarm=" + alarm +
+                '}';
     }
 }
