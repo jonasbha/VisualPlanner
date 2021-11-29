@@ -1,7 +1,6 @@
 package com.example.visualplanner.model;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
-import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 
@@ -11,6 +10,9 @@ public class Event {
     private String title;
     private String EventId;
     private String UserId;
+
+    private Date alarmHolder;
+    private Date timeHolder;
     private Date dateHolder;
     private Date alarm;
     private boolean dateOn;
@@ -19,10 +21,12 @@ public class Event {
     private boolean timeSet;
     public Event() {}
 
-    public Event(String title, String eventId, String userId, Date dateHolder, Date alarm, boolean dateOn, boolean timeOn, boolean dateSet, boolean timeSet) {
+    public Event(String title, String eventId, String userId, Date alarmHolder, Date timeHolder, Date dateHolder, Date alarm, boolean dateOn, boolean timeOn, boolean dateSet, boolean timeSet) {
         this.title = title;
         EventId = eventId;
         UserId = userId;
+        this.alarmHolder = alarmHolder;
+        this.timeHolder = timeHolder;
         this.dateHolder = dateHolder;
         this.alarm = alarm;
         this.dateOn = dateOn;
@@ -97,6 +101,22 @@ public class Event {
 
     public void setTimeSet(boolean timeSet) {
         this.timeSet = timeSet;
+    }
+
+    public Date getAlarmHolder() {
+        return alarmHolder;
+    }
+
+    public void setAlarmHolder(Date alarmHolder) {
+        this.alarmHolder = alarmHolder;
+    }
+
+    public Date getTimeHolder() {
+        return timeHolder;
+    }
+
+    public void setTimeHolder(Date timeHolder) {
+        this.timeHolder = timeHolder;
     }
 
     public Date getDateHolder() {

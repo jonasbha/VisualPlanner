@@ -2,7 +2,6 @@ package com.example.visualplanner;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, controller);
 
         initFirestore();
+
     }
 
     @Override

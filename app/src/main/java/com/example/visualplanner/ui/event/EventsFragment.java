@@ -178,7 +178,9 @@ public class EventsFragment extends Fragment {
 
         eventReference.update(
                 "alarm", event.getAlarm(),
+                "alarmHolder", event.getAlarmHolder(),
                 "dateHolder", event.getDateHolder(),
+                "timeHolder", event.getTimeHolder(),
                 "dateOn", event.isDateOn(),
                 "timeOn", event.isTimeOn(),
                 "dateSet", event.isDateSet(),
