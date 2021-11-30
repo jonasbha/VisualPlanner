@@ -1,24 +1,27 @@
 package com.example.visualplanner.ui.event;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
-import com.example.visualplanner.model.Alarm;
 import com.example.visualplanner.model.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,9 +44,11 @@ public class EventsFragment extends Fragment {
     private RecyclerView eventRecyclerView;
     private EventRecycleAdapter eventRecycleAdapter;
     private FloatingActionButton fab;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
 
     // firestore
-    private FirebaseFirestore firestoreDb;
+    private FirebaseFirestore db;
     private CollectionReference eventCollectionReference;
     private ListenerRegistration firestoreListenerRegistration;
 
@@ -55,8 +60,8 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         viewModel = new ViewModelProvider(this).get(EventsViewModel.class);
-        firestoreDb = FirebaseFirestore.getInstance();
-        eventCollectionReference =  firestoreDb.collection("events");
+        db = FirebaseFirestore.getInstance();
+        eventCollectionReference =  db.collection("events");
 
         return inflater.inflate(R.layout.fragment_events, container, false);
     }
@@ -67,8 +72,12 @@ public class EventsFragment extends Fragment {
 
         initRecyclerView(view);
         fab = view.findViewById(R.id.eventFab);
-        fab.setOnClickListener(v -> Navigation.findNavController(view).navigate(
-                R.id.action_navigation_events_to_addEventFragment));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createEvent();
+            }
+        });
     }
 
     @Override
@@ -204,14 +213,33 @@ public class EventsFragment extends Fragment {
 
     public void deleteEvent(Event event) {
         DocumentReference eventReference = eventCollectionReference.document(event.getEventId());
+        eventReference.delete();
+    }
 
-        eventReference.delete().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                // legg til brukerhåndtering
-            } else {
-                // legg til brukerhåndtering
-            }
+    public void createEvent() {
+        DocumentReference eventReference = db.collection("events").document();
+        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+
+        dialogBuilder = new AlertDialog.Builder(this.getContext());
+        final View popupView = getLayoutInflater().inflate(R.layout.create_event_popup, null);
+        dialogBuilder.setView(popupView);
+        dialogBuilder.setTitle(R.string.createEvent);
+        dialogBuilder.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {
+            dialog.cancel();
         });
+        dialogBuilder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+            EditText et = popupView.findViewById(R.id.eventTitleInput);
+            String title = et.getText().toString();
+
+            Event event = new Event(title);
+            event.setEventId(eventReference.getId());
+            event.setUserId(userId);
+            eventReference.set(event);
+
+            dialog.dismiss();
+        });
+        dialog = dialogBuilder.create();
+        dialog.show();
     }
 
     private void calculateGridLayout(@NonNull View view) {
