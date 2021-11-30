@@ -14,6 +14,7 @@ import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.model.Alarm;
 import com.example.visualplanner.model.Event;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 public class AlarmManager {
@@ -63,7 +64,6 @@ public class AlarmManager {
             this.year = year;
             this.month = month;
             this.day = day;
-
             alarmDate.set(year, month, day, hour, minute);
 
             Calendar today = Calendar.getInstance();
@@ -78,6 +78,7 @@ public class AlarmManager {
             viewHolder.notifyChange();
         };
         datePickerDialog = new DatePickerDialog(context, onDateSetListener, year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
     }
 
     private void initTimePickerDialog() {
@@ -95,7 +96,6 @@ public class AlarmManager {
 
             if (today.getTime().before(Calendar.getInstance().getTime()))
                 today.set(year, month, day + 1, hour, minute);
-
             alarm.setTimeHolder(today.getTime());
 
             alarm.setDateTime(alarmDate.getTime());
