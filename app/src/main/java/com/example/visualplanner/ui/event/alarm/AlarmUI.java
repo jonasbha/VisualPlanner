@@ -69,13 +69,14 @@ public class AlarmUI {
             this.month = month;
             this.day = day;
             alarmDate.set(year, month, day, hour, minute);
+            alarm.setDateTimeHolder(alarmDate.getTime());
+            alarm.setDateTime(alarmDate.getTime());
 
             Calendar today = Calendar.getInstance();
             today.set(year, month, day, 0, 0, 0);
             alarm.setDateHolder(today.getTime());
-            alarm.setDateTimeHolder(alarmDate.getTime());
-            alarm.setDateTime(alarmDate.getTime());
 
+            alarm.setFinished(alarm.getDateTime().before(Calendar.getInstance().getTime()));
             alarm.setDateSet(true);
             dateSwitch.setChecked(true);
             viewHolder.notifyChange();
@@ -90,6 +91,7 @@ public class AlarmUI {
             this.minute = minute;
 
             alarmDate.set(year, month, day, hour, minute);
+            alarm.setDateTimeHolder(alarmDate.getTime());
             alarm.setDateTime(alarmDate.getTime());
 
             Calendar today = Calendar.getInstance();
@@ -97,10 +99,9 @@ public class AlarmUI {
             int month = today.get(Calendar.MONTH);
             int day = today.get(Calendar.DAY_OF_MONTH);
             today.set(year, month, day, hour, minute);
-
             alarm.setTimeHolder(today.getTime());
-            alarm.setDateTimeHolder(alarmDate.getTime());
 
+            alarm.setFinished(alarm.getDateTime().before(Calendar.getInstance().getTime()));
             alarm.setTimeSet(true);
             timeSwitch.setChecked(true);
             viewHolder.notifyChange();
@@ -113,7 +114,6 @@ public class AlarmUI {
     }
 
     public void onDateCheckChanged(boolean checked) {
-        Log.d(TAG, "called");
         if (checked) {
             if (alarm.isDateSet())
                 alarm.setDateOn(true);
@@ -124,13 +124,14 @@ public class AlarmUI {
             if (!datePickerDialog.isShowing()) {
                 updateAlarm();
                 startAlarm(alarm.getDateTime().getTime());
+                viewHolder.notifyChange();
             }
         } else {
             alarm.setDateOn(false);
             alarmScheduler.cancelAlarm();
             updateAlarm();
+            viewHolder.notifyChange();
         }
-        viewHolder.notifyChange();
     }
 
     public void onTimeCheckChanged(boolean checked) {
@@ -144,19 +145,19 @@ public class AlarmUI {
             if (!timePickerDialog.isShowing()) {
                 updateAlarm();
                 startAlarm(alarm.getDateTime().getTime());
+                viewHolder.notifyChange();
             }
         } else {
             alarm.setTimeOn(false);
             updateAlarm();
             alarmScheduler.cancelAlarm();
+            viewHolder.notifyChange();
         }
-        viewHolder.notifyChange();
     }
 
     public void showDatePicker() {
         datePickerDialog.show();
         if (!datePickerDialog.isShowing()) {
-            updateAlarm();
             startAlarm(alarm.getDateTime().getTime());
         }
     }
@@ -164,11 +165,12 @@ public class AlarmUI {
     public void showTimePicker() {
         timePickerDialog.show();
         if (!timePickerDialog.isShowing()) {
-            updateAlarm();
             startAlarm(alarm.getDateTime().getTime());
         }
     }
 
+
+    // move these to model
     private void startAlarm(long time) {
         if (alarm.isDateOn() && alarm.isTimeOn()) {
             alarmScheduler.startExactAlarm(time);
@@ -180,13 +182,15 @@ public class AlarmUI {
     }
 
     private void updateAlarm() {
+        Log.d(TAG, "update called");
         if (alarm.isDateOn() && alarm.isTimeOn()) {
             alarm.setDateTime(alarm.getDateTimeHolder());
+            alarm.setFinished(alarm.getDateTime().before(Calendar.getInstance().getTime()));
         } else if (alarm.isDateOn()) {
             alarm.setDateTime(alarm.getDateHolder());
-            Log.d(TAG, "datetime from update: " + alarm.getDateTime());
         } else if (alarm.isTimeOn()) {
             alarm.setDateTime(alarm.getTimeHolder());
+            alarm.setFinished(alarm.getDateTime().before(Calendar.getInstance().getTime()));
         } else {
             alarm.setDateTime(null);
         }

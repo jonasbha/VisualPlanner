@@ -194,6 +194,8 @@
                 android:id="@+id/eventFinished"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="@{event.alarm.finished ? View.VISIBLE : View.GONE}"
+                android:text="@string/finished"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

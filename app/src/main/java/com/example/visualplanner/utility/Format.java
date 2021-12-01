@@ -3,8 +3,6 @@ package com.example.visualplanner.utility;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import android.util.Log;
-
 public class Format {
 
     public static String date(String datetime) {

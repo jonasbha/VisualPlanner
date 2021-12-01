@@ -189,7 +189,8 @@ public class EventsFragment extends Fragment {
                 "alarm.dateOn", event.getAlarm().isDateOn(),
                 "alarm.timeOn", event.getAlarm().isTimeOn(),
                 "alarm.dateSet", event.getAlarm().isDateSet(),
-                "alarm.timeSet", event.getAlarm().isTimeSet()
+                "alarm.timeSet", event.getAlarm().isTimeSet(),
+                "alarm.finished", event.getAlarm().isFinished()
         ).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 

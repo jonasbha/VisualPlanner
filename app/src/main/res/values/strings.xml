@@ -35,4 +35,5 @@
     <string name="createEvent">Create Event</string>
     <string name="cancel">cancel</string>
     <string name="ok">ok</string>
+    <string name="finished">Finished</string>
 </resources>
