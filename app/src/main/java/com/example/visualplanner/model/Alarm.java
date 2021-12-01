@@ -7,33 +7,31 @@ import java.util.Date;
 @IgnoreExtraProperties
 public class Alarm {
 
-    private Date alarmHolder;
-    private Date timeHolder;
-    private Date dateHolder;
-    private Date dateTime;
-    private boolean dateOn;
-    private boolean timeOn;
-    private boolean dateSet;
-    private boolean timeSet;
+    private Date dateTimeHolder, timeHolder, dateHolder, dateTime;
+    private boolean dateOn, timeOn, dateSet, timeSet, isFinished;
+    private int requestCode;
 
-    public Alarm() {}
-    public Alarm(Date alarmHolder, Date timeHolder, Date dateHolder, Date dateTime, boolean dateOn, boolean timeOn, boolean dateSet, boolean timeSet) {
-        this.alarmHolder = alarmHolder;
-        this.timeHolder = timeHolder;
-        this.dateHolder = dateHolder;
-        this.dateTime = dateTime;
-        this.dateOn = dateOn;
-        this.timeOn = timeOn;
-        this.dateSet = dateSet;
-        this.timeSet = timeSet;
+    public Alarm() {
+        this.requestCode = getFakeUnique();
     }
 
-    public Date getAlarmHolder() {
-        return alarmHolder;
+    /**
+     * Method to simulate an unique request code as integer.
+     * The integer is in theory not unique and serves as a substitute for an actual unique integer value.
+     *
+     * The integer value is ideally generated as an unique value within the range of active alarms for each user.
+     * To achieve this a user model would be created based on the uid from authentication with a counter for each active alarm.
+     */
+    private int getFakeUnique() {
+        return (int) Math.floor(Math.random() * 2147483646);
     }
 
-    public void setAlarmHolder(Date alarmHolder) {
-        this.alarmHolder = alarmHolder;
+    public Date getDateTimeHolder() {
+        return dateTimeHolder;
+    }
+
+    public void setDateTimeHolder(Date dateTimeHolder) {
+        this.dateTimeHolder = dateTimeHolder;
     }
 
     public Date getTimeHolder() {
@@ -95,7 +93,7 @@ public class Alarm {
     @Override
     public String toString() {
         return "Alarm{" +
-                "alarmHolder=" + alarmHolder +
+                "alarmHolder=" + dateTimeHolder +
                 ", timeHolder=" + timeHolder +
                 ", dateHolder=" + dateHolder +
                 ", dateTime=" + dateTime +
@@ -104,5 +102,21 @@ public class Alarm {
                 ", dateSet=" + dateSet +
                 ", timeSet=" + timeSet +
                 '}';
+    }
+
+    public int getRequestCode() {
+        return requestCode;
+    }
+
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 }

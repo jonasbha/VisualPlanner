@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.visualplanner.databinding.EventRetailBinding;
 import com.example.visualplanner.model.Event;
-import com.example.visualplanner.ui.AlarmManager;
+import com.example.visualplanner.ui.event.alarm.AlarmUI;
 
 import java.util.List;
 
@@ -42,8 +42,8 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         EventRetailBinding eventBinding = EventRetailBinding.inflate(inflater, parent, false);
         //View view = inflater.inflate(R.layout.event_retail, parent, false);
 
-        AlarmManager alarmManager = new AlarmManager();
-        return new EventViewHolder(eventBinding, alarmManager);
+        AlarmUI alarmUI = new AlarmUI();
+        return new EventViewHolder(eventBinding, alarmUI);
     }
 
     @Override
@@ -62,12 +62,12 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
         private final EventRetailBinding binding;
-        private final AlarmManager alarmManager;
+        private final AlarmUI alarmUI;
 
-        public EventViewHolder(EventRetailBinding binding, AlarmManager alarmManager) {
+        public EventViewHolder(EventRetailBinding binding, AlarmUI alarmUI) {
             super(binding.getRoot());
             this.binding = binding;
-            this.alarmManager = alarmManager;
+            this.alarmUI = alarmUI;
         }
 
         public void notifyDelete() {
@@ -89,11 +89,11 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
         public void bind(Event currentEvent) {
             binding.setView(this);
             binding.setEvent(currentEvent);
-            alarmManager.init(this, currentEvent);
+            alarmUI.init(this, currentEvent);
         }
 
-        public AlarmManager getAlarm() {
-            return alarmManager;
+        public AlarmUI getAlarm() {
+            return alarmUI;
         }
     }
 }

@@ -1,15 +1,12 @@
 package com.example.visualplanner.ui.event;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -43,8 +40,6 @@ public class EventsFragment extends Fragment {
 
     private RecyclerView eventRecyclerView;
     private EventRecycleAdapter eventRecycleAdapter;
-    private FloatingActionButton fab;
-    private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
 
     // firestore
@@ -71,13 +66,8 @@ public class EventsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initRecyclerView(view);
-        fab = view.findViewById(R.id.eventFab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createEvent();
-            }
-        });
+        FloatingActionButton fab = view.findViewById(R.id.eventFab);
+        fab.setOnClickListener(view1 -> createEvent());
     }
 
     @Override
@@ -141,7 +131,6 @@ public class EventsFragment extends Fragment {
 
         });
 
-
     }
 
     /**
@@ -194,7 +183,7 @@ public class EventsFragment extends Fragment {
 
         eventReference.update(
                 "alarm.dateTime", event.getAlarm().getDateTime(),
-                "alarm.alarmHolder", event.getAlarm().getAlarmHolder(),
+                "alarm.dateTimeHolder", event.getAlarm().getDateTimeHolder(),
                 "alarm.dateHolder", event.getAlarm().getDateHolder(),
                 "alarm.timeHolder", event.getAlarm().getTimeHolder(),
                 "alarm.dateOn", event.getAlarm().isDateOn(),
@@ -220,8 +209,8 @@ public class EventsFragment extends Fragment {
         DocumentReference eventReference = db.collection("events").document();
         String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
-        dialogBuilder = new AlertDialog.Builder(this.getContext());
-        final View popupView = getLayoutInflater().inflate(R.layout.create_event_popup, null);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getContext());
+        final View popupView = getLayoutInflater().inflate(R.layout.create_event_dialog, null);
         dialogBuilder.setView(popupView);
         dialogBuilder.setTitle(R.string.createEvent);
         dialogBuilder.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {

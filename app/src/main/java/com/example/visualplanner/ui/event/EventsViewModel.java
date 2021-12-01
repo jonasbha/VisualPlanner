@@ -1,7 +1,5 @@
 package com.example.visualplanner.ui.event;
 
-import android.util.Log;
-
 import androidx.lifecycle.ViewModel;
 
 import com.example.visualplanner.model.Event;
@@ -14,7 +12,6 @@ public class EventsViewModel extends ViewModel {
     private final ArrayList<String> eventIds;
 
     public EventsViewModel() {
-        Log.d("viewmodel init", "called ");
         events = new ArrayList<>();
         eventIds = new ArrayList<>();
     }
@@ -25,9 +22,5 @@ public class EventsViewModel extends ViewModel {
 
     public ArrayList<String> getEventIds() {
         return eventIds;
-    }
-
-    public void refresh() {
-        events = new ArrayList<>();
     }
 }

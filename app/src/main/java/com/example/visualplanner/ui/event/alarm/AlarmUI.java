@@ -1,10 +1,11 @@
-package com.example.visualplanner.ui;
+package com.example.visualplanner.ui.event.alarm;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -14,15 +15,16 @@ import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.model.Alarm;
 import com.example.visualplanner.model.Event;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 
-public class AlarmManager {
+public class AlarmUI {
+
+    private static final String TAG = "AlarmUI";
 
     private Context context;
     private EventRecycleAdapter.EventViewHolder viewHolder;
     private Alarm alarm;
-    private Event event;
+    private AlarmScheduler alarmScheduler;
 
     private SwitchCompat dateSwitch, timeSwitch;
 
@@ -36,9 +38,12 @@ public class AlarmManager {
         this.alarm = event.getAlarm();
 
         View view = viewHolder.itemView;
+        this.context = view.getContext();
         this.dateSwitch = view.findViewById(R.id.setDateSwitch);
         this.timeSwitch = view.findViewById(R.id.setTimeSwitch);
-        this.context = view.getContext();
+
+        if (this.alarmScheduler == null)
+            this.alarmScheduler = new AlarmScheduler(context, alarm.getRequestCode());
 
         // Lokal tidssone ikke satt, derfor UTC+1. (kunne vært med i en evt. config)
         alarmDate = Calendar.getInstance();
@@ -58,7 +63,6 @@ public class AlarmManager {
         initTimePickerDialog();
     }
 
-
     private void initDatePickerDialog() {
         DatePickerDialog.OnDateSetListener onDateSetListener = (datePicker, year, month, day) -> {
             this.year = year;
@@ -69,9 +73,8 @@ public class AlarmManager {
             Calendar today = Calendar.getInstance();
             today.set(year, month, day, 0, 0, 0);
             alarm.setDateHolder(today.getTime());
-
+            alarm.setDateTimeHolder(alarmDate.getTime());
             alarm.setDateTime(alarmDate.getTime());
-            alarm.setAlarmHolder(alarmDate.getTime());
 
             alarm.setDateSet(true);
             dateSwitch.setChecked(true);
@@ -87,6 +90,7 @@ public class AlarmManager {
             this.minute = minute;
 
             alarmDate.set(year, month, day, hour, minute);
+            alarm.setDateTime(alarmDate.getTime());
 
             Calendar today = Calendar.getInstance();
             int year = today.get(Calendar.YEAR);
@@ -94,12 +98,8 @@ public class AlarmManager {
             int day = today.get(Calendar.DAY_OF_MONTH);
             today.set(year, month, day, hour, minute);
 
-            if (today.getTime().before(Calendar.getInstance().getTime()))
-                today.set(year, month, day + 1, hour, minute);
             alarm.setTimeHolder(today.getTime());
-
-            alarm.setDateTime(alarmDate.getTime());
-            alarm.setAlarmHolder(alarmDate.getTime());
+            alarm.setDateTimeHolder(alarmDate.getTime());
 
             alarm.setTimeSet(true);
             timeSwitch.setChecked(true);
@@ -113,6 +113,7 @@ public class AlarmManager {
     }
 
     public void onDateCheckChanged(boolean checked) {
+        Log.d(TAG, "called");
         if (checked) {
             if (alarm.isDateSet())
                 alarm.setDateOn(true);
@@ -120,47 +121,74 @@ public class AlarmManager {
                 dateSwitch.setChecked(false);
                 showDatePicker();
             }
-            if (alarm.isTimeOn()) alarm.setDateTime(alarm.getAlarmHolder());
-            else alarm.setDateTime(alarm.getDateHolder());
-
-            if (!datePickerDialog.isShowing())
-                viewHolder.notifyChange();
+            if (!datePickerDialog.isShowing()) {
+                updateAlarm();
+                startAlarm(alarm.getDateTime().getTime());
+            }
         } else {
             alarm.setDateOn(false);
-            if (alarm.isTimeOn()) alarm.setDateTime(alarm.getTimeHolder());
-            else alarm.setDateTime(null);
-
-            viewHolder.notifyChange();
+            alarmScheduler.cancelAlarm();
+            updateAlarm();
         }
+        viewHolder.notifyChange();
     }
 
     public void onTimeCheckChanged(boolean checked) {
         if (checked) {
             if (alarm.isTimeSet())
                 alarm.setTimeOn(true);
-             else {
+            else {
                 timeSwitch.setChecked(false);
                 showTimePicker();
             }
-            if (alarm.isDateOn()) alarm.setDateTime(alarm.getAlarmHolder());
-            else alarm.setDateTime(alarm.getTimeHolder());
-
-            if (!timePickerDialog.isShowing())
-                viewHolder.notifyChange();
+            if (!timePickerDialog.isShowing()) {
+                updateAlarm();
+                startAlarm(alarm.getDateTime().getTime());
+            }
         } else {
             alarm.setTimeOn(false);
-            if (alarm.isDateOn()) alarm.setDateTime(alarm.getDateHolder());
-            else alarm.setDateTime(null);
-
-            viewHolder.notifyChange();
+            updateAlarm();
+            alarmScheduler.cancelAlarm();
         }
+        viewHolder.notifyChange();
     }
 
     public void showDatePicker() {
         datePickerDialog.show();
+        if (!datePickerDialog.isShowing()) {
+            updateAlarm();
+            startAlarm(alarm.getDateTime().getTime());
+        }
     }
 
     public void showTimePicker() {
         timePickerDialog.show();
+        if (!timePickerDialog.isShowing()) {
+            updateAlarm();
+            startAlarm(alarm.getDateTime().getTime());
+        }
+    }
+
+    private void startAlarm(long time) {
+        if (alarm.isDateOn() && alarm.isTimeOn()) {
+            alarmScheduler.startExactAlarm(time);
+        } else if (alarm.isTimeOn()) {
+            alarmScheduler.startExactAlarm(time);
+        } else if (alarm.isDateOn()) {
+            alarmScheduler.startInexactAlarm(time);
+        }
+    }
+
+    private void updateAlarm() {
+        if (alarm.isDateOn() && alarm.isTimeOn()) {
+            alarm.setDateTime(alarm.getDateTimeHolder());
+        } else if (alarm.isDateOn()) {
+            alarm.setDateTime(alarm.getDateHolder());
+            Log.d(TAG, "datetime from update: " + alarm.getDateTime());
+        } else if (alarm.isTimeOn()) {
+            alarm.setDateTime(alarm.getTimeHolder());
+        } else {
+            alarm.setDateTime(null);
+        }
     }
 }
