@@ -6,54 +6,64 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+import com.example.visualplanner.model.Alarm;
+
 public class AlarmScheduler {
 
     private static final String TAG = "AlertHandler";
     private final AlarmManager alarmManager;
     private Context context;
-    private int requestCode;
+    private Alarm alarm;
 
     public AlarmScheduler() {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
-    public AlarmScheduler(Context context, int requestCode) {
+    public AlarmScheduler(Context context, Alarm alarm) {
         this.context = context;
-        this.requestCode = requestCode;
+        this.alarm = alarm;
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
-    protected void startExactAlarm(long alarm) {
+    private PendingIntent getPendingIntent() {
         Intent intent = new Intent(this.context, AlarmReceiver.class);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.context, requestCode, intent,
+        return PendingIntent.getBroadcast(this.context, alarm.getRequestCode(), intent,
                 PendingIntent.FLAG_IMMUTABLE);
+    }
+
+    private void startExactAlarm() {
+        PendingIntent pendingIntent = getPendingIntent();
 
         if (alarmManager != null)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 if (alarmManager.canScheduleExactAlarms())
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
-                else alarmManager.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getDateTime().getTime(), pendingIntent);
+                else alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getDateTime().getTime(), pendingIntent);
             }
-            else alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+            else alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getDateTime().getTime(), pendingIntent);
     }
 
-    protected void startInexactAlarm(long alarm) {
-        Intent intent = new Intent(this.context, AlarmReceiver.class);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.context, requestCode, intent,
-                PendingIntent.FLAG_IMMUTABLE);
+    private void startInexactAlarm() {
+        PendingIntent pendingIntent = getPendingIntent();
 
         if (alarmManager != null)
-            alarmManager.set(AlarmManager.RTC, alarm, pendingIntent);
+            alarmManager.set(AlarmManager.RTC, alarm.getDateTime().getTime(), pendingIntent);
     }
 
-    protected void cancelAlarm() {
-        Intent intent = new Intent(this.context, AlarmReceiver.class);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.context, requestCode, intent,
-                PendingIntent.FLAG_IMMUTABLE);
+    protected void cancel() {
+        PendingIntent pendingIntent = getPendingIntent();
 
         if (pendingIntent != null && alarmManager != null)
             alarmManager.cancel(pendingIntent);
+    }
+
+    protected void start() {
+        if (alarm.isDateOn() && alarm.isTimeOn()) {
+            startExactAlarm();
+        } else if (alarm.isTimeOn()) {
+            startExactAlarm();
+        } else if (alarm.isDateOn()) {
+            startInexactAlarm();
+        }
     }
 }

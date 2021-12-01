@@ -2,6 +2,7 @@ package com.example.visualplanner.model;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @IgnoreExtraProperties
@@ -13,6 +14,21 @@ public class Alarm {
 
     public Alarm() {
         this.requestCode = getFakeUnique();
+    }
+
+    public void update() {
+        if (dateOn && timeOn) {
+            dateTime = dateTimeHolder;
+            isFinished = dateTime.before(Calendar.getInstance().getTime());
+        } else if (dateOn) {
+            dateTime = dateHolder;
+        } else if (timeOn) {
+            dateTime = timeHolder;
+            isFinished = dateTime.before(Calendar.getInstance().getTime());
+        } else {
+            dateTime = null;
+            isFinished = false;
+        }
     }
 
     /**

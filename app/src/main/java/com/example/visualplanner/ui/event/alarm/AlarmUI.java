@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -43,7 +42,7 @@ public class AlarmUI {
         this.timeSwitch = view.findViewById(R.id.setTimeSwitch);
 
         if (this.alarmScheduler == null)
-            this.alarmScheduler = new AlarmScheduler(context, alarm.getRequestCode());
+            this.alarmScheduler = new AlarmScheduler(context, alarm);
 
         // Lokal tidssone ikke satt, derfor UTC+1. (kunne vært med i en evt. config)
         alarmDate = Calendar.getInstance();
@@ -122,15 +121,15 @@ public class AlarmUI {
                 showDatePicker();
             }
             if (!datePickerDialog.isShowing()) {
-                updateAlarm();
-                startAlarm(alarm.getDateTime().getTime());
+                alarm.update();
                 viewHolder.notifyChange();
+                alarmScheduler.start();
             }
         } else {
             alarm.setDateOn(false);
-            alarmScheduler.cancelAlarm();
-            updateAlarm();
+            alarm.update();
             viewHolder.notifyChange();
+            alarmScheduler.cancel();
         }
     }
 
@@ -143,56 +142,27 @@ public class AlarmUI {
                 showTimePicker();
             }
             if (!timePickerDialog.isShowing()) {
-                updateAlarm();
-                startAlarm(alarm.getDateTime().getTime());
+                alarm.update();
                 viewHolder.notifyChange();
+                alarmScheduler.start();
             }
         } else {
             alarm.setTimeOn(false);
-            updateAlarm();
-            alarmScheduler.cancelAlarm();
+            alarm.update();
             viewHolder.notifyChange();
+            alarmScheduler.cancel();
         }
     }
 
     public void showDatePicker() {
         datePickerDialog.show();
-        if (!datePickerDialog.isShowing()) {
-            startAlarm(alarm.getDateTime().getTime());
-        }
+        if (!datePickerDialog.isShowing())
+            alarmScheduler.start();
     }
 
     public void showTimePicker() {
         timePickerDialog.show();
-        if (!timePickerDialog.isShowing()) {
-            startAlarm(alarm.getDateTime().getTime());
-        }
-    }
-
-
-    // move these to model
-    private void startAlarm(long time) {
-        if (alarm.isDateOn() && alarm.isTimeOn()) {
-            alarmScheduler.startExactAlarm(time);
-        } else if (alarm.isTimeOn()) {
-            alarmScheduler.startExactAlarm(time);
-        } else if (alarm.isDateOn()) {
-            alarmScheduler.startInexactAlarm(time);
-        }
-    }
-
-    private void updateAlarm() {
-        Log.d(TAG, "update called");
-        if (alarm.isDateOn() && alarm.isTimeOn()) {
-            alarm.setDateTime(alarm.getDateTimeHolder());
-            alarm.setFinished(alarm.getDateTime().before(Calendar.getInstance().getTime()));
-        } else if (alarm.isDateOn()) {
-            alarm.setDateTime(alarm.getDateHolder());
-        } else if (alarm.isTimeOn()) {
-            alarm.setDateTime(alarm.getTimeHolder());
-            alarm.setFinished(alarm.getDateTime().before(Calendar.getInstance().getTime()));
-        } else {
-            alarm.setDateTime(null);
-        }
+        if (!timePickerDialog.isShowing())
+            alarmScheduler.start();
     }
 }
