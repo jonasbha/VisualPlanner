@@ -16,10 +16,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
 import com.example.visualplanner.adapter.EventRecycleAdapter;
 import com.example.visualplanner.model.Event;
+import com.example.visualplanner.ui.event.alarm.AlarmScheduler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -34,13 +34,14 @@ import java.util.Objects;
 
 public class EventsFragment extends Fragment {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = EventsFragment.class.getSimpleName();
 
     private EventsViewModel viewModel;
 
     private RecyclerView eventRecyclerView;
     private EventRecycleAdapter eventRecycleAdapter;
     private AlertDialog dialog;
+    private AlarmScheduler alarmScheduler;
 
     // firestore
     private FirebaseFirestore db;
@@ -66,6 +67,7 @@ public class EventsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initRecyclerView(view);
+        alarmScheduler = new AlarmScheduler(view.getContext());
         FloatingActionButton fab = view.findViewById(R.id.eventFab);
         fab.setOnClickListener(view1 -> createEvent());
     }
@@ -123,7 +125,7 @@ public class EventsFragment extends Fragment {
 
                 String source = document.getMetadata().isFromCache() ?
                         "local cache" : "server";
-                Log.d(TAG, "Data fetched from " + source);
+                Log.i(TAG, "Data fetched from " + source);
 
 
             }
@@ -204,6 +206,8 @@ public class EventsFragment extends Fragment {
     public void deleteEvent(Event event) {
         DocumentReference eventReference = eventCollectionReference.document(event.getEventId());
         eventReference.delete();
+        alarmScheduler.setAlarm(event.getAlarm());
+        alarmScheduler.cancel();
     }
 
     public void createEvent() {

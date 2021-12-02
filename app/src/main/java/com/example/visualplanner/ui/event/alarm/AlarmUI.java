@@ -24,6 +24,7 @@ public class AlarmUI {
     private EventRecycleAdapter.EventViewHolder viewHolder;
     private Alarm alarm;
     private AlarmScheduler alarmScheduler;
+    private Event event;
 
     private SwitchCompat dateSwitch, timeSwitch;
 
@@ -35,6 +36,7 @@ public class AlarmUI {
     public void init(EventRecycleAdapter.EventViewHolder viewHolder, Event event) {
         this.viewHolder = viewHolder;
         this.alarm = event.getAlarm();
+        this.event = event;
 
         View view = viewHolder.itemView;
         this.context = view.getContext();
@@ -42,7 +44,7 @@ public class AlarmUI {
         this.timeSwitch = view.findViewById(R.id.setTimeSwitch);
 
         if (this.alarmScheduler == null)
-            this.alarmScheduler = new AlarmScheduler(context, alarm);
+            this.alarmScheduler = new AlarmScheduler(context);
 
         // Lokal tidssone ikke satt, derfor UTC+1. (kunne vært med i en evt. config)
         alarmDate = Calendar.getInstance();
@@ -75,9 +77,10 @@ public class AlarmUI {
             today.set(year, month, day, 0, 0, 0);
             alarm.setDateHolder(today.getTime());
 
-            alarm.setFinished(alarm.getDateTime().before(Calendar.getInstance().getTime()));
             alarm.setDateSet(true);
             dateSwitch.setChecked(true);
+            alarm.update();
+            startAlarm();
             viewHolder.notifyChange();
         };
         datePickerDialog = new DatePickerDialog(context, onDateSetListener, year, month, day);
@@ -100,9 +103,10 @@ public class AlarmUI {
             today.set(year, month, day, hour, minute);
             alarm.setTimeHolder(today.getTime());
 
-            alarm.setFinished(alarm.getDateTime().before(Calendar.getInstance().getTime()));
             alarm.setTimeSet(true);
             timeSwitch.setChecked(true);
+            alarm.update();
+            startAlarm();
             viewHolder.notifyChange();
         };
         timePickerDialog = new TimePickerDialog(context,
@@ -114,55 +118,52 @@ public class AlarmUI {
 
     public void onDateCheckChanged(boolean checked) {
         if (checked) {
-            if (alarm.isDateSet())
+            if (alarm.isDateSet()) {
                 alarm.setDateOn(true);
-            else {
+            } else {
                 dateSwitch.setChecked(false);
                 showDatePicker();
             }
-            if (!datePickerDialog.isShowing()) {
-                alarm.update();
-                viewHolder.notifyChange();
-                alarmScheduler.start();
-            }
+            alarm.update();
+            startAlarm();
         } else {
             alarm.setDateOn(false);
             alarm.update();
-            viewHolder.notifyChange();
             alarmScheduler.cancel();
         }
+        viewHolder.notifyChange();
     }
 
     public void onTimeCheckChanged(boolean checked) {
         if (checked) {
-            if (alarm.isTimeSet())
+            if (alarm.isTimeSet()) {
                 alarm.setTimeOn(true);
-            else {
+            } else {
                 timeSwitch.setChecked(false);
                 showTimePicker();
             }
-            if (!timePickerDialog.isShowing()) {
-                alarm.update();
-                viewHolder.notifyChange();
-                alarmScheduler.start();
-            }
+            alarm.update();
+            startAlarm();
         } else {
             alarm.setTimeOn(false);
             alarm.update();
-            viewHolder.notifyChange();
             alarmScheduler.cancel();
         }
+        viewHolder.notifyChange();
     }
 
     public void showDatePicker() {
         datePickerDialog.show();
-        if (!datePickerDialog.isShowing())
-            alarmScheduler.start();
     }
 
     public void showTimePicker() {
         timePickerDialog.show();
-        if (!timePickerDialog.isShowing())
+    }
+
+    private void startAlarm() {
+        if (alarm.getDateTime() != null) {
+            alarmScheduler.setAlarm(event.getAlarm());
             alarmScheduler.start();
+        }
     }
 }

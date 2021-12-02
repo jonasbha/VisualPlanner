@@ -22,9 +22,10 @@ public class Alarm {
             isFinished = dateTime.before(Calendar.getInstance().getTime());
         } else if (dateOn) {
             dateTime = dateHolder;
+            isFinished = dateHolder.before(Calendar.getInstance().getTime());
         } else if (timeOn) {
             dateTime = timeHolder;
-            isFinished = dateTime.before(Calendar.getInstance().getTime());
+            isFinished = timeHolder.before(Calendar.getInstance().getTime());
         } else {
             dateTime = null;
             isFinished = false;

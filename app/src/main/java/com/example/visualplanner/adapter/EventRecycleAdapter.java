@@ -48,7 +48,7 @@ public class EventRecycleAdapter extends RecyclerView.Adapter<EventRecycleAdapte
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
-        Log.d("EventRecyclerAdapter", "Binding View $position");
+        Log.i("EventRecyclerAdapter", "Binding View position: " + position);
 
         Event eventToDisplay = data.get(position);
         holder.bind(eventToDisplay);
