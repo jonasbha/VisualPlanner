@@ -117,37 +117,45 @@ public class AlarmUI {
     }
 
     public void onDateCheckChanged(boolean checked) {
-        if (checked) {
-            if (alarm.isDateSet()) {
-                alarm.setDateOn(true);
+            if (checked) {
+                if (!alarm.isDateOn()) {
+                    if (alarm.isDateSet())
+                        alarm.setDateOn(true);
+                    else {
+                        dateSwitch.setChecked(false);
+                        showDatePicker();
+                    }
+                    alarm.update();
+                    startAlarm();
+                }
             } else {
-                dateSwitch.setChecked(false);
-                showDatePicker();
+                if (alarm.isDateOn()) {
+                    alarm.setDateOn(false);
+                    alarm.update();
+                    cancelAlarm();
+                }
             }
-            alarm.update();
-            startAlarm();
-        } else {
-            alarm.setDateOn(false);
-            alarm.update();
-            alarmScheduler.cancel(alarm);
-        }
-        viewHolder.notifyChange();
+            viewHolder.notifyChange();
     }
 
     public void onTimeCheckChanged(boolean checked) {
         if (checked) {
-            if (alarm.isTimeSet()) {
-                alarm.setTimeOn(true);
-            } else {
-                timeSwitch.setChecked(false);
-                showTimePicker();
+            if (!alarm.isTimeOn()) {
+                if (alarm.isTimeSet()) {
+                    alarm.setTimeOn(true);
+                } else {
+                    timeSwitch.setChecked(false);
+                    showTimePicker();
+                }
+                alarm.update();
+                startAlarm();
             }
-            alarm.update();
-            startAlarm();
         } else {
-            alarm.setTimeOn(false);
-            alarm.update();
-            alarmScheduler.cancel(alarm);
+            if (alarm.isTimeOn()) {
+                alarm.setTimeOn(false);
+                alarm.update();
+                cancelAlarm();
+            }
         }
         viewHolder.notifyChange();
     }
@@ -161,9 +169,17 @@ public class AlarmUI {
     }
 
     private void startAlarm() {
-        if (alarm.getDateTime() != null) {
-            alarmScheduler.setAlarmTitle(event.getTitle());
+        alarmScheduler.setAlarmTitle(event.getTitle());
+        if (alarm.getDateTime() != null)
             alarmScheduler.start(alarm);
-        }
+    }
+
+    private void cancelAlarm() {
+        if (!alarm.isDateOn() && !alarm.isTimeOn())
+            alarmScheduler.cancel(alarm);
+        else if (alarm.isDateOn() || alarm.isTimeOn())
+            startAlarm();
+        if (alarm.isFinished())
+            alarmScheduler.cancel(alarm);
     }
 }

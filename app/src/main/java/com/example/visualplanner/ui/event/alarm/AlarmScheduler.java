@@ -30,14 +30,14 @@ public class AlarmScheduler {
 
         if (pendingIntent != null && alarmManager != null) {
             alarmManager.cancel(pendingIntent);
-            Log.i(TAG, "alarm canceled");
+            Log.i(TAG, "alarm " + alarmTitle + " cancelled.");
         }
     }
 
     protected void start(Alarm alarm) {
         this.alarm = alarm;
         if (!alarm.isFinished()) {
-            Log.i(TAG, "alarm started.");
+            Log.i(TAG, "alarm " + alarmTitle + " started.");
             if (alarm.isDateOn() && alarm.isTimeOn()) {
                 startExactAlarm();
             } else if (alarm.isTimeOn()) {

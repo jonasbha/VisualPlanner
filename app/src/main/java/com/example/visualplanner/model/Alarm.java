@@ -35,9 +35,6 @@ public class Alarm {
     /**
      * Method to simulate an unique request code as integer.
      * The integer is in theory not unique and serves as a substitute for an actual unique integer value.
-     *
-     * The integer value is ideally generated as an unique value within the range of active alarms for each user.
-     * To achieve this a user model would be created based on the uid from authentication with a counter for each active alarm.
      */
     private int getFakeUnique() {
         return (int) Math.floor(Math.random() * 2147483646);

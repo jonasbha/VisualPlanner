@@ -18,7 +18,6 @@ import com.example.visualplanner.R;
 public class AlarmReceiver extends BroadcastReceiver {
 
     private static final String TAG = "AlertReceiver";
-    private static int noteId = 1;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -29,7 +28,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void sendNotification(Context context, Intent intent) {
+        // Om gruppestøtte for notifikasjoner implementeres vil en Notifikasjonsklasse være ønskelig.
+
+
         String title = intent.getStringExtra("title");
+        int requestCode = intent.getIntExtra("rq", 0);
 
         PendingIntent destination = new NavDeepLinkBuilder(context)
                 .setComponentName(MainActivity.class) // dont need it
@@ -42,13 +45,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentTitle(title)
                 .setPriority(NotificationCompat.PRIORITY_HIGH) // why
                 .setCategory(NotificationCompat.CATEGORY_ALARM) // why
-                .setGroup("Alarm")
                 .setContentIntent(destination)
                 .setAutoCancel(true)
                 .setColor(context.getResources().getColor(R.color.colorPrimary))
                 .build();
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(noteId++, notification);
+        manager.notify(requestCode, notification);
     }
 }
