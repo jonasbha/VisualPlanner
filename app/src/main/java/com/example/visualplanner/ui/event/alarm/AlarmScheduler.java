@@ -8,6 +8,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.example.visualplanner.model.Alarm;
+import com.example.visualplanner.receiver.AlarmReceiver;
 
 public class AlarmScheduler {
 
@@ -15,16 +16,16 @@ public class AlarmScheduler {
     private final AlarmManager alarmManager;
     private Context context;
     private Alarm alarm;
+    private String alarmTitle;
 
-    public AlarmScheduler() {
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-    }
     public AlarmScheduler(Context context) {
         this.context = context;
+        this.alarmTitle = "Alarm";
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
-    public void cancel() {
+    public void cancel(Alarm alarm) {
+        this.alarm = alarm;
         PendingIntent pendingIntent = getPendingIntent();
 
         if (pendingIntent != null && alarmManager != null) {
@@ -33,8 +34,8 @@ public class AlarmScheduler {
         }
     }
 
-    protected void start() {
-        Log.d(TAG, "alarm pressed");
+    protected void start(Alarm alarm) {
+        this.alarm = alarm;
         if (!alarm.isFinished()) {
             Log.i(TAG, "alarm started.");
             if (alarm.isDateOn() && alarm.isTimeOn()) {
@@ -44,7 +45,7 @@ public class AlarmScheduler {
             } else if (alarm.isDateOn()) {
                 startInexactAlarm();
             }
-        } else cancel();
+        } else cancel(alarm);
     }
 
     private void startExactAlarm() {
@@ -68,12 +69,14 @@ public class AlarmScheduler {
 
     private PendingIntent getPendingIntent() {
         Intent intent = new Intent(this.context, AlarmReceiver.class);
-        intent.putExtra("title", "heya");
+        intent.putExtra("title", alarmTitle);
+        intent.putExtra("rq", alarm.getRequestCode());
         return PendingIntent.getBroadcast(this.context, alarm.getRequestCode(), intent,
                 PendingIntent.FLAG_IMMUTABLE);
     }
 
-    public void setAlarm(Alarm alarm) {
-        this.alarm = alarm;
+    public void setAlarmTitle(String alarmTitle) {
+        if (!alarmTitle.equals(""))
+            this.alarmTitle = alarmTitle;
     }
 }

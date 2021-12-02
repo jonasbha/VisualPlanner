@@ -206,8 +206,7 @@ public class EventsFragment extends Fragment {
     public void deleteEvent(Event event) {
         DocumentReference eventReference = eventCollectionReference.document(event.getEventId());
         eventReference.delete();
-        alarmScheduler.setAlarm(event.getAlarm());
-        alarmScheduler.cancel();
+        alarmScheduler.cancel(event.getAlarm());
     }
 
     public void createEvent() {

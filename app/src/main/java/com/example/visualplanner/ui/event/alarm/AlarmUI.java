@@ -23,8 +23,8 @@ public class AlarmUI {
     private Context context;
     private EventRecycleAdapter.EventViewHolder viewHolder;
     private Alarm alarm;
-    private AlarmScheduler alarmScheduler;
     private Event event;
+    private AlarmScheduler alarmScheduler;
 
     private SwitchCompat dateSwitch, timeSwitch;
 
@@ -129,7 +129,7 @@ public class AlarmUI {
         } else {
             alarm.setDateOn(false);
             alarm.update();
-            alarmScheduler.cancel();
+            alarmScheduler.cancel(alarm);
         }
         viewHolder.notifyChange();
     }
@@ -147,7 +147,7 @@ public class AlarmUI {
         } else {
             alarm.setTimeOn(false);
             alarm.update();
-            alarmScheduler.cancel();
+            alarmScheduler.cancel(alarm);
         }
         viewHolder.notifyChange();
     }
@@ -162,8 +162,8 @@ public class AlarmUI {
 
     private void startAlarm() {
         if (alarm.getDateTime() != null) {
-            alarmScheduler.setAlarm(event.getAlarm());
-            alarmScheduler.start();
+            alarmScheduler.setAlarmTitle(event.getTitle());
+            alarmScheduler.start(alarm);
         }
     }
 }

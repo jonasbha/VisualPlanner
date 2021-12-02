@@ -1,4 +1,4 @@
-package com.example.visualplanner.ui.event.alarm;
+package com.example.visualplanner.receiver;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -18,10 +18,12 @@ import com.example.visualplanner.R;
 public class AlarmReceiver extends BroadcastReceiver {
 
     private static final String TAG = "AlertReceiver";
+    private static int noteId = 1;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "Broadcast received.");
+        Log.i(TAG, "Broadcast received with requestCode " + intent.getIntExtra("rq", 0)
+                + " and title: " +  intent.getStringExtra("title") + ".");
 
         sendNotification(context, intent);
     }
@@ -29,7 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void sendNotification(Context context, Intent intent) {
         String title = intent.getStringExtra("title");
 
-        PendingIntent pendingIntent = new NavDeepLinkBuilder(context)
+        PendingIntent destination = new NavDeepLinkBuilder(context)
                 .setComponentName(MainActivity.class) // dont need it
                 .setGraph(R.navigation.nav_graph)
                 .setDestination(R.id.navigation_events)
@@ -38,13 +40,15 @@ public class AlarmReceiver extends BroadcastReceiver {
         Notification notification = new NotificationCompat.Builder(context, AppSettings.CHANNEL_1_ID)
                 .setSmallIcon(androidx.activity.R.drawable.notification_icon_background)
                 .setContentTitle(title)
-                .setContentText(intent.getStringExtra("sender"))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // why
+                .setCategory(NotificationCompat.CATEGORY_ALARM) // why
+                .setGroup("Alarm")
+                .setContentIntent(destination)
                 .setAutoCancel(true)
+                .setColor(context.getResources().getColor(R.color.colorPrimary))
                 .build();
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(1, notification);
+        manager.notify(noteId++, notification);
     }
 }
