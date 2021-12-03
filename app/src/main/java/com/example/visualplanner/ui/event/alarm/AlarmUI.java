@@ -53,6 +53,7 @@ public class AlarmUI {
         // (kunne veart med i en evt. konfig)
         if (alarm.getDateTime() != null)
             alarmDate.setTime(alarm.getDateTime());
+        alarmScheduler.setAlarmTitle(event.getTitle());
 
         year = alarmDate.get(Calendar.YEAR);
         month = alarmDate.get(Calendar.MONTH);
@@ -80,7 +81,7 @@ public class AlarmUI {
             alarm.setDateSet(true);
             dateSwitch.setChecked(true);
             alarm.update();
-            startAlarm();
+            alarmScheduler.start(alarm);
             viewHolder.notifyChange();
         };
         datePickerDialog = new DatePickerDialog(context, onDateSetListener, year, month, day);
@@ -106,7 +107,7 @@ public class AlarmUI {
             alarm.setTimeSet(true);
             timeSwitch.setChecked(true);
             alarm.update();
-            startAlarm();
+            alarmScheduler.start(alarm);
             viewHolder.notifyChange();
         };
         timePickerDialog = new TimePickerDialog(context,
@@ -126,13 +127,13 @@ public class AlarmUI {
                         showDatePicker();
                     }
                     alarm.update();
-                    startAlarm();
+                    alarmScheduler.start(alarm);
                 }
             } else {
                 if (alarm.isDateOn()) {
                     alarm.setDateOn(false);
                     alarm.update();
-                    cancelAlarm();
+                    alarmScheduler.cancel(alarm);
                 }
             }
             viewHolder.notifyChange();
@@ -148,13 +149,13 @@ public class AlarmUI {
                     showTimePicker();
                 }
                 alarm.update();
-                startAlarm();
+                alarmScheduler.start(alarm);
             }
         } else {
             if (alarm.isTimeOn()) {
                 alarm.setTimeOn(false);
                 alarm.update();
-                cancelAlarm();
+                alarmScheduler.cancel(alarm);
             }
         }
         viewHolder.notifyChange();
@@ -166,20 +167,5 @@ public class AlarmUI {
 
     public void showTimePicker() {
         timePickerDialog.show();
-    }
-
-    private void startAlarm() {
-        alarmScheduler.setAlarmTitle(event.getTitle());
-        if (alarm.getDateTime() != null)
-            alarmScheduler.start(alarm);
-    }
-
-    private void cancelAlarm() {
-        if (!alarm.isDateOn() && !alarm.isTimeOn())
-            alarmScheduler.cancel(alarm);
-        else if (alarm.isDateOn() || alarm.isTimeOn())
-            startAlarm();
-        if (alarm.isFinished())
-            alarmScheduler.cancel(alarm);
     }
 }

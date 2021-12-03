@@ -28,6 +28,25 @@ public class AlarmScheduler {
         this.alarm = alarm;
         PendingIntent pendingIntent = getPendingIntent();
 
+        if (!alarm.isDateOn() && !alarm.isTimeOn()) {
+            if (pendingIntent != null && alarmManager != null) {
+                alarmManager.cancel(pendingIntent);
+                Log.i(TAG, "alarm " + alarmTitle + " cancelled.");
+            }
+        } else if (alarm.isFinished()) {
+            if (pendingIntent != null && alarmManager != null) {
+                alarmManager.cancel(pendingIntent);
+                Log.i(TAG, "alarm " + alarmTitle + " cancelled.");
+            }
+        } else if (alarm.isDateOn() || alarm.isTimeOn()) {
+            start(alarm);
+        }
+    }
+
+    public void cancelByForce(Alarm alarm) {
+        this.alarm = alarm;
+        PendingIntent pendingIntent = getPendingIntent();
+
         if (pendingIntent != null && alarmManager != null) {
             alarmManager.cancel(pendingIntent);
             Log.i(TAG, "alarm " + alarmTitle + " cancelled.");
@@ -36,7 +55,7 @@ public class AlarmScheduler {
 
     protected void start(Alarm alarm) {
         this.alarm = alarm;
-        if (!alarm.isFinished()) {
+        if (!alarm.isFinished() && alarm.getDateTime() != null) {
             Log.i(TAG, "alarm " + alarmTitle + " started.");
             if (alarm.isDateOn() && alarm.isTimeOn()) {
                 startExactAlarm();
@@ -45,7 +64,7 @@ public class AlarmScheduler {
             } else if (alarm.isDateOn()) {
                 startInexactAlarm();
             }
-        } else cancel(alarm);
+        }
     }
 
     private void startExactAlarm() {
