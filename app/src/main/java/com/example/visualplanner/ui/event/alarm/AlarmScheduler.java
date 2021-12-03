@@ -14,7 +14,7 @@ public class AlarmScheduler {
 
     private static final String TAG = "AlarmScheduler";
     private final AlarmManager alarmManager;
-    private Context context;
+    private final Context context;
     private Alarm alarm;
     private String alarmTitle;
 

@@ -27,7 +27,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="11dp">
 
@@ -57,7 +57,7 @@
                 android:cropToPadding="false"
                 android:onClick="@{() -> view.notifyDelete()}"
                 android:theme="@style/Theme.VisualPlanner"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/eventFinished"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/setTimeSwitch"
                 app:srcCompat="@drawable/ic_event_delete"
@@ -120,10 +120,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:visibility="@{(event.alarm.isDateSet() &amp;&amp; event.alarm.isDateOn()) ? View.VISIBLE : View.GONE}"
                     android:text="@{Format.date(event.alarm.dateTime.toString)}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:theme="@style/Theme.VisualPlanner" />
+                    android:theme="@style/Theme.VisualPlanner"
+                    android:visibility="@{(event.alarm.isDateSet() &amp;&amp; event.alarm.isDateOn()) ? View.VISIBLE : View.GONE}" />
             </LinearLayout>
 
             <ImageView
@@ -182,21 +182,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:visibility="@{(event.alarm.isTimeSet() &amp;&amp; event.alarm.isTimeOn()) ? View.VISIBLE : View.GONE}"
                     android:text="@{Format.time(event.alarm.dateTime.toString())}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/Theme.VisualPlanner"
-                    />
+                    android:visibility="@{(event.alarm.isTimeSet() &amp;&amp; event.alarm.isTimeOn()) ? View.VISIBLE : View.GONE}" />
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/eventFinished"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="@{event.alarm.finished ? View.VISIBLE : View.GONE}"
+                android:background="@color/colorSecondary"
+                android:gravity="start"
+                android:padding="10dp"
                 android:text="@string/finished"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#33691E"
+                android:visibility="@{event.alarm.finished ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
