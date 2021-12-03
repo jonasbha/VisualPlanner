@@ -73,10 +73,7 @@ public class AlarmUI {
             alarmDate.set(year, month, day, hour, minute);
             alarm.setDateTimeHolder(alarmDate.getTime());
             alarm.setDateTime(alarmDate.getTime());
-
-            Calendar today = Calendar.getInstance();
-            today.set(year, month, day, 0, 0, 0);
-            alarm.setDateHolder(today.getTime());
+            setDateHolder(year, month, day);
 
             alarm.setDateSet(true);
             dateSwitch.setChecked(true);
@@ -94,15 +91,9 @@ public class AlarmUI {
             this.minute = minute;
 
             alarmDate.set(year, month, day, hour, minute);
-            alarm.setDateTimeHolder(alarmDate.getTime());
             alarm.setDateTime(alarmDate.getTime());
-
-            Calendar today = Calendar.getInstance();
-            int year = today.get(Calendar.YEAR);
-            int month = today.get(Calendar.MONTH);
-            int day = today.get(Calendar.DAY_OF_MONTH);
-            today.set(year, month, day, hour, minute);
-            alarm.setTimeHolder(today.getTime());
+            alarm.setDateTimeHolder(alarmDate.getTime());
+            setTimeHolder(hour, minute);
 
             alarm.setTimeSet(true);
             timeSwitch.setChecked(true);
@@ -167,5 +158,20 @@ public class AlarmUI {
 
     public void showTimePicker() {
         timePickerDialog.show();
+    }
+
+    private void setDateHolder(int year, int month, int day) {
+        Calendar today = Calendar.getInstance();
+        today.set(year, month, day, 0, 0, 0);
+        alarm.setDateHolder(today.getTime());
+    }
+
+    private void setTimeHolder(int hour, int minute) {
+        Calendar today = Calendar.getInstance();
+        int year = today.get(Calendar.YEAR);
+        int month = today.get(Calendar.MONTH);
+        int day = today.get(Calendar.DAY_OF_MONTH);
+        today.set(year, month, day, hour, minute);
+        alarm.setTimeHolder(today.getTime());
     }
 }
