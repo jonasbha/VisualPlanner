@@ -12,7 +12,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavDeepLinkBuilder;
 
 import com.example.visualplanner.AppSettings;
-import com.example.visualplanner.MainActivity;
 import com.example.visualplanner.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -35,7 +34,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         int requestCode = intent.getIntExtra("rq", 0);
 
         PendingIntent destination = new NavDeepLinkBuilder(context)
-                .setComponentName(MainActivity.class) // dont need it
                 .setGraph(R.navigation.nav_graph)
                 .setDestination(R.id.navigation_events)
                 .createPendingIntent();
@@ -43,8 +41,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         Notification notification = new NotificationCompat.Builder(context, AppSettings.CHANNEL_1_ID)
                 .setSmallIcon(androidx.activity.R.drawable.notification_icon_background)
                 .setContentTitle(title)
-                .setPriority(NotificationCompat.PRIORITY_HIGH) // why
-                .setCategory(NotificationCompat.CATEGORY_ALARM) // why
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(destination)
                 .setAutoCancel(true)
                 .setColor(context.getResources().getColor(R.color.colorPrimary))
