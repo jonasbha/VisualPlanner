@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavDeepLinkBuilder;
 
 import com.example.visualplanner.AppSettings;
@@ -45,7 +46,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(destination)
                 .setAutoCancel(true)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
+                .setColor(ContextCompat.getColor(context,
+                        R.color.colorPrimary))
                 .build();
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

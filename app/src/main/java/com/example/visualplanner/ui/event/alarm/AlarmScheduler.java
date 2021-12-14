@@ -56,7 +56,6 @@ public class AlarmScheduler {
     protected void start(Alarm alarm) {
         this.alarm = alarm;
         if (!alarm.isFinished() && alarm.getDateTime() != null) {
-            Log.i(TAG, "alarm " + alarmTitle + " started.");
             if (alarm.isDateOn() && alarm.isTimeOn()) {
                 startExactAlarm();
             } else if (alarm.isTimeOn()) {
@@ -70,6 +69,7 @@ public class AlarmScheduler {
     private void startExactAlarm() {
         PendingIntent pendingIntent = getPendingIntent();
 
+        Log.i(TAG, "exact alarm " + alarmTitle + " started.");
         if (alarmManager != null)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 if (alarmManager.canScheduleExactAlarms())
@@ -80,6 +80,7 @@ public class AlarmScheduler {
     }
 
     private void startInexactAlarm() {
+        Log.i(TAG, "inexact alarm " + alarmTitle + " started.");
         PendingIntent pendingIntent = getPendingIntent();
 
         if (alarmManager != null)
